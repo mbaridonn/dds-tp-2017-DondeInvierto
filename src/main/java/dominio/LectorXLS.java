@@ -22,25 +22,22 @@ public class LectorXLS {
             String excelPath = "src/archivo/LibroPrueba.xls";
             FileInputStream fileInputStream = new FileInputStream(new File(excelPath));
 
-            // Create Workbook instance holding .xls file
             HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
 
-            // Get the first worksheet. Aca podriamos hacer que busque la pagina por el nombre de la Empresa.
+            //Aca podriamos hacer que busque la pagina por el nombre de la Empresa.
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             // Iterate through each rows
             Iterator<Row> rowIterator = sheet.iterator();
 
             while (rowIterator.hasNext()){ //Va por filas
-                // Get Each Row
                 Row row = rowIterator.next();
-
-                // Iterating through Each column of Each Row
+                
                 Iterator<Cell> cellIterator = row.cellIterator();
                 
                 Cell cell = cellIterator.next();
                 
-                anio = String.valueOf(cell.getNumericCellValue()); //Ver como quitar el .0 a los Strings
+                anio = String.valueOf((int)cell.getNumericCellValue());
                 cell = cellIterator.next();
                 
                 tipoCuenta = cell.getStringCellValue();
@@ -48,14 +45,10 @@ public class LectorXLS {
                 
                 valor = (int) cell.getNumericCellValue();
                 
-                
                 Cuenta cuenta = new Cuenta(anio,tipoCuenta,valor);
-                
-                cuentasEmpresa.add(cuenta);
-                
-                
+                cuentasEmpresa.add(cuenta); 
             }
-            
+            workbook.close();
             return cuentasEmpresa;
 
         }catch (IOException ie){

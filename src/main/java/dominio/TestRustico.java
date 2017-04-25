@@ -7,7 +7,6 @@ public class TestRustico{
 		empresa.cargarCuentas();
 		
 		empresa.cuentas.forEach(cuenta -> System.out.println("Anio: " + cuenta.getAnio() +" Tipo Cuenta: " + cuenta.getTipoCuenta() + " Valor: " + cuenta.getValor() + "\n"));
-
 	}
 
 }
