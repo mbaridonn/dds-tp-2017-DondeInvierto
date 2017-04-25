@@ -2,7 +2,7 @@ package dominio;
 
 public class Empresa {
 	private String nombre;
-	private Lista<Cuenta> cuentas;
+	public Lista<Cuenta> cuentas;
 	
 	public Empresa(String nombre){
 		this.nombre = nombre;
@@ -10,7 +10,6 @@ public class Empresa {
 	}
 	
 	public void cargarCuentas(){
-		
-		
+		cuentas = LectorXLS.leer();
 	}
 }

@@ -11,7 +11,13 @@ import org.apache.poi.ss.usermodel.Row;
 
 
 public class LectorXLS {
-	public void leer(){
+	
+	public static Lista<Cuenta> leer(){
+		String anio;
+		String tipoCuenta;
+		int valor;
+		Lista<Cuenta> cuentasEmpresa = new Lista<Cuenta>();
+		
 		try{
             String excelPath = "C:\\Users\\marti\\Desktop\\LibroPrueba.xls";
             FileInputStream fileInputStream = new FileInputStream(new File(excelPath));
@@ -19,44 +25,42 @@ public class LectorXLS {
             // Create Workbook instance holding .xls file
             HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
 
-            // Get the first worksheet
+            // Get the first worksheet. Aca podriamos hacer que busque la pagina por el nombre de la Empresa.
             HSSFSheet sheet = workbook.getSheetAt(0);
 
             // Iterate through each rows
             Iterator<Row> rowIterator = sheet.iterator();
 
-            while (rowIterator.hasNext())
-            {
+            while (rowIterator.hasNext()){ //Va por filas
                 // Get Each Row
                 Row row = rowIterator.next();
 
                 // Iterating through Each column of Each Row
                 Iterator<Cell> cellIterator = row.cellIterator();
-
-                while (cellIterator.hasNext())
-                {
-                    Cell cell = cellIterator.next();
-
-                    // Checking the cell format
-                    switch (cell.getCellType())
-                    {
-                    case Cell.CELL_TYPE_NUMERIC:
-                        System.out.print(cell.getNumericCellValue() + "\t");
-                        break;
-                    case Cell.CELL_TYPE_STRING:
-                        System.out.print(cell.getStringCellValue() + "\t");
-                        break;
-                    case Cell.CELL_TYPE_BOOLEAN:
-                        System.out.print(cell.getBooleanCellValue() + "\t");
-                        break;
-                    }
-                }
-                System.out.println("");
+                
+                Cell cell = cellIterator.next();
+                
+                anio = String.valueOf(cell.getNumericCellValue()); //Ver como quitar el .0 a los Strings
+                cell = cellIterator.next();
+                
+                tipoCuenta = cell.getStringCellValue();
+                cell = cellIterator.next();
+                
+                valor = (int) cell.getNumericCellValue();
+                
+                
+                Cuenta cuenta = new Cuenta(anio,tipoCuenta,valor);
+                
+                cuentasEmpresa.add(cuenta);
+                
+                
             }
+            
+            return cuentasEmpresa;
 
-        } catch (IOException ie)
-        {
+        }catch (IOException ie){
             ie.printStackTrace();
+            throw new RuntimeException("hola"); // Devolver una lista vacia o tirar un error? Quitar obviamente esto
         }
 	}
 }
