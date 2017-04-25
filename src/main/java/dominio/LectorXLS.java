@@ -12,7 +12,7 @@ import org.apache.poi.ss.usermodel.Row;
 
 public class LectorXLS {
 	
-	public static Lista<Cuenta> leer(){
+	public static Lista<Cuenta> leerCuentasDe(String nombreEmpresa){
 		String anio;
 		String tipoCuenta;
 		int valor;
@@ -24,8 +24,8 @@ public class LectorXLS {
 
             HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
 
-            //Aca podriamos hacer que busque la pagina por el nombre de la Empresa.
-            HSSFSheet sheet = workbook.getSheetAt(0);
+            HSSFSheet sheet = workbook.getSheet(nombreEmpresa);
+            
 
             // Iterate through each rows
             Iterator<Row> rowIterator = sheet.iterator();
@@ -53,7 +53,10 @@ public class LectorXLS {
 
         }catch (IOException ie){
             ie.printStackTrace();
-            throw new RuntimeException("hola"); // Devolver una lista vacia o tirar un error? Quitar obviamente esto
+            throw new NoSePudoLeerArchivoError("No se pudo leer el archivo");
         }
 	}
+	
 }
+
+class NoSePudoLeerArchivoError extends RuntimeException{ public NoSePudoLeerArchivoError(String s){ super(s);}}

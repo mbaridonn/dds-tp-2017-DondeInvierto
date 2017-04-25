@@ -10,6 +10,6 @@ public class Empresa {
 	}
 	
 	public void cargarCuentas(){
-		cuentas = LectorXLS.leer();
+		cuentas = LectorXLS.leerCuentasDe(nombre);
 	}
 }
