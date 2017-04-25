@@ -19,7 +19,7 @@ public class LectorXLS {
 		Lista<Cuenta> cuentasEmpresa = new Lista<Cuenta>();
 		
 		try{
-            String excelPath = "C:\\Users\\marti\\Desktop\\LibroPrueba.xls";
+            String excelPath = "src/archivo/LibroPrueba.xls";
             FileInputStream fileInputStream = new FileInputStream(new File(excelPath));
 
             // Create Workbook instance holding .xls file
