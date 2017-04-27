@@ -1,5 +1,7 @@
 package dominio;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 public class Lista<Object> extends ArrayList<Object> {
 	public Object anyOne(){
@@ -13,6 +15,9 @@ public class Lista<Object> extends ArrayList<Object> {
 			listaRetornar.add(this.get(i));
 		}
 		return listaRetornar;
+	}
+	public Object head(){
+		return this.get(0);
 	}
 	public Object last(){
 		int indexUltimo = this.size()-1;
@@ -32,6 +37,28 @@ public class Lista<Object> extends ArrayList<Object> {
 			listaARetornar.add(this.get(i));
 		}
 		return listaARetornar;
+	}
+	public int count(Predicate<Object> condicion){
+		int cantidadQueCumple = 0;
+		for(int i = 0; i < this.size() ; i++){
+			if(condicion.test(this.get(i))){
+				cantidadQueCumple += 1;
+			}
+		}
+		return cantidadQueCumple;
+	}
+	public int sum(Function<Object,Integer> consumer){
+		int sumaTotal = 0;
+		for(int i = 0; i < this.size(); i++){
+			sumaTotal += consumer.apply(this.get(i));
+		}
+		return sumaTotal;
+	}
+	public Lista<Object> union(Lista<Object> otraLista){
+		Lista<Object> listaRetornar = new Lista<Object>();
+		this.forEach(e -> listaRetornar.add(e));
+		otraLista.forEach(e-> listaRetornar.add(e));
+		return listaRetornar;
 	}
 	
 }
