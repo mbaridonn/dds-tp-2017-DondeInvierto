@@ -12,14 +12,15 @@ import org.apache.poi.ss.usermodel.Row;
 
 public class LectorXLS {
 	
+	public static String ruta;
+	
 	public static Lista<Cuenta> leerCuentasDe(String nombreEmpresa){
-		String anio;
-		String tipoCuenta;
+		String anio, tipoCuenta;
 		int valor;
 		Lista<Cuenta> cuentasEmpresa = new Lista<Cuenta>();
 		
 		try{
-            String excelPath = "src/archivo/LibroPrueba.xls";
+            String excelPath = ruta;
             FileInputStream fileInputStream = new FileInputStream(new File(excelPath));
 
             HSSFWorkbook workbook = new HSSFWorkbook(fileInputStream);
@@ -52,11 +53,9 @@ public class LectorXLS {
             return cuentasEmpresa;
 
         }catch (IOException ie){
-            ie.printStackTrace();
             throw new NoSePudoLeerArchivoError("No se pudo leer el archivo");
         }
 	}
-	
 }
 
 class NoSePudoLeerArchivoError extends RuntimeException{ public NoSePudoLeerArchivoError(String s){ super(s);}}
