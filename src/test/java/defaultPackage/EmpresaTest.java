@@ -7,8 +7,7 @@ import static org.junit.Assert.assertTrue;*/
 import org.junit.Before;
 import org.junit.Test;
 
-import dominio.Empresa;
-import dominio.LectorXLS;
+import dominio.*;
 
 public class EmpresaTest{
 	
@@ -17,9 +16,9 @@ public class EmpresaTest{
 	
 	@Before
     public void setUp(){
-		empresa = new Empresa("miEmpresa");
-		LectorXLS.ruta = "src/archivo/LibroPrueba.xls";
-		empresa.cargarCuentas();
+		ArchivoXLS archivo = new ArchivoXLS("src/archivo/LibroPrueba.xls");
+		Lista<Empresa> empresas = archivo.leerEmpresas();
+		empresa = empresas.head();
     }
 
 	@Test
@@ -41,6 +40,27 @@ public class EmpresaTest{
         assertFalse(json.contains("totalItems"));
         assertTrue(json.contains("title"));
     }*/
+    
+    @Test
+    public void hayTresEmpresasCargadas(){
+    	ArchivoXLS archivo = new ArchivoXLS("src/archivo/LibroPruebaEmpresas.xls");
+    	Lista<Empresa> empresas = archivo.leerEmpresas();
+		assertEquals(3, empresas.size());
+    }
+    
+    @Test
+    public void elNombreDeLaSegundaEmpresaEsEmpresaLoca(){
+    	ArchivoXLS archivo = new ArchivoXLS("src/archivo/LibroPruebaEmpresas.xls");
+    	Lista<Empresa> empresas = archivo.leerEmpresas();
+		assertEquals("EmpresaLoca", empresas.get(1).getNombre());
+    }
+    
+    @Test
+    public void laPrimerEmpresaTieneSieteCuentas(){
+    	ArchivoXLS archivo = new ArchivoXLS("src/archivo/LibroPruebaEmpresas.xls");
+    	Lista<Empresa> empresas = archivo.leerEmpresas();
+		assertEquals(7, empresas.head().cantidadDeCuentasQuePosee());
+    }
 
 }
 

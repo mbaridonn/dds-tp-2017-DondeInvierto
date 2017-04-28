@@ -21,7 +21,7 @@ public class CargarCuentasView extends Dialog<CargarCuentasViewModel>{
 		
 		new TextBox(mainPanel).bindValueToProperty("ruta");
 		new Button(mainPanel)
-			.setCaption("Cargar Archivo xD")
+			.setCaption("Cargar Archivo")
 			.onClick(() -> this.cargarArchivo());
 		
 	}

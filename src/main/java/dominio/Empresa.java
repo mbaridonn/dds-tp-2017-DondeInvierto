@@ -4,12 +4,16 @@ public class Empresa {
 	private String nombre;
 	public Lista<Cuenta> cuentas;
 	
-	public Empresa(String nombre){
+	public Empresa(String nombre,Lista<Cuenta> cuentas){
 		this.nombre = nombre;
-		cuentas = new Lista<Cuenta>();
+		this.cuentas = cuentas;
 	}
 	
-	public void cargarCuentas(){
-		cuentas = LectorXLS.leerCuentasDe(nombre);
+	public int cantidadDeCuentasQuePosee(){
+		return cuentas.size();
+	}
+	
+	public String getNombre(){
+		return nombre;
 	}
 }

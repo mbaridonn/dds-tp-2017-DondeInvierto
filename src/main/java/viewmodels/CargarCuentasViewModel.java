@@ -6,7 +6,9 @@ import dominio.*;
 public class CargarCuentasViewModel {
 	String ruta;
 	public void cargarArchivo(){
-		LectorXLS.ruta = ruta;
+		Lista<Empresa> empresas;
+		ArchivoXLS archivo = new ArchivoXLS(ruta);
+		empresas = archivo.leerEmpresas();
 	}
 	
 	public String getRuta(){
