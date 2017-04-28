@@ -1,11 +1,15 @@
 package viewmodels;
 import dominio.*;
+import java.util.stream.Stream;
+import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
 @Observable
 public class ConsultarCuentasViewModel {
-	private String nombreEmpresa = "h";
-	private String nombrePrimeraCuentaPrimeraEmpresa = "o";
+	private String nombreEmpresa = "h";//Atributo provisional
+	private String nombrePrimeraCuentaPrimeraEmpresa = "o";//Atributo provisional
+	/*private Empresa empresaSeleccionada; //ES NECESARIO PARA EL SELECTOR
+	private Cuenta cuentaSeleccionada; //ES NECESARIO PARA LA TABLA*/
 	private Lista<Empresa> empresas;
 	
 	private static ConsultarCuentasViewModel singleton = new ConsultarCuentasViewModel();
@@ -15,10 +19,21 @@ public class ConsultarCuentasViewModel {
 	}
 	
 	public void obtenerCuentasCargadas(Lista<Empresa> empresas){
-		this.reiniciarValores();
+		this.reiniciarValores();//??
 		this.empresas = empresas;
 	}
 	
+	/*@Dependencies({"empresas"})
+	public Stream<String> getNombreEmpresas(){//Tendría que devolver una lista//ES NECESARIO PARA EL SELECTOR
+		return empresas.stream().map(emp -> emp.getNombre());
+	}
+	
+	@Dependencies({"empresaSeleccionada"})
+	public Lista<Cuenta> getCuentasEmpresa(){//ES NECESARIO PARA LA TABLA
+		return empresaSeleccionada.getCuentas();
+	}*/
+	
+	//Métodos provisionales
 	public void obtenerPrimerosValores(){//Lo use Para probar si funcaba todo bien. Lo hace, al final de todo borrar este metodo
 		Empresa primerEmpresa = empresas.head();
 		String nombreEmpresa = primerEmpresa.getNombre();

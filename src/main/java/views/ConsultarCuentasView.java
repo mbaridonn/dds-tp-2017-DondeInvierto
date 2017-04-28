@@ -1,9 +1,10 @@
 package views;
 import viewmodels.*;
-
+import dominio.*;
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.*;
 import org.uqbar.arena.widgets.Panel;
+import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
 
@@ -20,6 +21,12 @@ public class ConsultarCuentasView extends Dialog<ConsultarCuentasViewModel>{
 		
 		new Label(mainPanel).bindValueToProperty("nombreEmpresa");//Borrar Despues, se uso para probar.
 		new Label(mainPanel).bindValueToProperty("nombrePrimeraCuentaPrimeraEmpresa");//Borrar despues, se uso para probar.
+		/*Selector<Empresa> selector = new Selector<Empresa>(mainPanel);
+		selector.bindValueToProperty("empresaSeleccionada");
+		selector.bindItemsToProperty("empresas");
+		Table<Cuenta> tabla = new Table<Cuenta>(mainPanel, Cuenta.class);
+		tabla.bindItemsToProperty("cuentasEmpresa");
+		tabla.bindValueToProperty("cuentaSeleccionada");*/
 		
 		ConsultarCuentasViewModel.getInstance().obtenerPrimerosValores(); //Borrar despues, se uso para probar.
 		

@@ -1,6 +1,4 @@
 package views;
-import dominio.Lista;
-import dominio.Empresa;
 import viewmodels.*;
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Button;
@@ -10,7 +8,6 @@ import org.uqbar.arena.windows.MainWindow;
 
 public class MenuView extends MainWindow<MenuViewModel> {
 
-	Lista<Empresa> empresas = new Lista<Empresa>();
 	public MenuView() {
 		super(new MenuViewModel());
 	}
