@@ -23,14 +23,14 @@ public class EmpresaTest{
 
 	@Test
     public void elAnioDeLaUltimaCuentaEs2014(){
-    	assertEquals(empresa.cuentas.last().getAnio(), "2014");
+    	assertEquals(empresa.getCuentas().last().getAnio(), "2014");
     }
 	
 	//Quise hacer un test polenta que chequee todo el archivo pero no anduvo (probablemente haya un problema en el forEach)
     @Test
     public void cargaCuentasCorrectamente(){
     	String resultadoEsperado = "Anio: 2017 Tipo Cuenta: EBITDA Valor: 35000\nAnio: 2017 Tipo Cuenta: FDS Valor: 158960\nAnio: 2016 Tipo Cuenta: FDS Valor: 144000\nAnio: 2015 Tipo Cuenta: EBITDA Valor: 120000\nAnio: 2015 Tipo Cuenta: Free Clash Flow Valor: 150000\nAnio: 2014 Tipo Cuenta: EBITDA Valor: 260000\nAnio: 2014 Tipo Cuenta: FDS Valor: 360000\n";
-		empresa.cuentas.forEach(cuenta -> resultadoReal += ("Anio: " + cuenta.getAnio() +" Tipo Cuenta: " + cuenta.getTipoCuenta() + " Valor: " + cuenta.getValor() + "\n"));
+		empresa.getCuentas().forEach(cuenta -> resultadoReal += ("Anio: " + cuenta.getAnio() +" Tipo Cuenta: " + cuenta.getTipoCuenta() + " Valor: " + cuenta.getValor() + "\n"));
 		assertEquals(resultadoEsperado, resultadoReal);
     }
 

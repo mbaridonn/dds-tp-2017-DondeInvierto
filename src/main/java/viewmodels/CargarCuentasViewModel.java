@@ -9,9 +9,14 @@ public class CargarCuentasViewModel {
 		Lista<Empresa> empresas;
 		ArchivoXLS archivo = new ArchivoXLS(ruta);
 		empresas = archivo.leerEmpresas();
+		ConsultarCuentasViewModel.getInstance().obtenerCuentasCargadas(empresas);
 	}
 	
 	public String getRuta(){
 		return ruta;
+	}
+	
+	public void setRuta(String ruta){
+		this.ruta = ruta;
 	}
 }

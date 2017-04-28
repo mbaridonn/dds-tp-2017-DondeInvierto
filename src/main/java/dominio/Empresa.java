@@ -2,7 +2,7 @@ package dominio;
 
 public class Empresa {
 	private String nombre;
-	public Lista<Cuenta> cuentas;
+	private Lista<Cuenta> cuentas;
 	
 	public Empresa(String nombre,Lista<Cuenta> cuentas){
 		this.nombre = nombre;
@@ -15,5 +15,9 @@ public class Empresa {
 	
 	public String getNombre(){
 		return nombre;
+	}
+
+	public Lista<Cuenta> getCuentas() {
+		return cuentas;
 	}
 }
