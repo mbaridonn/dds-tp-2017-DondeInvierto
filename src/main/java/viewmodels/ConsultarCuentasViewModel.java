@@ -1,5 +1,7 @@
 package viewmodels;
 import dominio.*;
+
+import java.util.ArrayList;
 import java.util.stream.Stream;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
@@ -10,7 +12,7 @@ public class ConsultarCuentasViewModel {
 	private String nombrePrimeraCuentaPrimeraEmpresa = "o";//Atributo provisional
 	/*private Empresa empresaSeleccionada; //ES NECESARIO PARA EL SELECTOR
 	private Cuenta cuentaSeleccionada; //ES NECESARIO PARA LA TABLA*/
-	private Lista<Empresa> empresas;
+	private ArrayList<Empresa> empresas;
 	
 	private static ConsultarCuentasViewModel singleton = new ConsultarCuentasViewModel();
 	
@@ -18,29 +20,29 @@ public class ConsultarCuentasViewModel {
 		return singleton;
 	}
 	
-	public void obtenerCuentasCargadas(Lista<Empresa> empresas){
+	public void obtenerCuentasCargadas(ArrayList<Empresa> empresas){
 		this.reiniciarValores();//??
 		this.empresas = empresas;
 	}
 	
 	/*@Dependencies({"empresas"})
-	public Stream<String> getNombreEmpresas(){//Tendría que devolver una lista//ES NECESARIO PARA EL SELECTOR
+	public Stream<String> getNombreEmpresas(){//Tendría que devolver una ArrayList//ES NECESARIO PARA EL SELECTOR
 		return empresas.stream().map(emp -> emp.getNombre());
 	}
 	
 	@Dependencies({"empresaSeleccionada"})
-	public Lista<Cuenta> getCuentasEmpresa(){//ES NECESARIO PARA LA TABLA
+	public ArrayList<Cuenta> getCuentasEmpresa(){//ES NECESARIO PARA LA TABLA
 		return empresaSeleccionada.getCuentas();
 	}*/
 	
 	//Métodos provisionales
 	public void obtenerPrimerosValores(){//Lo use Para probar si funcaba todo bien. Lo hace, al final de todo borrar este metodo
-		Empresa primerEmpresa = empresas.head();
+		Empresa primerEmpresa = empresas.get(0);
 		String nombreEmpresa = primerEmpresa.getNombre();
 		this.setNombreEmpresa(nombreEmpresa);
 		
-		Lista<Cuenta> cuentasPrimeraEmpresa = primerEmpresa.getCuentas();
-		String nombrePrimeraCuentaPrimeraEmpresa = cuentasPrimeraEmpresa.head().getTipoCuenta();
+		ArrayList<Cuenta> cuentasPrimeraEmpresa = primerEmpresa.getCuentas();
+		String nombrePrimeraCuentaPrimeraEmpresa = cuentasPrimeraEmpresa.get(0).getTipoCuenta();
 		this.setNombrePrimeraCuentaPrimeraEmpresa(nombrePrimeraCuentaPrimeraEmpresa);
 	}
 	

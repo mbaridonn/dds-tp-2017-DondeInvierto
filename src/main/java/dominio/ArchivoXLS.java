@@ -2,6 +2,7 @@ package dominio;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -21,9 +22,9 @@ public class ArchivoXLS {
 		this.ruta = ruta;
 	}
 	
-	public Lista<Empresa> leerEmpresas(){
+	public ArrayList<Empresa> leerEmpresas(){
 		this.abrirArchivo();
-		Lista<Empresa> empresas = new Lista<Empresa>();
+		ArrayList<Empresa> empresas = new ArrayList<Empresa>();
         workbook.forEach(hoja -> empresas.add(this.empresaDeHoja((HSSFSheet) hoja)));
         this.cerrarArchivo();
         return empresas;
@@ -40,14 +41,14 @@ public class ArchivoXLS {
 	
 	private Empresa empresaDeHoja(HSSFSheet hoja){
 		String nombre = hoja.getSheetName();
-		Lista<Cuenta> cuentas = this.leerCuentasDeHoja(hoja);
+		ArrayList<Cuenta> cuentas = this.leerCuentasDeHoja(hoja);
 		return new Empresa(nombre,cuentas);
 	}
 	
-	private Lista<Cuenta> leerCuentasDeHoja(HSSFSheet hoja){
+	private ArrayList<Cuenta> leerCuentasDeHoja(HSSFSheet hoja){
 		String anio, tipoCuenta;
 		int valor;
-		Lista<Cuenta> cuentas = new Lista<Cuenta>();
+		ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
 		Iterator<Row> rowIterator = hoja.iterator();
 
         while (rowIterator.hasNext()){ //Va por filas

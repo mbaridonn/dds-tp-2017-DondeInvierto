@@ -3,6 +3,7 @@ import viewmodels.*;
 
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Button;
+import org.uqbar.arena.widgets.FileSelector;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.windows.Dialog;
@@ -19,7 +20,7 @@ public class CargarCuentasView extends Dialog<CargarCuentasViewModel>{
 		this.setTitle("Cargar Cuentas");
 		mainPanel.setLayout(new VerticalLayout());
 		
-		new TextBox(mainPanel).bindValueToProperty("ruta");
+		new FileSelector(mainPanel).setCaption("Abrir").bindValueToProperty("ruta");
 		new Button(mainPanel)
 			.setCaption("Cargar Archivo")
 			.onClick(() -> this.cargarArchivo());

@@ -1,4 +1,6 @@
 package viewmodels;
+import java.util.ArrayList;
+
 import org.uqbar.commons.utils.Observable;
 import dominio.*;
 
@@ -6,7 +8,7 @@ import dominio.*;
 public class CargarCuentasViewModel {
 	String ruta;
 	public void cargarArchivo(){
-		Lista<Empresa> empresas;
+		ArrayList<Empresa> empresas;
 		ArchivoXLS archivo = new ArchivoXLS(ruta);
 		empresas = archivo.leerEmpresas();
 		ConsultarCuentasViewModel.getInstance().obtenerCuentasCargadas(empresas);
