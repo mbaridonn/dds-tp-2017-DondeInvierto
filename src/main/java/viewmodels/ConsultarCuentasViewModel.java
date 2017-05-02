@@ -10,9 +10,11 @@ import org.uqbar.commons.utils.Observable;
 public class ConsultarCuentasViewModel {
 	private String nombreEmpresa = "h";//Atributo provisional
 	private String nombrePrimeraCuentaPrimeraEmpresa = "o";//Atributo provisional
-	/*private Empresa empresaSeleccionada; //ES NECESARIO PARA EL SELECTOR
-	private Cuenta cuentaSeleccionada; //ES NECESARIO PARA LA TABLA*/
+	//private Empresa empresaSeleccionada; //ES NECESARIO PARA EL SELECTOR
+	//private Cuenta cuentaSeleccionada; //ES NECESARIO PARA LA TABLA
 	private ArrayList<Empresa> empresas;
+	
+	private ArrayList<Cuenta> cuentasEmpresa;
 	
 	private static ConsultarCuentasViewModel singleton = new ConsultarCuentasViewModel();
 	
@@ -23,10 +25,15 @@ public class ConsultarCuentasViewModel {
 	public void obtenerCuentasCargadas(ArrayList<Empresa> empresas){
 		this.reiniciarValores();//??
 		this.empresas = empresas;
+		this.cuentasEmpresa = empresas.get(0).getCuentas();
+	}
+	
+	public ArrayList<Cuenta> getCuentasEmpresa(){
+		return cuentasEmpresa;
 	}
 	
 	/*@Dependencies({"empresas"})
-	public Stream<String> getNombreEmpresas(){//Tendr√≠a que devolver una ArrayList//ES NECESARIO PARA EL SELECTOR
+	public Stream<String> getNombreEmpresas(){//TendrÌa que devolver una ArrayList//ES NECESARIO PARA EL SELECTOR
 		return empresas.stream().map(emp -> emp.getNombre());
 	}
 	
@@ -35,7 +42,7 @@ public class ConsultarCuentasViewModel {
 		return empresaSeleccionada.getCuentas();
 	}*/
 	
-	//M√©todos provisionales
+	//MÈtodos provisionales
 	public void obtenerPrimerosValores(){//Lo use Para probar si funcaba todo bien. Lo hace, al final de todo borrar este metodo
 		Empresa primerEmpresa = empresas.get(0);
 		String nombreEmpresa = primerEmpresa.getNombre();

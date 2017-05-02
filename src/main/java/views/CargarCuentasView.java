@@ -8,6 +8,7 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
+import org.uqbar.lacar.ui.model.ControlBuilder;
 
 public class CargarCuentasView extends Dialog<CargarCuentasViewModel>{
 	
@@ -20,14 +21,20 @@ public class CargarCuentasView extends Dialog<CargarCuentasViewModel>{
 		this.setTitle("Cargar Cuentas");
 		mainPanel.setLayout(new VerticalLayout());
 		
-		new FileSelector(mainPanel).setCaption("Abrir").bindValueToProperty("ruta");
+		new FileSelector(mainPanel).setCaption("Abrir").onClick(() -> this.habilitarCarga()).bindValueToProperty("ruta");
 		new Button(mainPanel)
 			.setCaption("Cargar Archivo")
-			.onClick(() -> this.cargarArchivo());
+			.onClick(() -> this.cargarArchivo())
+			.bindEnabledToProperty("cargado");
 		
 	}
 	
 	private void cargarArchivo(){
 		this.getModelObject().cargarArchivo();
 	}
+	
+	private void habilitarCarga(){
+		this.getModelObject().habilitarCarga();
+	}
+
 }

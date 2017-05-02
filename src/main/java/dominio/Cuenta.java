@@ -1,5 +1,8 @@
 package dominio;
 
+import org.uqbar.commons.utils.Observable;
+
+@Observable
 public class Cuenta {
 	private String anio;
 	private String tipoCuenta;
