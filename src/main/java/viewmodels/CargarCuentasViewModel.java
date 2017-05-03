@@ -9,13 +9,11 @@ import dominio.*;
 public class CargarCuentasViewModel {
 	String ruta = "";
 
-	
 	public void cargarArchivo(){
-		
 		ArrayList<Empresa> empresas;
 		ArchivoXLS archivo = new ArchivoXLS(ruta);
 		empresas = archivo.leerEmpresas();
-		ConsultarCuentasViewModel.getInstance().obtenerCuentasCargadas(empresas);
+		ConsultarCuentasViewModel.getInstance().setEmpresas(empresas);
 	}
 	
 	public String getRuta(){

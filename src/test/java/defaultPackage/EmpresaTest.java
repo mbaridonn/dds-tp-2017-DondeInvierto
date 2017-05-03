@@ -19,7 +19,7 @@ public class EmpresaTest{
 	
 	@Before
     public void setUp(){
-		ArchivoXLS archivo = new ArchivoXLS("src/archivo/LibroPrueba.xls");
+		ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPrueba.xls");
 		ArrayList<Empresa> empresas = archivo.leerEmpresas();
 		empresa = empresas.get(0);
 		cuentas = empresa.getCuentas();
@@ -64,21 +64,21 @@ public class EmpresaTest{
     
     @Test
     public void hayTresEmpresasCargadas(){
-    	ArchivoXLS archivo = new ArchivoXLS("src/archivo/LibroPruebaEmpresas.xls");
+    	ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
     	ArrayList<Empresa> empresas = archivo.leerEmpresas();
 		assertEquals(3, empresas.size());
     }
     
     @Test
     public void elNombreDeLaSegundaEmpresaEsEmpresaLoca(){
-    	ArchivoXLS archivo = new ArchivoXLS("src/archivo/LibroPruebaEmpresas.xls");
+    	ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
     	ArrayList<Empresa> empresas = archivo.leerEmpresas();
 		assertEquals("EmpresaLoca", empresas.get(1).getNombre());
     }
     
     @Test
     public void laPrimerEmpresaTieneSieteCuentas(){
-    	ArchivoXLS archivo = new ArchivoXLS("src/archivo/LibroPruebaEmpresas.xls");
+    	ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
     	ArrayList<Empresa> empresas = archivo.leerEmpresas();
 		assertEquals(7, empresas.get(0).cantidadDeCuentasQuePosee());
     }

@@ -24,32 +24,22 @@ public class ConsultarCuentasView extends Dialog<ConsultarCuentasViewModel>{
 		selector.bindValueToProperty("empresaSeleccionada");
 		selector.bindItemsToProperty("empresas");
 		
-		
 		Table<Cuenta> tabla = new Table<Cuenta>(mainPanel, Cuenta.class);
 		tabla.bindItemsToProperty("cuentasEmpresa");
 		
-		
-		new Column<Cuenta>(tabla) //
+		new Column<Cuenta>(tabla)
 	    .setTitle("Anio")
 	    .setFixedSize(150)
 	    .bindContentsToProperty("anio");
 		
-		new Column<Cuenta>(tabla) //
+		new Column<Cuenta>(tabla)
 	    .setTitle("TipoCuenta")
 	    .setFixedSize(150)
 	    .bindContentsToProperty("tipoCuenta");
 		
-		new Column<Cuenta>(tabla) //
+		new Column<Cuenta>(tabla)
 	    .setTitle("Valor")
 	    .setFixedSize(150)
 	    .bindContentsToProperty("valor");
-		
-		//ConsultarCuentasViewModel.getInstance().obtenerPrimerosValores(); //Borrar despues, se uso para probar.
-		
-		/* 
-		 * Ya se pudo pasar la lista de empresas que se genera al cargar el archivo al ViewModel de Consultar.
-		 * Habria que poner un textbox para escribir el nombre de la empresa para consultar los datos o un selector (combo box).
-		 * Faltaria agregar una tabla aca para las cuentas de las empresas, y desde el viewModel poder poner los datos de la lista en tabla.
-		 */
 	}
 }
