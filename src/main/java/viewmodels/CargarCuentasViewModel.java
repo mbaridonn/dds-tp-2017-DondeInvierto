@@ -7,8 +7,8 @@ import dominio.*;
 
 @Observable
 public class CargarCuentasViewModel {
-	String ruta;
-	boolean cargado = true;
+	String ruta = "";
+
 	
 	public void cargarArchivo(){
 		
@@ -26,11 +26,8 @@ public class CargarCuentasViewModel {
 		this.ruta = ruta;
 	}
 	
+	@Dependencies({"ruta"})
 	public boolean getCargado(){
-		return cargado;
-	}	
-
-	public void habilitarCarga(){
-		this.cargado = true;
+		return ruta.length()>0;
 	}
 }

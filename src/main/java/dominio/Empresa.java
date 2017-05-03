@@ -22,4 +22,9 @@ public class Empresa {
 	public ArrayList<Cuenta> getCuentas() {
 		return cuentas;
 	}
+	
+	@Override
+	public String toString(){ //Es necesario para que el Selector muestre solo el nombre de la Empresa
+		return nombre;
+	}
 }

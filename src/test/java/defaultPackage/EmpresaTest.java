@@ -16,7 +16,6 @@ public class EmpresaTest{
 	
 	Empresa empresa;
 	ArrayList<Cuenta> cuentas;
-	String resultadoReal = "";
 	
 	@Before
     public void setUp(){

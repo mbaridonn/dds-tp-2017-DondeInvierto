@@ -20,18 +20,14 @@ public class ConsultarCuentasView extends Dialog<ConsultarCuentasViewModel>{
 		this.setTitle("Consultar Cuentas");
 		mainPanel.setLayout(new VerticalLayout());
 		
-		//new Label(mainPanel).bindValueToProperty("nombreEmpresa");//Borrar Despues, se uso para probar.
-		//new Label(mainPanel).bindValueToProperty("nombrePrimeraCuentaPrimeraEmpresa");//Borrar despues, se uso para probar.
-		
-		
-		/*Selector<Empresa> selector = new Selector<Empresa>(mainPanel);
+		Selector<Empresa> selector = new Selector<Empresa>(mainPanel);
 		selector.bindValueToProperty("empresaSeleccionada");
-		selector.bindItemsToProperty("empresas");*/
+		selector.bindItemsToProperty("empresas");
 		
 		
 		Table<Cuenta> tabla = new Table<Cuenta>(mainPanel, Cuenta.class);
 		tabla.bindItemsToProperty("cuentasEmpresa");
-		//tabla.bindValueToProperty("cuentaSeleccionada");
+		
 		
 		new Column<Cuenta>(tabla) //
 	    .setTitle("Anio")
