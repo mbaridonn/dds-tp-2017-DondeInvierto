@@ -2,6 +2,8 @@ package views;
 import viewmodels.*;
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Button;
+import org.uqbar.arena.widgets.FileSelector;
+import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.MainWindow;
@@ -17,27 +19,26 @@ public class MenuView extends MainWindow<MenuViewModel> {
 		this.setTitle("Menu Principal");
 		mainPanel.setLayout(new VerticalLayout());
 		
-		new Button(mainPanel)
-			.setCaption("Cargar Cuentas")
-			.onClick(() -> this.mostrarCargarCuentasView());
+		new FileSelector(mainPanel).setCaption("Cargar Cuentas").bindValueToProperty("ruta");
+		new Label(mainPanel).bindValueToProperty("ruta");
 
 		new Button(mainPanel)
 			.setCaption("Consultar Cuentas")
-			.onClick(() -> this.mostrarConsultarCuentasView());
+			.onClick(() -> this.mostrarConsultarCuentasView())
+			.bindEnabledToProperty("cargado");
 	}
-
-	public void mostrarCargarCuentasView(){
-		Dialog<?> dialog = new CargarCuentasView(this);
-		dialog.open();
+	
+	private void cargarArchivo(){
+		this.getModelObject().cargarArchivo();
 	}
 	
 	public void mostrarConsultarCuentasView(){
+		this.cargarArchivo(); // En realidad el que efectivamente carga el archivo es el botón de Consultar
 		Dialog<?> dialog = new ConsultarCuentasView(this);
 		dialog.open();
 	}
 	
 	public static void main(String[] args) {
-		
 		new MenuView().startApplication();
 	}
 
