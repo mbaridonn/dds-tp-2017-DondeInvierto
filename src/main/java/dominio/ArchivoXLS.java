@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 
-public class ArchivoXLS {
+public class ArchivoXLS implements Archivo{
 	
 	private String ruta;
 	
@@ -20,6 +20,15 @@ public class ArchivoXLS {
 	
 	public ArchivoXLS(String ruta){
 		this.ruta = ruta;
+	}
+	
+	public boolean puedeLeerArchivo(){
+		String extension = "";//Tiene sentido abstraer la obtención de la extensión en una superclase para evitar repetir lógica con ArchivoCSV?
+		int i = ruta.lastIndexOf('.');
+		if (i > 0) {
+		    extension = ruta.substring(i+1);
+		}
+		return extension.equals("xls");
 	}
 	
 	public ArrayList<Empresa> leerEmpresas(){
@@ -53,7 +62,7 @@ public class ArchivoXLS {
 
         while (rowIterator.hasNext()){ //Va por filas
             Row row = rowIterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();
+            Iterator<Cell> cellIterator = row.cellIterator();//Falta abstracción leerCuenta() !!!
             
             Cell cell = cellIterator.next();
             

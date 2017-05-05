@@ -26,6 +26,18 @@ public class EmpresaTest{
     }
 
 	@Test
+    public void elLectorXLSPuedeLeerUnArchivoConExtensionXLS(){
+		ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
+		assertTrue(archivo.puedeLeerArchivo());
+    }
+	
+	@Test
+    public void elLectorCSVPuedeLeerUnArchivoConExtensionCSV(){
+		ArchivoCSV archivo = new ArchivoCSV("src/test/resources/LibroPruebaEmpresas.csv");
+		assertTrue(archivo.puedeLeerArchivo());
+    }
+	
+	@Test
     public void elAnioDeLaUltimaCuentaEs2014(){
     	assertEquals(cuentas.get(cuentas.size()-1).getAnio(), "2014");
     }
@@ -54,6 +66,15 @@ public class EmpresaTest{
 
     private boolean cuentasSonIguales(Cuenta cuenta, Cuenta cuentaEsperada){
     	return cuenta.getAnio().equals(cuentaEsperada.getAnio()) && cuenta.getTipoCuenta().equals(cuentaEsperada.getTipoCuenta()) && cuenta.getValor()==cuentaEsperada.getValor();
+    }
+    
+    @Test
+    public void ambosLectoresDevuelvenLoMismo(){
+    	ArchivoXLS archivoXLS = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
+    	ArrayList<Empresa> empresasXLS = archivoXLS.leerEmpresas();
+    	ArchivoCSV archivoCSV = new ArchivoCSV("src/test/resources/LibroPruebaEmpresas.csv");
+    	ArrayList<Empresa> empresasCSV = archivoCSV.leerEmpresas();
+		assertEquals(empresasXLS,empresasCSV);
     }
     /*@Test
     public void ejemploTest(){

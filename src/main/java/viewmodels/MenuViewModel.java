@@ -3,8 +3,8 @@ package viewmodels;
 import java.util.ArrayList;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
-import dominio.ArchivoXLS;
 import dominio.Empresa;
+import dominio.LectorArchivos;
 
 @Observable
 public class MenuViewModel {
@@ -12,8 +12,8 @@ public class MenuViewModel {
 
 	public void cargarArchivo(){
 		ArrayList<Empresa> empresas;
-		ArchivoXLS archivo = new ArchivoXLS(ruta);
-		empresas = archivo.leerEmpresas();
+		LectorArchivos archivo = new LectorArchivos(ruta);
+		empresas = archivo.obtenerLectorApropiado().leerEmpresas();
 		ConsultarCuentasViewModel.getInstance().setEmpresas(empresas);
 	}
 	
