@@ -68,14 +68,15 @@ public class EmpresaTest{
     	return cuenta.getAnio().equals(cuentaEsperada.getAnio()) && cuenta.getTipoCuenta().equals(cuentaEsperada.getTipoCuenta()) && cuenta.getValor()==cuentaEsperada.getValor();
     }
     
-    @Test
+    /*@Test
     public void ambosLectoresDevuelvenLoMismo(){
     	ArchivoXLS archivoXLS = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
     	ArrayList<Empresa> empresasXLS = archivoXLS.leerEmpresas();
     	ArchivoCSV archivoCSV = new ArchivoCSV("src/test/resources/LibroPruebaEmpresas.csv");
     	ArrayList<Empresa> empresasCSV = archivoCSV.leerEmpresas();
 		assertEquals(empresasXLS,empresasCSV);
-    }
+    }*/
+    
     /*@Test
     public void ejemploTest(){
         assertEquals(expected, actual);
