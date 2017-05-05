@@ -11,24 +11,18 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 
-public class ArchivoXLS implements Archivo{
-	
-	private String ruta;
-	
+public class ArchivoXLS extends ArchivoEmpresas implements Archivo{
+
 	private FileInputStream fileInputStream;
 	private HSSFWorkbook workbook;
 	
-	public ArchivoXLS(String ruta){
-		this.ruta = ruta;
+	public ArchivoXLS(String ruta) {
+		super(ruta);
 	}
 	
-	public boolean puedeLeerArchivo(){
-		String extension = "";//Tiene sentido abstraer la obtención de la extensión en una superclase para evitar repetir lógica con ArchivoCSV?
-		int i = ruta.lastIndexOf('.');
-		if (i > 0) {
-		    extension = ruta.substring(i+1);
-		}
-		return extension.equals("xls");
+	@Override
+	protected String extensionQueLee() {
+		return "xls";
 	}
 	
 	public ArrayList<Empresa> leerEmpresas(){

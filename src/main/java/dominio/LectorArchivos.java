@@ -3,8 +3,8 @@ package dominio;
 import java.util.ArrayList;
 
 public class LectorArchivos {
-	String ruta;
-	ArrayList<Archivo> lectores = new ArrayList<Archivo>();//Se inicializa en el constructor
+	private String ruta;
+	private ArrayList<Archivo> lectores = new ArrayList<Archivo>();//Se inicializa en el constructor
 	
 	public LectorArchivos(String ruta){
 		this.ruta = ruta;

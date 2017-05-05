@@ -23,6 +23,7 @@ public class MenuViewModel {
 	
 	public void setRuta(String ruta){
 		this.ruta = ruta;
+		this.cargarArchivo();
 	}
 	
 	@Dependencies({"ruta"})

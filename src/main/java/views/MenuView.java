@@ -28,12 +28,7 @@ public class MenuView extends MainWindow<MenuViewModel> {
 			.bindEnabledToProperty("cargado");
 	}
 	
-	private void cargarArchivo(){
-		this.getModelObject().cargarArchivo();
-	}
-	
 	public void mostrarConsultarCuentasView(){
-		this.cargarArchivo(); // En realidad el que efectivamente carga el archivo es el botón de Consultar
 		Dialog<?> dialog = new ConsultarCuentasView(this);
 		dialog.open();
 	}
