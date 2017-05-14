@@ -15,6 +15,14 @@ public class Empresa {
 		return cuentas.size();
 	}
 	
+	public boolean seLlama(String nombre){
+		return this.nombre.equals(nombre);
+	}
+	
+	public void registrarCuenta(Cuenta cuenta){
+		cuentas.add(cuenta);
+	}
+	
 	public String getNombre(){
 		return nombre;
 	}

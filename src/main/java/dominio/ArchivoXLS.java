@@ -25,15 +25,13 @@ public class ArchivoXLS extends ArchivoEmpresas implements Archivo{
 		return "xls";
 	}
 	
-	public ArrayList<Empresa> leerEmpresas(){
+	public void leerEmpresas(){
 		this.abrirArchivo();
-		ArrayList<Empresa> empresas = new ArrayList<Empresa>();
         workbook.forEach(hoja -> empresas.add(this.empresaDeHoja((HSSFSheet) hoja)));
         this.cerrarArchivo();
-        return empresas;
 	}
 	
-	public void abrirArchivo(){
+	protected void prepararLector(){
 		try{
 			fileInputStream = new FileInputStream(new File(ruta));
 			workbook = new HSSFWorkbook(fileInputStream);

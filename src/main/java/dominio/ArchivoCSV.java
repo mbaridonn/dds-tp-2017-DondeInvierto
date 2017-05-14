@@ -4,12 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.opencsv.CSVReader;
 
 public class ArchivoCSV extends ArchivoEmpresas implements Archivo {
 
 	private CSVReader reader;
+	private String linea[];
 
 	public ArchivoCSV(String ruta) {
 		super(ruta);
@@ -20,46 +22,56 @@ public class ArchivoCSV extends ArchivoEmpresas implements Archivo {
 		return "csv";
 	}
 
-	public ArrayList<Empresa> leerEmpresas() {// Falta abstraer y manejar errores correctamente
-		abrirArchivo();
-		ArrayList<Empresa> empresas = new ArrayList<Empresa>();
-		String[] linea;
-		String nombreEmpresaActual = "";
-		String nombreEmpresaProxLinea = "";
-		ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
-		String anio, tipoCuenta;
-		int valor;
-		try {
-			while ((linea = reader.readNext()) != null) {
-				nombreEmpresaProxLinea = linea[3];
-				if ((!nombreEmpresaActual.equals(nombreEmpresaProxLinea))) {
-					if (!cuentas.isEmpty()) {
-						empresas.add(new Empresa(nombreEmpresaActual, (ArrayList<Cuenta>) cuentas.clone()));//Fix temporal
-						cuentas.clear();
-					}
-					nombreEmpresaActual = nombreEmpresaProxLinea;
-				}
-				anio = linea[0];
-				tipoCuenta = linea[1];
-				valor = Integer.parseInt(linea[2]);
-				Cuenta cuenta = new Cuenta(anio, tipoCuenta, valor);
-				cuentas.add(cuenta);
-			}
-			empresas.add(new Empresa(nombreEmpresaActual, cuentas));// Guarda la última empresa
-		} catch (NumberFormatException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+	public void leerEmpresas() {// Falta abstraer y manejar errores correctamente
+		this.abrirArchivo();
+		this.leerRegistros();
+		this.cerrarArchivo();
+	}
+	
+	private void leerRegistros(){
+		while (this.hayMasCuentas()){
+			this.asignarCuentaAEmpresa(this.leerCuenta(linea),this.nombreEmpresa(linea));
 		}
-		cerrarArchivo();
-		return empresas;
+	}
+	
+	private boolean hayMasCuentas(){
+		try {
+			linea = reader.readNext();
+		} catch (IOException e) {
+			throw new NoSePudoLeerArchivoError("No se pudo leer el archivo.");
+		}
+		return linea != null;
+	}
+	
+	private Cuenta leerCuenta(String linea[]){
+		return new Cuenta(linea[0],linea[1],Integer.parseInt(linea[2]));
+	}
+	
+	private String nombreEmpresa(String linea[]){
+		return linea[3];
+	}
+	
+	private void asignarCuentaAEmpresa(Cuenta cuenta,String nombreEmpresa){
+		this.obtenerEmpresaLlamada(nombreEmpresa).registrarCuenta(cuenta);
+	}
+	
+	private Empresa obtenerEmpresaLlamada(String nombreEmpresa){
+		if(this.empresaNoCreada(nombreEmpresa)){
+			Empresa empresa = new Empresa(nombreEmpresa, new ArrayList<Cuenta>());
+			empresas.add(empresa);
+			return empresa;
+		}
+		return empresas.stream().filter(empr->empr.seLlama(nombreEmpresa)).findFirst().orElseThrow(() -> new NoSePudoObtenerLaEmpresaError("Error al buscar la empresa."));
+	}
+	
+	private boolean empresaNoCreada(String nombreEmpresa){
+		return (!empresas.stream().anyMatch(empr -> empr.seLlama(nombreEmpresa)));
 	}
 
-	public void abrirArchivo() {
+	protected void prepararLector(){
 		try {
 			reader = new CSVReader(new FileReader(ruta), ';');
+			linea = null;
 		} catch (FileNotFoundException e) {
 			throw new NoSePudoLeerArchivoError("No se pudo leer el archivo.");
 		}
@@ -73,3 +85,5 @@ public class ArchivoCSV extends ArchivoEmpresas implements Archivo {
 		}
 	}
 }
+
+class NoSePudoObtenerLaEmpresaError extends RuntimeException{NoSePudoObtenerLaEmpresaError(String e){super(e);}}

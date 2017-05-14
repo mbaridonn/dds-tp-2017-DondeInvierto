@@ -16,14 +16,25 @@ public class EmpresaTest{
 	
 	Empresa empresa;
 	ArrayList<Cuenta> cuentas;
+	ArrayList<Empresa> empresasLibroDos;
 	
 	@Before
     public void setUp(){
-		ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPrueba.xls");
-		ArrayList<Empresa> empresas = archivo.leerEmpresas();
-		empresa = empresas.get(0);
+		ArchivoXLS archivoLibroUno = new ArchivoXLS("src/test/resources/LibroPrueba.xls");
+		ArchivoXLS archivoLibroDos = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
+		archivoLibroUno.leerEmpresas();
+		archivoLibroDos.leerEmpresas();
+    	empresasLibroDos = archivoLibroDos.getEmpresas();
+    	empresa = archivoLibroUno.getEmpresas().get(0);
 		cuentas = empresa.getCuentas();
     }
+	
+	/*@Test
+    public void ejemploTest(){
+        assertEquals(expected, actual);
+        assertFalse(algoBool);
+        assertTrue(algoBool);
+    }*/
 
 	@Test
     public void elLectorXLSPuedeLeerUnArchivoConExtensionXLS(){
@@ -38,7 +49,7 @@ public class EmpresaTest{
     }
 	
 	@Test
-    public void elAnioDeLaUltimaCuentaEs2014(){
+    public void elAnioDeLaUltimaCuentaEsDeLaPrimeraEmpresa2014(){
     	assertEquals(cuentas.get(cuentas.size()-1).getAnio(), "2014");
     }
 	
@@ -53,10 +64,50 @@ public class EmpresaTest{
     		add(new Cuenta("2014","EBITDA",260000));
     		add(new Cuenta("2014","FDS",360000));
     	}};
-		assertTrue(this.sonIguales(cuentasEsperadas,cuentas));
+		assertTrue(this.sonLasMismasCuentas(cuentasEsperadas,cuentas));
     }
     
-    private boolean sonIguales(ArrayList<Cuenta> cuentasEsperadas, ArrayList<Cuenta> cuentas){    	
+    @Test
+    public void ambosLectoresDevuelvenLoMismo(){
+    	ArchivoXLS archivoXLS = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
+    	ArchivoCSV archivoCSV = new ArchivoCSV("src/test/resources/LibroPruebaEmpresas.csv");
+    	archivoXLS.leerEmpresas();
+    	archivoCSV.leerEmpresas();
+		assertTrue(this.tienenLasMismasEmpresas(archivoXLS.getEmpresas(),archivoCSV.getEmpresas()));
+    }
+    
+    @Test
+    public void hayTresEmpresasCargadas(){
+		assertEquals(3, empresasLibroDos.size());
+    }
+    
+    @Test
+    public void elNombreDeLaSegundaEmpresaEsEmpresaLoca(){
+		assertEquals("EmpresaLoca", empresasLibroDos.get(1).getNombre());
+    }
+    
+    @Test
+    public void laPrimerEmpresaTieneSieteCuentas(){
+		assertEquals(7, empresasLibroDos.get(0).cantidadDeCuentasQuePosee());
+    }
+    
+    
+    /* ------------------------------- METODOS AUXILIARES ------------------------------- */
+    
+    private boolean tienenLasMismasEmpresas(ArrayList<Empresa> primerListaEmpresas, ArrayList<Empresa> segundaListaEmpresas){
+    	for(int i=0; i < primerListaEmpresas.size() ; i++){
+    		if(!this.sonLasMismasEmpresas(primerListaEmpresas.get(i),segundaListaEmpresas.get(i))){
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    private boolean sonLasMismasEmpresas(Empresa unaEmpresa, Empresa otraEmpresa){
+    	return unaEmpresa.seLlama(otraEmpresa.getNombre()) && this.sonLasMismasCuentas(unaEmpresa.getCuentas(), otraEmpresa.getCuentas());
+    }
+    
+    private boolean sonLasMismasCuentas(ArrayList<Cuenta> cuentasEsperadas, ArrayList<Cuenta> cuentas){    	
     	boolean resultado=true;
     	for(int i=0;i<cuentasEsperadas.size();i++){
     		resultado = resultado && this.cuentasSonIguales(cuentas.get(i), cuentasEsperadas.get(i));
@@ -66,43 +117,6 @@ public class EmpresaTest{
 
     private boolean cuentasSonIguales(Cuenta cuenta, Cuenta cuentaEsperada){
     	return cuenta.getAnio().equals(cuentaEsperada.getAnio()) && cuenta.getTipoCuenta().equals(cuentaEsperada.getTipoCuenta()) && cuenta.getValor()==cuentaEsperada.getValor();
-    }
-    
-    /*@Test
-    public void ambosLectoresDevuelvenLoMismo(){
-    	ArchivoXLS archivoXLS = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
-    	ArrayList<Empresa> empresasXLS = archivoXLS.leerEmpresas();
-    	ArchivoCSV archivoCSV = new ArchivoCSV("src/test/resources/LibroPruebaEmpresas.csv");
-    	ArrayList<Empresa> empresasCSV = archivoCSV.leerEmpresas();
-		assertEquals(empresasXLS,empresasCSV);
-    }*/
-    
-    /*@Test
-    public void ejemploTest(){
-        assertEquals(expected, actual);
-        assertFalse(algoBool);
-        assertTrue(algoBool);
-    }*/
-    
-    @Test
-    public void hayTresEmpresasCargadas(){
-    	ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
-    	ArrayList<Empresa> empresas = archivo.leerEmpresas();
-		assertEquals(3, empresas.size());
-    }
-    
-    @Test
-    public void elNombreDeLaSegundaEmpresaEsEmpresaLoca(){
-    	ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
-    	ArrayList<Empresa> empresas = archivo.leerEmpresas();
-		assertEquals("EmpresaLoca", empresas.get(1).getNombre());
-    }
-    
-    @Test
-    public void laPrimerEmpresaTieneSieteCuentas(){
-    	ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
-    	ArrayList<Empresa> empresas = archivo.leerEmpresas();
-		assertEquals(7, empresas.get(0).cantidadDeCuentasQuePosee());
     }
 
 }

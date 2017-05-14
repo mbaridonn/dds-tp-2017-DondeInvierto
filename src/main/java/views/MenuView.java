@@ -37,6 +37,5 @@ public class MenuView extends MainWindow<MenuViewModel> {
 		new MenuView().startApplication();
 	}
 
-
 	
 }
