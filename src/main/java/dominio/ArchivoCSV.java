@@ -68,6 +68,7 @@ public class ArchivoCSV extends ArchivoEmpresas implements Archivo {
 		return (!empresas.stream().anyMatch(empr -> empr.seLlama(nombreEmpresa)));
 	}
 
+	@Override
 	protected void prepararLector(){
 		try {
 			reader = new CSVReader(new FileReader(ruta), ';');

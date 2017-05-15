@@ -31,6 +31,7 @@ public class ArchivoXLS extends ArchivoEmpresas implements Archivo{
         this.cerrarArchivo();
 	}
 	
+	@Override
 	protected void prepararLector(){
 		try{
 			fileInputStream = new FileInputStream(new File(ruta));
@@ -47,30 +48,41 @@ public class ArchivoXLS extends ArchivoEmpresas implements Archivo{
 	}
 	
 	private ArrayList<Cuenta> leerCuentasDeHoja(HSSFSheet hoja){
-		String anio, tipoCuenta;
-		int valor;
 		ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
 		Iterator<Row> rowIterator = hoja.iterator();
-
-        while (rowIterator.hasNext()){ //Va por filas
-            Row row = rowIterator.next();
-            Iterator<Cell> cellIterator = row.cellIterator();//Falta abstracción leerCuenta() !!!
-            
-            Cell cell = cellIterator.next();
-            
-            anio = String.valueOf((int)cell.getNumericCellValue());
-            cell = cellIterator.next();
-            
-            tipoCuenta = cell.getStringCellValue();
-            cell = cellIterator.next();
-            
-            valor = (int) cell.getNumericCellValue();
-            
-            Cuenta cuenta = new Cuenta(anio,tipoCuenta,valor);
-            cuentas.add(cuenta); 
+        while (rowIterator.hasNext()){
+            Row row = rowIterator.next();   
+            cuentas.add(this.obtenerCuentaDeFila(row));
         }
-        
         return cuentas;
+	}
+	
+	private Cuenta obtenerCuentaDeFila(Row row){
+		return new Cuenta(this.anioDeCuenta(row),this.tipoDeCuenta(row),this.valorDeCuenta(row)); 
+	}
+	
+	private String anioDeCuenta(Row row){
+		Cell cell = this.obtenerCeldaNumero(0,row);
+		return String.valueOf((int)cell.getNumericCellValue());
+	}
+	
+	private String tipoDeCuenta(Row row){
+		Cell cell = this.obtenerCeldaNumero(1,row);
+		return cell.getStringCellValue();
+	}
+	
+	private int valorDeCuenta(Row row){
+		Cell cell = this.obtenerCeldaNumero(2, row);
+		return (int) cell.getNumericCellValue();
+	}
+	
+	private Cell obtenerCeldaNumero(int numCelda, Row row){
+		Iterator<Cell> cellIterator = row.cellIterator();
+		Cell cell = null;
+		for(int i=0; i <= numCelda;i++){
+			cell = cellIterator.next();
+		}
+		return cell;
 	}
 	
 	private void cerrarArchivo(){

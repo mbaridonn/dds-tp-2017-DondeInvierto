@@ -91,6 +91,22 @@ public class EmpresaTest{
 		assertEquals(7, empresasLibroDos.get(0).cantidadDeCuentasQuePosee());
     }
     
+    @Test
+    public void elArchivoXLSNoSobreCargaEmpresasAnteVariasEjecuciones(){
+    	ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
+    	archivo.leerEmpresas();
+    	archivo.leerEmpresas();
+    	assertEquals(archivo.getEmpresas().size(),3);
+    }
+    
+    @Test
+    public void elArchivoCSVNoSobreCargaEmpresasAnteVariasEjecuciones(){
+    	ArchivoCSV archivo = new ArchivoCSV("src/test/resources/LibroPruebaEmpresas.csv");
+    	archivo.leerEmpresas();
+    	archivo.leerEmpresas();
+    	assertEquals(archivo.getEmpresas().size(),3);
+    }
+    
     
     /* ------------------------------- METODOS AUXILIARES ------------------------------- */
     
