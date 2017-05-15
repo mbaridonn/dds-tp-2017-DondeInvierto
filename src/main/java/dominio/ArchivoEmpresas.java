@@ -2,7 +2,7 @@ package dominio;
 
 import java.util.ArrayList;
 
-public abstract class ArchivoEmpresas {
+public abstract class ArchivoEmpresas{
 	
 	String ruta;
 	ArrayList<Empresa> empresas;
@@ -21,7 +21,13 @@ public abstract class ArchivoEmpresas {
 		return extension.equals(this.extensionQueLee());
 	}
 	
-	public void abrirArchivo(){
+	public void leerEmpresas(){
+		this.abrirArchivo();
+		this.leerRegistros();
+		this.cerrarArchivo();
+	}
+	
+	private void abrirArchivo(){
 		this.prepararLector();
 		empresas.clear();
 	}
@@ -33,4 +39,8 @@ public abstract class ArchivoEmpresas {
 	protected abstract void prepararLector();
 
 	protected abstract String extensionQueLee();
+	
+	protected abstract void cerrarArchivo();
+	
+	protected abstract void leerRegistros();
 }

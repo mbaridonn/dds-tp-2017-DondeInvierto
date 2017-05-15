@@ -25,10 +25,8 @@ public class ArchivoXLS extends ArchivoEmpresas implements Archivo{
 		return "xls";
 	}
 	
-	public void leerEmpresas(){
-		this.abrirArchivo();
+	public void leerRegistros(){
         workbook.forEach(hoja -> empresas.add(this.empresaDeHoja((HSSFSheet) hoja)));
-        this.cerrarArchivo();
 	}
 	
 	@Override
@@ -85,7 +83,8 @@ public class ArchivoXLS extends ArchivoEmpresas implements Archivo{
 		return cell;
 	}
 	
-	private void cerrarArchivo(){
+	@Override
+	protected void cerrarArchivo(){
 		try {
 			workbook.close();
 		} catch (IOException e) {

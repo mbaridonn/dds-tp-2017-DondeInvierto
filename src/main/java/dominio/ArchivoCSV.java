@@ -21,14 +21,9 @@ public class ArchivoCSV extends ArchivoEmpresas implements Archivo {
 	protected String extensionQueLee() {
 		return "csv";
 	}
-
-	public void leerEmpresas() {// Falta abstraer y manejar errores correctamente
-		this.abrirArchivo();
-		this.leerRegistros();
-		this.cerrarArchivo();
-	}
 	
-	private void leerRegistros(){
+	@Override
+	protected void leerRegistros(){
 		while (this.hayMasCuentas()){
 			this.asignarCuentaAEmpresa(this.leerCuenta(linea),this.nombreEmpresa(linea));
 		}
@@ -78,7 +73,8 @@ public class ArchivoCSV extends ArchivoEmpresas implements Archivo {
 		}
 	}
 
-	private void cerrarArchivo() {
+	@Override
+	protected void cerrarArchivo() {
 		try {
 			reader.close();
 		} catch (IOException e) {
