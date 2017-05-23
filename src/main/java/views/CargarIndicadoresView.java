@@ -11,7 +11,7 @@ import viewmodels.CargarIndicadoresViewModel;
 
 public class CargarIndicadoresView extends Dialog<CargarIndicadoresViewModel>{
 	public CargarIndicadoresView(WindowOwner owner) {
-		super(owner, new CargarIndicadoresViewModel());
+		super(owner, CargarIndicadoresViewModel.getInstance());
 	}
 
 	@Override

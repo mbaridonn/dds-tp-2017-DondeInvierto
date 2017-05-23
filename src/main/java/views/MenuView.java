@@ -30,6 +30,11 @@ public class MenuView extends MainWindow<MenuViewModel> {
 			.setCaption("Consultar Cuentas")
 			.onClick(() -> this.mostrarConsultarCuentasView())
 			.bindEnabledToProperty("cargado");
+		
+		new Button(mainPanel)
+		.setCaption("Consultar Indicadores")
+		.onClick(() -> this.mostrarConsultarIndicadoresView());
+		
 	}
 	
 	public void mostrarConsultarCuentasView(){
@@ -39,6 +44,11 @@ public class MenuView extends MainWindow<MenuViewModel> {
 	
 	public void mostrarCargarIndicadoresView(){
 		Dialog<?> dialog = new CargarIndicadoresView(this);
+		dialog.open();
+	}
+	
+	public void mostrarConsultarIndicadoresView(){
+		Dialog<?> dialog = new ConsultarIndicadoresView(this);
 		dialog.open();
 	}
 	
