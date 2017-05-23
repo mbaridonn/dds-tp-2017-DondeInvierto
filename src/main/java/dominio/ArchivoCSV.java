@@ -22,12 +22,14 @@ public class ArchivoCSV extends ArchivoEmpresas implements Archivo {
 	
 	@Override
 	protected void leerRegistros(){
+		this.hayMasCuentas();// saltea la primer linea del csv, donde estan ubicados los titulos de los datos
 		while (this.hayMasCuentas()){
 			this.asignarCuentaAEmpresa(this.leerCuenta(linea),this.nombreEmpresa(linea));
 		}
 	}
 	
 	private boolean hayMasCuentas(){
+		//reader.readNext();
 		try {
 			linea = reader.readNext();
 		} catch (IOException e) {

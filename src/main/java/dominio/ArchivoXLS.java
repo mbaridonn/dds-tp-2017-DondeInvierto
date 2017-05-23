@@ -48,6 +48,7 @@ public class ArchivoXLS extends ArchivoEmpresas implements Archivo{
 	private ArrayList<Cuenta> leerCuentasDeHoja(HSSFSheet hoja){
 		ArrayList<Cuenta> cuentas = new ArrayList<Cuenta>();
 		Iterator<Row> rowIterator = hoja.iterator();
+		rowIterator.next(); //permite saltearse la primer fila del excel (la primer fila contiene titulos, no datos)
         while (rowIterator.hasNext()){
             Row row = rowIterator.next();   
             cuentas.add(this.obtenerCuentaDeFila(row));
