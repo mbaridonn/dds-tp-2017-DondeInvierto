@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import com.opencsv.CSVReader;
 
-public class ArchivoCSV extends ArchivoEmpresas implements Archivo {
+public class ArchivoCSV extends ArchivoEmpresas{
 
 	private CSVReader reader;
 	private String linea[];

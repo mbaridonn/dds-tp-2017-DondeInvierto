@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
 
-public class ArchivoXLS extends ArchivoEmpresas implements Archivo{
+public class ArchivoXLS extends ArchivoEmpresas{
 
 	private FileInputStream fileInputStream;
 	private HSSFWorkbook workbook;
