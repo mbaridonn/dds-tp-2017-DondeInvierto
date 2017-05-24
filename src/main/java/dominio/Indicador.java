@@ -11,6 +11,10 @@ public class Indicador {
 		this.indicador = indicador;
 	}
 	
+	/*public int evaluarEn(Empresa empresa,int anio){
+		return 0;
+	}*/
+	
 	public String getIndicador() {
 		return indicador;
 	}

@@ -28,7 +28,7 @@ public class CargarIndicadoresView extends Dialog<CargarIndicadoresViewModel>{
 			.onClick(() -> this.getModelObject().cargarIndicador());
 		
 		new Button(mainPanel)
-			.setCaption("Guardar");
-			//.onClick(() -> this.   ()); Debería guardar el indicador en un archivo
+			.setCaption("Guardar")
+			.onClick(() -> this.getModelObject().guardarIndicador()); 
 	}
 }

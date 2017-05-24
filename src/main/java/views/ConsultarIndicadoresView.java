@@ -12,6 +12,7 @@ import viewmodels.CargarIndicadoresViewModel;
 public class ConsultarIndicadoresView extends Dialog<CargarIndicadoresViewModel>{
 	public ConsultarIndicadoresView(WindowOwner owner) {
 		super(owner, CargarIndicadoresViewModel.getInstance());
+		this.getModelObject().leerArchivoIndicadores();//Acá NO se tendría que hacer la carga del archivo
 	}
 
 	@Override

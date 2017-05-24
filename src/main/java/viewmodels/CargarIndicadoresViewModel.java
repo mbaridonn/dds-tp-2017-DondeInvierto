@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.uqbar.commons.utils.Observable;
 
+import dominio.ArchivoIndicadores;
 import dominio.Indicador;
 
 @Observable
@@ -20,6 +21,17 @@ public class CargarIndicadoresViewModel {
 
 	public void cargarIndicador(){
 		indicadores.add(new Indicador(indicador));
+	}
+	
+	public void guardarIndicador(){
+		ArchivoIndicadores archivo = new ArchivoIndicadores();
+		archivo.escribirIndicador(indicador);
+	}
+	
+	public void leerArchivoIndicadores(){
+		//Hay que ver bien cuándo se carga el archivo
+		ArchivoIndicadores archivo = new ArchivoIndicadores();
+		archivo.leerIndicadores().forEach(ind -> indicadores.add(ind));
 	}
 	
 	public String getIndicador() {
