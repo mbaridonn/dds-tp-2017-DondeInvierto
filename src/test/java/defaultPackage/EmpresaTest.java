@@ -53,6 +53,11 @@ public class EmpresaTest{
     	assertEquals(cuentas.get(cuentas.size()-1).getAnio(), "2014");
     }
 	
+	@Test
+    public void elValorDeLaCuentaFDSDel2017Es158960(){
+    	assertEquals(empresa.getValorCuenta("FDS", "2017"),158960);
+    }
+	
     @Test
     public void cargaCuentasCorrectamente(){
     	ArrayList<Cuenta> cuentasEsperadas = new ArrayList<Cuenta> () {{
@@ -106,7 +111,7 @@ public class EmpresaTest{
     	archivo.leerEmpresas();
     	assertEquals(archivo.getEmpresas().size(),3);
     }
-    
+
     
     /* ------------------------------- METODOS AUXILIARES ------------------------------- */
     

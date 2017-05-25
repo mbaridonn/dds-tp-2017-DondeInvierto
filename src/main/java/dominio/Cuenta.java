@@ -13,6 +13,14 @@ public class Cuenta {
 		this.tipoCuenta = tipoCuenta;
 		this.valor = valor;
 	}
+	
+	public boolean esDeTipo(String tipo){
+		return this.tipoCuenta.equals(tipo);
+	}
+	
+	public boolean esDeAnio(String anio){
+		return this.anio.equals(anio);
+	}
 
 	public String getAnio() {
 		return anio;

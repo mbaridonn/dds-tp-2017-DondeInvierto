@@ -8,8 +8,6 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.MainWindow;
 
-import dominio.ArchivoIndicadores;
-
 public class MenuView extends MainWindow<MenuViewModel> {
 
 	public MenuView() {

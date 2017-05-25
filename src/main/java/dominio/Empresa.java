@@ -31,8 +31,16 @@ public class Empresa {
 		return cuentas;
 	}
 	
+	public int getValorCuenta(String tipoCuenta, String anio){
+		Cuenta cuentaBuscada = cuentas.stream().filter(cuenta -> cuenta.esDeTipo(tipoCuenta) && cuenta.esDeAnio(anio)).findFirst().orElseThrow(() -> new NoExisteCuentaError("No se pudo encontrar una cuenta en ese año para esta empresa."));
+		//El findFirst podría enmascarar el caso erróneo en el que haya dos cuentas del mismo tipo con valores distintos en el mismo año
+		return cuentaBuscada.getValor();
+	}
+	
 	@Override
 	public String toString(){ //Es necesario para que el Selector muestre solo el nombre de la Empresa
 		return nombre;
 	}
 }
+
+class NoExisteCuentaError extends RuntimeException{NoExisteCuentaError(String e){super(e);}}
