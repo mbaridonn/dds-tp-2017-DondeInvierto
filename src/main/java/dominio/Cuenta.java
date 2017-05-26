@@ -33,6 +33,11 @@ public class Cuenta {
 	public int getValor() {
 		return valor;
 	}
-	
+
+	public void mostrarDatos() { //despues se borra
+		System.out.println(anio);
+		System.out.println(tipoCuenta);
+		System.out.println(valor);
+	}
 	
 }

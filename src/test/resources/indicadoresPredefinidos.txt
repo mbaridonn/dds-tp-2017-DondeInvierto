@@ -1,0 +1,3 @@
+IngresoNeto = NetoOperacionesContinuadas + NetoOperacionesDiscontinuadas
+Indicador2
+Indicador3

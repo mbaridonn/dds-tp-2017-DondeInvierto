@@ -26,6 +26,7 @@ public class ConsultarCuentasViewModel {
 	}
 	
 	public Empresa getEmpresaSeleccionada() {
+		//empresaSeleccionada.aparearListasSegun("NetoOperacionesContinuas", "NetoOperacionesDiscontinuas");
 		return empresaSeleccionada;
 	}
 	
@@ -41,7 +42,13 @@ public class ConsultarCuentasViewModel {
 		} else {
 			cuentasSeleccionadas = this.empresaSeleccionada.getCuentas();
 		}
+		
 		return cuentasSeleccionadas;
+	}
+	
+	public void realizarNeto(){
+		empresaSeleccionada.aparearListasSegun("NetoOperacionesContinuas", "NetoOperacionesDiscontinuas");
+		empresaSeleccionada.getCuentas().forEach(unaCuenta -> unaCuenta.mostrarDatos());
 	}
 	
 }

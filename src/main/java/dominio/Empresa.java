@@ -41,6 +41,36 @@ public class Empresa {
 	public String toString(){ //Es necesario para que el Selector muestre solo el nombre de la Empresa
 		return nombre;
 	}
+	
+	public ArrayList<Cuenta> obtenerCuentasSegunTipoCuenta(String tipoCuenta){
+		ArrayList<Cuenta> cuentasFiltradas = new ArrayList<Cuenta>();
+		//Cuenta cuenta = cuentas.stream().filter(unaCuenta -> unaCuenta.esDeTipo(tipoCuenta)).findFirst().orElseThrow(() -> new NoExisteCuentaError("No se pudo encontrar una cuenta en ese año para esta empresa."));
+		//cuentasFiltradas.add(cuenta);
+		for(Cuenta cuenta: cuentas){ //no es la mejor opcion pero no se me ocurrio como se puede hacer con un forEach
+			if(cuenta.esDeTipo(tipoCuenta))
+				cuentasFiltradas.add(cuenta);
+		}
+		
+		return cuentasFiltradas;
+	}
+	
+	public void aparearListasSegun(String tipoCuenta1, String tipoCuenta2){
+		//Por ahora esta pensado para que funcione con el indicador NetoTotal = NetoOperacionesContinuas + NetoOperacionesDiscontinuas
+		ArrayList<String> listaAnios = new ArrayList<String>();
+		int valor1,valor2, neto;
+		
+		obtenerCuentasSegunTipoCuenta(tipoCuenta1).forEach(unaCuenta -> listaAnios.add(unaCuenta.getAnio()));
+		
+		for(int i = 0; i < listaAnios.size(); i++){ //for ASQUEROSO, si se les ocurre algo mejor buenisimo
+			String anio = listaAnios.get(i);
+			valor1 = this.getValorCuenta(tipoCuenta1, anio);
+			valor2 = this.getValorCuenta(tipoCuenta2, anio);
+			neto = valor1 + valor2;
+			
+			cuentas.add(new Cuenta(anio,"IngresoNeto",neto));
+		}
+
+	}
 }
 
 class NoExisteCuentaError extends RuntimeException{NoExisteCuentaError(String e){super(e);}}

@@ -41,5 +41,16 @@ public class ConsultarCuentasView extends Dialog<ConsultarCuentasViewModel>{
 	    .setTitle("Valor")
 	    .setFixedSize(150)
 	    .bindContentsToProperty("valor");
+		
+		new Button(mainPanel)
+			.setCaption("Prueba")
+			.onClick(() -> this.cambiarTabla());
+	}
+	
+	private void cambiarTabla(){ 
+		//la idea seria tocar el boton y que dsp la tabla muestre los nuevos campos calculados por indicadores (se puede hacer de otra forma)
+		System.out.println("Hola");
+		ConsultarCuentasViewModel.getInstance().realizarNeto();
 	}
 }
+
