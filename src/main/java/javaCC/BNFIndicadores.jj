@@ -1,9 +1,9 @@
 PARSER_BEGIN(ParserIndicadores)
 
 public class ParserIndicadores {
-    public static void main(String[] args) {
+    public void parse(String strExpresion) {
         try {
-            new ParserIndicadores(new java.io.StringReader(args[0])).S();
+            new ParserIndicadores(new java.io.StringReader(strExpresion)).S();
             System.out.println("Syntax is okay");
         } catch (Throwable e) {
             // Catching Throwable is ugly but JavaCC throws Error objects!
@@ -20,7 +20,41 @@ TOKEN: {
     | <NUM: (["0"-"9"])+> | <IND: (["a"-"z"])+>
 }
 
-void S(): {} { <IND> "=" E() <EOF> }
-void E(): {} { T() (<SUMAORESTA> T())* }
+Indicador Start():
+{
+	Token token;
+	Indicador indicador;
+	Expresion expresion;
+}
+{
+	token=<IND>
+	{ indicador = new Indicador(token.image); }
+	"="
+	expresion=E()
+	{ indicador.setExpresion(expresion); }
+	<EOF>
+	{ return indicador; }
+}
+      
+Expresion Expresion():
+{
+	Expresion primerExpresion;
+	Expresion segundaExpresion;
+	Token tokOperacion;
+	IntBinaryOperator operadorBinario;
+	ExpresionBuilder expresionBuilder = new ExpresionBuilder();
+}
+{
+	primerExpresion=T()
+	{ expresionBuilder.agregarExpresion(primerExpresion); }
+	(
+		tokOperacion=<SUMAORESTA>
+		{ operadorBinario = tokOperacion.image; } //Le tengo que pasar un lamda a IntBinaryOperator!!
+		segandaExpresion=T()
+		{ expresionBuilder.agregarOperacion(segundaExpresion, operadorBinario); }
+	)*
+	{ return new ExpresionValor(5)/*expresionCompleta*/; }
+}
+
 void T(): {} { F() (<MULTODIV> F())* }
 void F(): {} { <NUM> | <IND> | "(" E() ")" }

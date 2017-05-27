@@ -2,6 +2,8 @@ package dominio;
 
 import java.util.function.IntBinaryOperator;
 
+import javaCC.ParserIndicadores;
+
 public class ExpresionBuilder {//Intento de builder. Puede estar mal
 	
 	private Expresion expresion;
@@ -9,6 +11,10 @@ public class ExpresionBuilder {//Intento de builder. Puede estar mal
 	public Expresion build(){
 		//Se podrían agregar validaciones
 		return expresion;
+	}
+	
+	public void agregarExpresion(Expresion expresion){
+		this.expresion = expresion;
 	}
 	
 	public void agregarValor(int valor){
@@ -23,8 +29,12 @@ public class ExpresionBuilder {//Intento de builder. Puede estar mal
 		expresion = indicador;
 	}
 	
-	public void agregarOperacion(Expresion operandoDer, IntBinaryOperator operadorBinario){//La expresion operandoDer habría que crearla con otro Builder
+	public void agregarOperacion(Expresion operandoDer, /*IntBinaryOperator*/String operadorBinario){//La expresion operandoDer habría que crearla con otro Builder
 		expresion = new ExpresionOperacion(expresion, operandoDer, operadorBinario);
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(ParserIndicadores.parse("a=5+8").evaluarEn(null, null));
 	}
 	
 }

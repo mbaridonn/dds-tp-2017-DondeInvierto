@@ -5,23 +5,32 @@ import org.uqbar.commons.utils.Observable;
 @Observable
 public class Indicador extends Expresion{
 
-	private String indicador;
-	//private Expresion indicador; (expresion podria ser un mejor nombre)
+	private String nombre;
+	private Expresion expresion;
 
-	public Indicador(String indicador){
-		this.indicador = indicador;
+	public Indicador(String nombre){
+		this.nombre = nombre;
 	}
 	
 	@Override
 	public int evaluarEn(Empresa empresa, String anio){
-		return 0; //expresion.evaluarEn(empresa,anio); !!!
+		if (expresion==null) return 0;//De prueba mientras no se creen expresiones, después borrar.
+		return expresion.evaluarEn(empresa,anio);
 	}
 	
-	public String getIndicador() {
-		return indicador;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setIndicador(String indicador) {
-		this.indicador = indicador;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	public Expresion getExpresion() {
+		return expresion;
+	}
+	
+	public void setExpresion(Expresion expresion) {
+		this.expresion = expresion;
 	}
 }

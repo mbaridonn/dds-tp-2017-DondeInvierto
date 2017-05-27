@@ -7,10 +7,13 @@ public class ExpresionOperacion extends Expresion{
 	private Expresion operandoDer;
 	private IntBinaryOperator operadorBinario;
 	
-	public ExpresionOperacion(Expresion operandoIzq, Expresion operandoDer, IntBinaryOperator operadorBinario){
+	public ExpresionOperacion(Expresion operandoIzq, Expresion operandoDer, /*IntBinaryOperator*/ String operadorBinario){
 		this.operandoIzq=operandoIzq;
 		this.operandoDer=operandoDer;
-		this.operadorBinario=operadorBinario;
+		if(operadorBinario.equals("+"))this.operadorBinario=(x,y)->x + y;
+		else if (operadorBinario.equals("-"))this.operadorBinario=(x,y)->x - y;
+		else if (operadorBinario.equals("*"))this.operadorBinario=(x,y)->x * y;
+		else if (operadorBinario.equals("/"))this.operadorBinario=(x,y)->x / y;
 	}
 	
 	@Override
