@@ -31,7 +31,8 @@ public class CargarIndicadoresViewModel {
 	public void leerArchivoIndicadores(){
 		//Hay que ver bien cuándo se carga el archivo
 		ArchivoIndicadores archivo = new ArchivoIndicadores();
-		archivo.leerIndicadores().forEach(ind -> indicadores.add(ind));
+		archivo.leerIndicadores();
+		archivo.getIndicadores().forEach(ind -> indicadores.add(ind));
 	}
 	
 	public String getIndicador() {

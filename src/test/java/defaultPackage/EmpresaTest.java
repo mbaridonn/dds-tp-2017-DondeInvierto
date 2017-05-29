@@ -17,13 +17,17 @@ public class EmpresaTest{
 	Empresa empresa;
 	ArrayList<Cuenta> cuentas;
 	ArrayList<Empresa> empresasLibroDos;
+	ArrayList<Indicador> indicadores;
 	
 	@Before
     public void setUp(){
 		ArchivoXLS archivoLibroUno = new ArchivoXLS("src/test/resources/LibroPrueba.xls");
 		ArchivoXLS archivoLibroDos = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
+    	ArchivoIndicadores archivoIndicadores = new ArchivoIndicadores("src/test/resources/indicadoresPredefinidos.txt");
 		archivoLibroUno.leerEmpresas();
 		archivoLibroDos.leerEmpresas();
+		archivoIndicadores.leerIndicadores();
+		indicadores = archivoIndicadores.getIndicadores();
     	empresasLibroDos = archivoLibroDos.getEmpresas();
     	empresa = archivoLibroUno.getEmpresas().get(0);
 		cuentas = empresa.getCuentas();
@@ -101,7 +105,7 @@ public class EmpresaTest{
     	ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
     	archivo.leerEmpresas();
     	archivo.leerEmpresas();
-    	assertEquals(archivo.getEmpresas().size(),3);
+    	assertEquals(3,archivo.getEmpresas().size());
     }
     
     @Test
@@ -109,7 +113,33 @@ public class EmpresaTest{
     	ArchivoCSV archivo = new ArchivoCSV("src/test/resources/LibroPruebaEmpresas.csv");
     	archivo.leerEmpresas();
     	archivo.leerEmpresas();
-    	assertEquals(archivo.getEmpresas().size(),3);
+    	assertEquals(3,archivo.getEmpresas().size());
+    }
+    
+    @Test
+    public void elArchivoIndicadoresLeeCorrectamente(){
+    	ArrayList<Indicador> indicadoresEsperados = new ArrayList<Indicador>(){{
+    		add(new Indicador("IngresoNeto = NetoOperacionesContinuadas + NetoOperacionesDiscontinuadas"));
+    		add(new Indicador("Indicador2 = EBITDA + FREECASHFLOW"));
+    		add(new Indicador("Indicador3 = IngresoNeto + FREECASHFLOW"));
+    	}};
+		assertTrue(this.sonLosMismosIndicadores(indicadoresEsperados,indicadores));
+    }
+    
+    @Test
+    public void elArchivoIndicadoresLee3Renglones(){
+    	assertEquals(3,indicadores.size());
+    }
+    
+    @Test
+    public void elArchivoIndicadoresEliminaCorrectamente(){
+    	ArchivoIndicadores archivo = new ArchivoIndicadores("src/test/resources/indicadoresPredefinidos.txt");
+    	archivo.escribirIndicador("Hola");
+    	archivo.leerIndicadores();
+    	int cantidadAntesDeBorrar = archivo.getIndicadores().size();
+    	archivo.borrarIndicador("Hola");
+    	archivo.leerIndicadores();
+    	assertEquals(cantidadAntesDeBorrar-1,archivo.getIndicadores().size());
     }
 
     
@@ -138,6 +168,19 @@ public class EmpresaTest{
 
     private boolean cuentasSonIguales(Cuenta cuenta, Cuenta cuentaEsperada){
     	return cuenta.getAnio().equals(cuentaEsperada.getAnio()) && cuenta.getTipoCuenta().equals(cuentaEsperada.getTipoCuenta()) && cuenta.getValor()==cuentaEsperada.getValor();
+    }
+    
+    private boolean sonLosMismosIndicadores(ArrayList<Indicador> unosIndicadores,ArrayList<Indicador> otrosIndicadores){
+    	for(int i=0;i<unosIndicadores.size();i++){
+    		if(!this.sonLosMismosIndicadores(unosIndicadores.get(i),otrosIndicadores.get(i))){
+    			return false;
+    		}
+    	}
+    	return true && unosIndicadores.size()==otrosIndicadores.size();
+    }
+    
+    private boolean sonLosMismosIndicadores(Indicador unIndicador, Indicador otroIndicador){
+    	return unIndicador.getNombre().equals(otroIndicador.getNombre());
     }
 
 }
