@@ -119,9 +119,9 @@ public class EmpresaTest{
     @Test
     public void elArchivoIndicadoresLeeCorrectamente(){
     	ArrayList<Indicador> indicadoresEsperados = new ArrayList<Indicador>(){{
-    		add(new Indicador("IngresoNeto = NetoOperacionesContinuadas + NetoOperacionesDiscontinuadas"));
-    		add(new Indicador("Indicador2 = EBITDA + FREECASHFLOW"));
-    		add(new Indicador("Indicador3 = IngresoNeto + FREECASHFLOW"));
+    		add(new Indicador("IngresoNeto"));
+    		add(new Indicador("IndicadorDos"));
+    		add(new Indicador("IndicadorTres"));
     	}};
 		assertTrue(this.sonLosMismosIndicadores(indicadoresEsperados,indicadores));
     }
@@ -134,7 +134,7 @@ public class EmpresaTest{
     @Test
     public void elArchivoIndicadoresEliminaCorrectamente(){
     	ArchivoIndicadores archivo = new ArchivoIndicadores("src/test/resources/indicadoresPredefinidos.txt");
-    	archivo.escribirIndicador("Hola");
+    	archivo.escribirIndicador("Hola = Algo");
     	archivo.leerIndicadores();
     	int cantidadAntesDeBorrar = archivo.getIndicadores().size();
     	archivo.borrarIndicador("Hola");

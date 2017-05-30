@@ -24,7 +24,7 @@ PARSER_END(ParserIndicadores)
 SKIP: { " " | "\t" | "\n" | "\r" }
 TOKEN: {
     "(" | ")" | <SUMAORESTA: ["+","-"]> | <MULTODIV: ["*","/"]> | "="
-    | <NUM: (["0"-"9"])+> | <IND: (["a"-"z"])+>
+    | <NUM: (["0"-"9"])+> | <IND: (["a"-"z","A"-"Z"])+>
 }
 
 Indicador Start():

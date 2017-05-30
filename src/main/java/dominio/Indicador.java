@@ -6,6 +6,7 @@ import org.uqbar.commons.utils.Observable;
 public class Indicador extends Expresion{
 
 	private String nombre; //No deberia ser solo el nombre? En lugar de la expresion completa.
+	private String equivalencia; //Provisorio, estaria bueno que en realidad la clase Expresion la tenga.
 	private Expresion expresion;
 
 	public Indicador(String nombre){
@@ -22,8 +23,17 @@ public class Indicador extends Expresion{
 		return this.nombre.equals(nombre);
 	}
 	
+	public String formulaIndicador(){
+		return nombre + " = " + equivalencia;
+	}
+	
 	public void registrarseEn(ArchivoIndicadores archivo){
-		archivo.escribirIndicador(nombre);
+		archivo.escribirIndicador(this.formulaIndicador());
+	}
+	
+	public void sobreEscribirseEn(ArchivoIndicadores archivo){
+		archivo.borrarIndicador(this.nombre);
+		this.registrarseEn(archivo);
 	}
 	
 	public String getNombre() {
@@ -36,6 +46,10 @@ public class Indicador extends Expresion{
 	
 	public Expresion getExpresion() {
 		return expresion;
+	}
+	
+	public void setEquivalencia(String equivalencia){
+		this.equivalencia = equivalencia;
 	}
 	
 	public void setExpresion(Expresion expresion) {
