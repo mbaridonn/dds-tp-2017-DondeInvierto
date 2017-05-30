@@ -24,13 +24,13 @@ public class CargarIndicadoresViewModel {
 	}
 	
 	public void guardarIndicador(){
-		ArchivoIndicadores archivo = new ArchivoIndicadores();
+		ArchivoIndicadores archivo = new ArchivoIndicadores("src/main/resources/Indicadores.txt");
 		archivo.escribirIndicador(indicador);
 	}
 	
 	public void leerArchivoIndicadores(){
 		//Hay que ver bien cuándo se carga el archivo
-		ArchivoIndicadores archivo = new ArchivoIndicadores();
+		ArchivoIndicadores archivo = new ArchivoIndicadores("src/main/resources/Indicadores.txt");
 		archivo.leerIndicadores();
 		archivo.getIndicadores().forEach(ind -> indicadores.add(ind));
 	}

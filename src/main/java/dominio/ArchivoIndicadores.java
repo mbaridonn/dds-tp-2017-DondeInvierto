@@ -12,8 +12,10 @@ import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 
+import javaCC.ParserIndicadores;
+
 public class ArchivoIndicadores {
-	private String path = "src/main/resources/Indicadores.txt";
+	private String path;
 	private ArrayList<Indicador> indicadores;
 	
 	private BufferedReader reader;
@@ -23,8 +25,6 @@ public class ArchivoIndicadores {
 		this.path = path;
 		indicadores = new ArrayList<Indicador>();
 	}
-	
-	public ArchivoIndicadores(){};
 
 	public void escribirIndicador(String indicador){//Precondición, indicador ya validado
 		this.abrirEnModoEscritura();
@@ -37,10 +37,11 @@ public class ArchivoIndicadores {
 	}
 	
 	public void leerIndicadores(){
-		String indicador = "";
+		String indicadorStr = "";
 		this.abrirEnModoLectura();
-		while((indicador = this.leerUnIndicador())!=null){
-			indicadores.add(new Indicador(indicador));
+		while((indicadorStr = this.leerUnIndicador())!=null){
+			Indicador nuevoIndicador = ParserIndicadores.parse(indicadorStr);
+			indicadores.add(nuevoIndicador);
 		}
 		this.cerrarModoLectura();
 	}
