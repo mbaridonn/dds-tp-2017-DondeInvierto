@@ -1,6 +1,6 @@
 package dominio;
 
-public class ExpresionValor extends Expresion{
+public class ExpresionValor implements Expresion{
 	
 	private int valor;
 	

@@ -1,3 +1,3 @@
-IngresoNeto = NetoOperacionesContinuas + NetoOperacionesDiscontinuas
-IndicadorDos = EBITDA + FREECASHFLOW
-IndicadorTres = IngresoNeto + EBITDA
+INGRESONETO = null
+INDICADORDOS = null
+INDICADORTRES = null

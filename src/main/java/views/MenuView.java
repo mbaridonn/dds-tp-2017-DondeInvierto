@@ -32,8 +32,8 @@ public class MenuView extends MainWindow<MenuViewModel> {
 			.bindEnabledToProperty("cargado");
 		
 		new Button(mainPanel)
-		.setCaption("Consultar Indicadores")
-		.onClick(() -> this.mostrarConsultarIndicadoresView());
+			.setCaption("Consultar Indicadores")
+			.onClick(() -> this.mostrarConsultarIndicadoresView());
 		
 	}
 	
@@ -55,6 +55,5 @@ public class MenuView extends MainWindow<MenuViewModel> {
 	public static void main(String[] args) {
 		new MenuView().startApplication();
 	}
-
 	
 }

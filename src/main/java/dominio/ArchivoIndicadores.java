@@ -7,26 +7,43 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
 
+import org.uqbar.commons.utils.Observable;
+
 import javaCC.ParserIndicadores;
 
+@Observable
 public class ArchivoIndicadores {
-	private String path;
-	private ArrayList<Indicador> indicadores;
+	private String path = "src/main/resources/Indicadores.txt"; //Está mal que esté hardcodeado?
+	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
 	
 	private BufferedReader reader;
 	private Writer writer;
 	
-	public ArchivoIndicadores(String path){
+	/*public ArchivoIndicadores(String path){
 		this.path = path;
-		indicadores = new ArrayList<Indicador>();
+	}*/
+	
+	public void cambiarPath(String nuevoPath){//Necesario para los tests
+		path = nuevoPath;
+	}
+	
+	private  ArchivoIndicadores() {}//Para que no se pueda instanciar la clase desde afuera
+	
+	private static ArchivoIndicadores singleton = new ArchivoIndicadores();
+	
+	public static ArchivoIndicadores getInstance(){
+		return singleton;
+	}
+	
+	public void cargarIndicador(Indicador indicador){
+		indicadores.add(indicador);
 	}
 
-	public void escribirIndicador(String indicador){//Precondición, indicador ya validado
+	public void escribirIndicador(String indicador){//Precondición: indicador ya validado
 		this.abrirEnModoEscritura();
 		try {
 			writer.write(indicador+"\n");
@@ -41,7 +58,7 @@ public class ArchivoIndicadores {
 		this.abrirEnModoLectura();
 		while((indicadorStr = this.leerUnIndicador())!=null){
 			Indicador nuevoIndicador = ParserIndicadores.parse(indicadorStr);
-			indicadores.add(nuevoIndicador);
+			this.cargarIndicador(nuevoIndicador);
 		}
 		this.cerrarModoLectura();
 	}
@@ -53,8 +70,8 @@ public class ArchivoIndicadores {
 		this.actualizarArchivoIndicadores();
 	}
 	
-	private Indicador buscarIndicador(String nombreIndicador){
-		return indicadores.stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst().orElseThrow(() -> new ElIndicadorPedidoNoExisteError("El indicador no existe."));
+	public Indicador buscarIndicador(String nombreIndicador){
+		return indicadores.stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst().orElseThrow(() -> new NoExisteIndicadorError("No se pudo encontrar una indicador con ese nombre."));
 	}
 	
 	private void actualizarArchivoIndicadores(){
@@ -122,7 +139,7 @@ public class ArchivoIndicadores {
 	
 }
 
-class ElIndicadorPedidoNoExisteError extends RuntimeException{ElIndicadorPedidoNoExisteError(String e){super(e);}}
+class NoExisteIndicadorError extends RuntimeException{NoExisteIndicadorError(String e){super(e);}}
 class NoSePudoAbrirElArchivoError extends RuntimeException{NoSePudoAbrirElArchivoError(String e){super(e);}}
 class NoSePudoCerrarElArchivoError extends RuntimeException{NoSePudoCerrarElArchivoError(String e){super(e);}}
 class NoSeEncontroElArchivoError extends RuntimeException{NoSeEncontroElArchivoError(String e){super(e);}}

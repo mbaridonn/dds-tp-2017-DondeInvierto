@@ -6,12 +6,15 @@ import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
-import dominio.Indicador;
-import viewmodels.CargarIndicadoresViewModel;
+import org.uqbar.commons.utils.Observable;
 
-public class ConsultarIndicadoresView extends Dialog<CargarIndicadoresViewModel>{
+import dominio.Indicador;
+import viewmodels.ConsultarIndicadoresViewModel;
+
+@Observable
+public class ConsultarIndicadoresView extends Dialog<ConsultarIndicadoresViewModel>{
 	public ConsultarIndicadoresView(WindowOwner owner) {
-		super(owner, CargarIndicadoresViewModel.getInstance());
+		super(owner, new ConsultarIndicadoresViewModel());
 		this.getModelObject().leerArchivoIndicadores();//Acá NO se tendría que hacer la carga del archivo
 	}
 
@@ -26,6 +29,6 @@ public class ConsultarIndicadoresView extends Dialog<CargarIndicadoresViewModel>
 		new Column<Indicador>(tabla)
 			.setTitle("Indicador")
 			.setFixedSize(150)
-			.bindContentsToProperty("indicador");
+			.bindContentsToProperty("nombre");
 	}
 }

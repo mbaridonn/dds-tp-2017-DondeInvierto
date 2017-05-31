@@ -18,6 +18,8 @@ public interface ParserIndicadoresConstants {
   int NUM = 10;
   /** RegularExpression Id. */
   int IND = 11;
+  /** RegularExpression Id. */
+  int CTA = 12;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -36,6 +38,7 @@ public interface ParserIndicadoresConstants {
     "\"=\"",
     "<NUM>",
     "<IND>",
+    "<CTA>",
   };
 
 }

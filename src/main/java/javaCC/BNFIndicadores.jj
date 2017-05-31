@@ -1,3 +1,7 @@
+options
+{
+STATIC = false ;
+}
 PARSER_BEGIN(ParserIndicadores)
 
 package javaCC;
@@ -9,11 +13,9 @@ public class ParserIndicadores {
 	public static Indicador parse(String strExpresion) {
     	Indicador indicador = null;
         try {
-        	System.out.println("Syntax is okay");
-            indicador = new ParserIndicadores(new java.io.StringReader(strExpresion)).Start();
+          indicador = new ParserIndicadores(new java.io.StringReader(strExpresion)).Start();
         } catch (Throwable e) {
-            // Catching Throwable is ugly but JavaCC throws Error objects!
-            System.out.println("Syntax check failed: " + e.getMessage());
+          throw new ParserError("Sintaxis incorrecta");
         }
 		return indicador;
     }
@@ -24,7 +26,7 @@ PARSER_END(ParserIndicadores)
 SKIP: { " " | "\t" | "\n" | "\r" }
 TOKEN: {
     "(" | ")" | <SUMAORESTA: ["+","-"]> | <MULTODIV: ["*","/"]> | "="
-    | <NUM: (["0"-"9"])+> | <IND: (["a"-"z","A"-"Z"])+>
+    | <NUM: (["0"-"9"])+> | <IND: (["A"-"Z"])+> | <CTA: (["a"-"z"])+>
 }
 
 Indicador Start():
@@ -90,6 +92,13 @@ Expresion F():
 }
 {
 	tok=<NUM>{return new ExpresionValor(Integer.parseInt(tok.image));} | 
-	tok=<IND>{return new Indicador("Hay que pasarle el indicador, no el string");} |
+	tok=<IND>{return new ExpresionIndicador(tok.image);} |
+	tok= <CTA>{return new ExpresionCuenta(tok.image);} |
 	"(" expresion=Expresion(){return expresion;} ")"
 }
+/*
+void S(): {} { <IND> "=" E() <EOF> }
+void E(): {} { T() (<SUMAORESTA> T())* }
+void T(): {} { F() (<MULTODIV> F())* }
+void F(): {} { <NUM> | <IND> | <CTA> | "(" E() ")" }
+*/

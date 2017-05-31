@@ -1,6 +1,6 @@
 package dominio;
 
-public class ExpresionCuenta extends Expresion{
+public class ExpresionCuenta implements Expresion{
 	
 	private String cuenta;
 	

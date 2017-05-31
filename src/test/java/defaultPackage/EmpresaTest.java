@@ -23,7 +23,8 @@ public class EmpresaTest{
     public void setUp(){
 		ArchivoXLS archivoLibroUno = new ArchivoXLS("src/test/resources/LibroPrueba.xls");
 		ArchivoXLS archivoLibroDos = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
-    	ArchivoIndicadores archivoIndicadores = new ArchivoIndicadores("src/test/resources/indicadoresPredefinidos.txt");
+    	ArchivoIndicadores archivoIndicadores = ArchivoIndicadores.getInstance();
+    	archivoIndicadores.cambiarPath("src/test/resources/indicadoresPredefinidos.txt");
 		archivoLibroUno.leerEmpresas();
 		archivoLibroDos.leerEmpresas();
 		archivoIndicadores.leerIndicadores();
@@ -119,9 +120,9 @@ public class EmpresaTest{
     @Test
     public void elArchivoIndicadoresLeeCorrectamente(){
     	ArrayList<Indicador> indicadoresEsperados = new ArrayList<Indicador>(){{
-    		add(new Indicador("IngresoNeto"));
-    		add(new Indicador("IndicadorDos"));
-    		add(new Indicador("IndicadorTres"));
+    		add(new Indicador("INGRESONETO"));
+    		add(new Indicador("INDICADORDOS"));
+    		add(new Indicador("INDICADORTRES"));
     	}};
 		assertTrue(this.sonLosMismosIndicadores(indicadoresEsperados,indicadores));
     }
@@ -133,11 +134,12 @@ public class EmpresaTest{
     
     @Test
     public void elArchivoIndicadoresEliminaCorrectamente(){
-    	ArchivoIndicadores archivo = new ArchivoIndicadores("src/test/resources/indicadoresPredefinidos.txt");
-    	archivo.escribirIndicador("Hola = Algo");
+    	ArchivoIndicadores archivo = ArchivoIndicadores.getInstance();
+    	archivo.cambiarPath("src/test/resources/indicadoresPredefinidos.txt");
+    	archivo.escribirIndicador("HOLA = algo");
     	archivo.leerIndicadores();
     	int cantidadAntesDeBorrar = archivo.getIndicadores().size();
-    	archivo.borrarIndicador("Hola");
+    	archivo.borrarIndicador("HOLA");
     	archivo.leerIndicadores();
     	assertEquals(cantidadAntesDeBorrar-1,archivo.getIndicadores().size());
     }

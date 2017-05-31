@@ -7,11 +7,12 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
+
 import viewmodels.CargarIndicadoresViewModel;
 
 public class CargarIndicadoresView extends Dialog<CargarIndicadoresViewModel>{
 	public CargarIndicadoresView(WindowOwner owner) {
-		super(owner, CargarIndicadoresViewModel.getInstance());
+		super(owner, new CargarIndicadoresViewModel());
 	}
 
 	@Override
@@ -29,6 +30,11 @@ public class CargarIndicadoresView extends Dialog<CargarIndicadoresViewModel>{
 		
 		new Button(mainPanel)
 			.setCaption("Guardar")
-			.onClick(() -> this.getModelObject().guardarIndicador()); 
+			.onClick(() -> this.getModelObject().guardarIndicador());
+		
+		new Label(mainPanel)
+			.setText("")
+			.bindValueToProperty("resultadoOperacion");
 	}
+	
 }

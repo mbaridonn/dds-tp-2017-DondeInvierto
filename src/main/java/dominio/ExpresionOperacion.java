@@ -2,7 +2,7 @@ package dominio;
 
 import java.util.function.IntBinaryOperator;
 
-public class ExpresionOperacion extends Expresion{
+public class ExpresionOperacion implements Expresion{
 	private Expresion operandoIzq;
 	private Expresion operandoDer;
 	private IntBinaryOperator operadorBinario;
