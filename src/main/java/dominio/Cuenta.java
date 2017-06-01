@@ -15,7 +15,7 @@ public class Cuenta {
 	}
 	
 	public boolean esDeTipo(String tipo){
-		return this.tipoCuenta.equals(tipo);
+		return this.tipoCuenta.equalsIgnoreCase(tipo);
 	}
 	
 	public boolean esDeAnio(String anio){

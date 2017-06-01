@@ -1,6 +1,8 @@
 package dominio;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Empresa {
 	private String nombre;
@@ -21,6 +23,28 @@ public class Empresa {
 	
 	public void registrarCuenta(Cuenta cuenta){
 		cuentas.add(cuenta);
+	}
+	
+	public Set<String> aniosDeLosQueTieneCuentas(){
+		Set<String> anios = new HashSet<String>();
+		cuentas.forEach(cuenta -> anios.add(cuenta.getAnio()));
+		return anios;
+	}
+	
+	public ArrayList<Cuenta> resultadosIndicadoresTotales(Set<Indicador> indicadores){
+		Set<String> anios = this.aniosDeLosQueTieneCuentas();
+		ArrayList<Cuenta> resultadosTotales = new ArrayList<Cuenta>();
+		anios.forEach(anio -> resultadosTotales.addAll(this.resultadosIndicadoresSegunAnio(indicadores,anio)));
+		resultadosTotales.forEach(c -> c.mostrarDatos());
+		return resultadosTotales;
+	}
+	
+	public ArrayList<Cuenta> resultadosIndicadoresSegunAnio(Set<Indicador> indicadores, String anio){
+		ArrayList<Cuenta> resultados = new ArrayList<Cuenta>();
+		ArrayList<Indicador> indicadoresAplicables = new ArrayList<Indicador>();
+		indicadores.stream().filter(ind -> ind.esAplicableA(this, anio)).forEach(ind -> indicadoresAplicables.add(ind));
+		indicadoresAplicables.forEach(ind -> resultados.add(new Cuenta(anio,ind.getNombre(),ind.evaluarEn(this, anio))));
+		return resultados;
 	}
 	
 	public String getNombre(){

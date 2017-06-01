@@ -1,3 +1,3 @@
-INGRESONETO = null
-INDICADORDOS = null
-INDICADORTRES = null
+INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas
+INDICADORDOS = cuentarara + fds
+INDICADORTRES = INGRESONETO * 10 + ebitda

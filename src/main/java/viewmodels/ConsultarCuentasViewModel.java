@@ -2,6 +2,7 @@ package viewmodels;
 import dominio.*;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
@@ -40,6 +41,8 @@ public class ConsultarCuentasViewModel {
 			cuentasSeleccionadas = null;
 		} else {
 			cuentasSeleccionadas = this.empresaSeleccionada.getCuentas();
+			Set<Indicador> indicadoresAplicables = ArchivoIndicadores.getInstance().todosLosIndicadoresAplicablesA(empresaSeleccionada);
+			//cuentasSeleccionadas.addAll(empresaSeleccionada.resultadosIndicadoresTotales(indicadoresAplicables));
 		}
 		
 		return cuentasSeleccionadas;

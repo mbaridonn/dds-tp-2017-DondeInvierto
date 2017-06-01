@@ -17,8 +17,18 @@ public class Indicador {
 		return expresion.evaluarEn(empresa,anio);
 	}
 	
+	public boolean esAplicableA(Empresa empresa, String anio){
+		try{
+			this.evaluarEn(empresa, anio);
+			return true;
+		} catch (RuntimeException e){ //Revisar que error catchea exactamente.
+			return false;
+		}
+		
+	}
+	
 	public boolean seLlama(String nombre){
-		return this.nombre.equals(nombre);
+		return this.nombre.equalsIgnoreCase(nombre);
 	}
 	
 	public String formulaIndicador(){//Volar?

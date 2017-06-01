@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.uqbar.commons.utils.Observable;
 
@@ -17,86 +19,144 @@ import javaCC.ParserIndicadores;
 
 @Observable
 public class ArchivoIndicadores {
-	private String path = "src/main/resources/Indicadores.txt"; //Está mal que esté hardcodeado?
+	private String path = "src/main/resources/Indicadores.txt"; // Está mal que
+																// esté
+																// hardcodeado?
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
-	
+
 	private BufferedReader reader;
 	private Writer writer;
-	
-	/*public ArchivoIndicadores(String path){
-		this.path = path;
-	}*/
-	
-	public void cambiarPath(String nuevoPath){//Necesario para los tests
+	 
+	public void cambiarPath(String nuevoPath) {// Necesario para los tests
 		path = nuevoPath;
 	}
-	
-	private  ArchivoIndicadores() {}//Para que no se pueda instanciar la clase desde afuera
-	
+
+	private ArchivoIndicadores() {}// Para que no se pueda instanciar la clase desde afuera
+
 	private static ArchivoIndicadores singleton = new ArchivoIndicadores();
-	
-	public static ArchivoIndicadores getInstance(){
+
+	public static ArchivoIndicadores getInstance() {
 		return singleton;
 	}
-	
-	public void cargarIndicador(Indicador indicador){
+
+	public void cargarIndicador(Indicador indicador) {
 		indicadores.add(indicador);
 	}
+	
+	public Set<Indicador> todosLosIndicadoresAplicablesA(Empresa empresa){
+		Set<Indicador> indicadoresAplicables = new HashSet<Indicador>();
+		Set<String> aniosDeCuentas = empresa.aniosDeLosQueTieneCuentas();
+		aniosDeCuentas.forEach(anio -> indicadoresAplicables.addAll(this.indicadoresAplicablesA(empresa, anio)));
+		return indicadoresAplicables;
+	}
+	
+	public ArrayList<Indicador> indicadoresAplicablesA(Empresa empresa, String anio){
+		ArrayList<Indicador> indicadoresAplicables = new ArrayList<Indicador>();
+		this.leerSiNoSeCargaronLosIndicadores();
+		indicadores.stream().filter(ind -> ind.esAplicableA(empresa, anio)).forEach(ind -> indicadoresAplicables.add(ind));
+		return indicadoresAplicables;
+	}
 
-	public void escribirIndicador(String indicador){//Precondición: indicador ya validado
+	public void escribirIndicador(String indicador) {
 		this.abrirEnModoEscritura();
 		try {
-			writer.write(indicador+"\n");
+			this.verificarExistencia(indicador);
+			writer.write(indicador + "\n");
 		} catch (IOException e) {
 			throw new NoSePudoEscribirArchivoError("No se pudo escribir el archivo.");
 		}
 		this.cerrarModoEscritura();
 	}
-	
-	public void leerIndicadores(){
+
+	public void leerIndicadores() {
 		String indicadorStr = "";
+		indicadores = new ArrayList<Indicador>();
 		this.abrirEnModoLectura();
-		while((indicadorStr = this.leerUnIndicador())!=null){
+		while ((indicadorStr = this.leerUnIndicador()) != null) {
 			Indicador nuevoIndicador = ParserIndicadores.parse(indicadorStr);
 			this.cargarIndicador(nuevoIndicador);
 		}
 		this.cerrarModoLectura();
 	}
-	
-	public void borrarIndicador(String nombreIndicador){
-		this.leerIndicadores();
-		Indicador indicador = this.buscarIndicador(nombreIndicador);
-		indicadores.remove(indicador);
-		this.actualizarArchivoIndicadores();
+
+	public void borrarIndicador(String nombreIndicador) {
+		this.leerSiNoSeCargaronLosIndicadores();
+		try {
+			Indicador indicador = this.buscarIndicador(nombreIndicador);
+			indicadores.remove(indicador);
+			this.actualizarArchivoIndicadores();
+		} catch (NoExisteIndicadorError e) {
+			return;
+		}
 	}
-	
-	public Indicador buscarIndicador(String nombreIndicador){
-		return indicadores.stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst().orElseThrow(() -> new NoExisteIndicadorError("No se pudo encontrar una indicador con ese nombre."));
+
+	private void verificarExistencia(String indicador) {
+		String indicadorStr;
+		this.abrirEnModoLectura();
+		while ((indicadorStr = this.leerUnIndicador()) != null) {
+			if (this.seLlamanIgual(indicador, indicadorStr)) {
+				throw new IndicadorExistenteError("Ya existe un indicador con ese nombre.");
+			}
+		}
+		this.cerrarModoLectura();
 	}
-	
-	private void actualizarArchivoIndicadores(){
+
+	private boolean seLlamanIgual(String indicador, String otroIndicador) {
+		String nombrePrimerIndicador = this.obtenerNombre(indicador);
+		String nombreSegundoIndicador = this.obtenerNombre(otroIndicador);
+		return nombrePrimerIndicador.equalsIgnoreCase(nombreSegundoIndicador);
+	}
+
+	private String obtenerNombre(String indicador) {
+		String nombre = "";
+		int i = indicador.indexOf('=');
+		if (i > 0) {
+			nombre = indicador.substring(0, i).trim();
+		}
+		return nombre;
+	}
+
+	public Indicador buscarIndicador(String nombreIndicador) {
+		return indicadores.stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst()
+				.orElseThrow(() -> new NoExisteIndicadorError("No se pudo encontrar una indicador con ese nombre."));
+	}
+
+	private void actualizarArchivoIndicadores() {
 		this.limpiarArchivo();
-		indicadores.forEach(ind -> ind.registrarseEn(this));
+		this.registrarNuevamenteLosIndicadores();
 	}
 	
-	private void limpiarArchivo(){
+	private void registrarNuevamenteLosIndicadores(){
+		for(int i = 0; i < indicadores.size(); i++){
+			indicadores.get(i).registrarseEn(this);
+		}
+	}
+
+	private void limpiarArchivo() {
 		try {
 			new FileWriter(path).close();
 		} catch (IOException e) {
 			throw new NoSePudoEscribirArchivoError("Error al sobreescribir el archivo Indicadores.");
 		}
 	}
-	
-	private String leerUnIndicador(){
+
+	private String leerUnIndicador() {
 		try {
 			return reader.readLine();
 		} catch (IOException e) {
 			throw new NoSePudoLeerArchivoError("No se pudo leer el archivo.");
 		}
 	}
-	private void abrirEnModoLectura(){
+	
+	private void leerSiNoSeCargaronLosIndicadores(){
+		if(indicadores.isEmpty()){
+			this.leerIndicadores();
+		}
+	}
+	
+
+	private void abrirEnModoLectura() {
 		try {
-			indicadores.clear();
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream(path), "utf-8"));
 		} catch (UnsupportedEncodingException e) {
 			throw new NoSeSoportaElEncodingError("No se soporta el encoding del archivo de Indicadores.");
@@ -104,24 +164,24 @@ public class ArchivoIndicadores {
 			throw new NoSeEncontroElArchivoError("No se pudo encontrar el archivo de Indicadores.");
 		}
 	}
-	
-	private void abrirEnModoEscritura(){
+
+	private void abrirEnModoEscritura() {
 		try {
-			writer = new BufferedWriter(new FileWriter(path,true));//El true es para que lo abra en append
+			writer = new BufferedWriter(new FileWriter(path, true));
 		} catch (IOException e) {
 			throw new NoSePudoAbrirElArchivoError("Error al abrir el archivo de Indicadores.");
 		}
 	}
-	
-	private void cerrarModoEscritura(){
+
+	private void cerrarModoEscritura() {
 		try {
 			writer.close();
 		} catch (IOException e) {
 			this.errorAlCerrarArchivo();
 		}
 	}
-	
-	private void cerrarModoLectura(){
+
+	private void cerrarModoLectura() {
 		try {
 			reader.close();
 		} catch (IOException e) {
@@ -129,19 +189,54 @@ public class ArchivoIndicadores {
 		}
 	}
 
-	private void errorAlCerrarArchivo(){
+	private void errorAlCerrarArchivo() {
 		throw new NoSePudoCerrarElArchivoError("Error al cerrar el archivo de Indicadores.");
 	}
-	
+
 	public ArrayList<Indicador> getIndicadores() {
 		return indicadores;
 	}
-	
+
 }
 
-class NoExisteIndicadorError extends RuntimeException{NoExisteIndicadorError(String e){super(e);}}
-class NoSePudoAbrirElArchivoError extends RuntimeException{NoSePudoAbrirElArchivoError(String e){super(e);}}
-class NoSePudoCerrarElArchivoError extends RuntimeException{NoSePudoCerrarElArchivoError(String e){super(e);}}
-class NoSeEncontroElArchivoError extends RuntimeException{NoSeEncontroElArchivoError(String e){super(e);}}
-class NoSeSoportaElEncodingError extends RuntimeException{NoSeSoportaElEncodingError(String e){super(e);}}
-class NoSePudoEscribirArchivoError extends RuntimeException{NoSePudoEscribirArchivoError(String e){super(e);}}
+class IndicadorExistenteError extends RuntimeException {
+	IndicadorExistenteError(String e) {
+		super(e);
+	}
+}
+
+class NoExisteIndicadorError extends RuntimeException {
+	NoExisteIndicadorError(String e) {
+		super(e);
+	}
+}
+
+class NoSePudoAbrirElArchivoError extends RuntimeException {
+	NoSePudoAbrirElArchivoError(String e) {
+		super(e);
+	}
+}
+
+class NoSePudoCerrarElArchivoError extends RuntimeException {
+	NoSePudoCerrarElArchivoError(String e) {
+		super(e);
+	}
+}
+
+class NoSeEncontroElArchivoError extends RuntimeException {
+	NoSeEncontroElArchivoError(String e) {
+		super(e);
+	}
+}
+
+class NoSeSoportaElEncodingError extends RuntimeException {
+	NoSeSoportaElEncodingError(String e) {
+		super(e);
+	}
+}
+
+class NoSePudoEscribirArchivoError extends RuntimeException {
+	NoSePudoEscribirArchivoError(String e) {
+		super(e);
+	}
+}
