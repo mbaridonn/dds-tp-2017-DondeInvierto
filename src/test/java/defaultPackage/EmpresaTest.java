@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 /*import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -203,6 +204,15 @@ public class EmpresaTest {
 	}
 	
 	@Test
+	public void seMuestranCuentasEIndicadoresParaEmpresaReLoca(){
+		Empresa empresaReLoca = empresasParaIndicadores.get(0);
+		Set<Indicador> indicadoresAplicables = archivoIndicadores.todosLosIndicadoresAplicablesA(empresaReLoca);
+		this.mostrarCuentas(empresaReLoca.getCuentas());
+		this.mostrarCuentas(empresaReLoca.resultadosIndicadoresTotales(indicadoresAplicables));
+		assertTrue(true);
+	}
+	
+	@Test
 	public void elArchivoIndicadoresEliminaCorrectamente() {
 		archivoIndicadores.escribirIndicador("HOLA = algo");
 		archivoIndicadores.leerIndicadores();
@@ -213,6 +223,10 @@ public class EmpresaTest {
 	}
 
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
+	
+	private void mostrarCuentas(ArrayList<Cuenta> cuentas){
+		cuentas.forEach(cuenta -> cuenta.mostrarDatos());
+	}
 	
 	private int[] resultadosLuegoDeAplicarIndicadorAEmpresas(Indicador ind){
 		int resultados[] = new int[3];

@@ -35,7 +35,6 @@ public class Empresa {
 		Set<String> anios = this.aniosDeLosQueTieneCuentas();
 		ArrayList<Cuenta> resultadosTotales = new ArrayList<Cuenta>();
 		anios.forEach(anio -> resultadosTotales.addAll(this.resultadosIndicadoresSegunAnio(indicadores,anio)));
-		resultadosTotales.forEach(c -> c.mostrarDatos());
 		return resultadosTotales;
 	}
 	

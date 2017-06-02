@@ -35,9 +35,7 @@ public class Cuenta {
 	}
 
 	public void mostrarDatos() { //despues se borra
-		System.out.println(anio);
-		System.out.println(tipoCuenta);
-		System.out.println(valor);
+		System.out.println(anio + "\t" + tipoCuenta + "\t" + valor);
 	}
 	
 }
