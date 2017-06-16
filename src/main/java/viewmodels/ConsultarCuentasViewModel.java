@@ -42,7 +42,7 @@ public class ConsultarCuentasViewModel {
 		} else {
 			cuentasSeleccionadas = this.empresaSeleccionada.getCuentas();
 			Set<Indicador> indicadoresAplicables = ArchivoIndicadores.getInstance().todosLosIndicadoresAplicablesA(empresaSeleccionada);
-			//cuentasSeleccionadas.addAll(empresaSeleccionada.resultadosIndicadoresTotales(indicadoresAplicables));
+			cuentasSeleccionadas.addAll(empresaSeleccionada.resultadosIndicadoresTotales(indicadoresAplicables));
 		}
 		
 		return cuentasSeleccionadas;

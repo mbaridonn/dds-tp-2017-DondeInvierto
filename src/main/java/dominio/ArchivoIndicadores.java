@@ -15,8 +15,6 @@ import java.util.Set;
 
 import org.uqbar.commons.utils.Observable;
 
-import javaCC.ParserIndicadores;
-
 @Observable
 public class ArchivoIndicadores {
 	private String path = "src/main/resources/Indicadores.txt"; // Está mal que

@@ -4,7 +4,7 @@ import org.uqbar.commons.utils.Observable;
 
 import dominio.ArchivoIndicadores;
 import dominio.ParserError;
-import javaCC.ParserIndicadores;
+import dominio.ParserIndicadores;
 
 @Observable
 public class CargarIndicadoresViewModel {
