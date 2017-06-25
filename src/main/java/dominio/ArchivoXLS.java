@@ -10,6 +10,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+import excepciones.NoSePudoCerrarArchivoError;
+import excepciones.NoSePudoLeerArchivoError;
+
 
 public class ArchivoXLS extends ArchivoEmpresas{
 
@@ -93,6 +96,3 @@ public class ArchivoXLS extends ArchivoEmpresas{
 		}
 	}
 }
-
-class NoSePudoLeerArchivoError extends RuntimeException{ public NoSePudoLeerArchivoError(String s){ super(s);}}
-class NoSePudoCerrarArchivoError extends RuntimeException{ public NoSePudoCerrarArchivoError(String s){ super(s);}}

@@ -1,6 +1,7 @@
 package dominio;
 
 import java.util.ArrayList;
+import excepciones.NoSePudoLeerEseTipoDeArchivoError;
 
 public class LectorArchivos {
 	private ArrayList<ArchivoEmpresas> lectores = new ArrayList<ArchivoEmpresas>();//Se inicializa en el constructor
@@ -15,5 +16,3 @@ public class LectorArchivos {
 	}
 
 }
-
-class NoSePudoLeerEseTipoDeArchivoError extends RuntimeException{ public NoSePudoLeerEseTipoDeArchivoError(String s){ super(s);}}

@@ -3,8 +3,8 @@ package viewmodels;
 import org.uqbar.commons.utils.Observable;
 
 import dominio.ArchivoIndicadores;
-import dominio.ParserError;
 import dominio.ParserIndicadores;
+import excepciones.ParserError;
 
 @Observable
 public class CargarIndicadoresViewModel {
@@ -16,7 +16,7 @@ public class CargarIndicadoresViewModel {
 		try {
 			ArchivoIndicadores.getInstance().cargarIndicador(ParserIndicadores.parse(indicador));
 			resultadoOperacion = "Indicador cargado";
-		} catch (RuntimeException e) { //Si pongo ParserException no me la catchea !!!
+		} catch (ParserError e) {
 			resultadoOperacion = "Sintaxis incorrecta";
 		}
 	}
@@ -26,7 +26,7 @@ public class CargarIndicadoresViewModel {
 			ParserIndicadores.parse(indicador);//Se usa sólo para validar. Si lanza excepción, va al catch
 			ArchivoIndicadores.getInstance().escribirIndicador(indicador);
 			resultadoOperacion = "Indicador guardado";
-		} catch (RuntimeException e) { //Si pongo ParserException no me la catchea !!!
+		} catch (ParserError e) {
 			resultadoOperacion = "Sintaxis incorrecta";
 		}
 	}

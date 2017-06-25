@@ -15,6 +15,8 @@ import java.util.Set;
 
 import org.uqbar.commons.utils.Observable;
 
+import excepciones.NoSePudoLeerArchivoError;
+
 @Observable
 public class ArchivoIndicadores {
 	private String path = "src/main/resources/Indicadores.txt"; // Está mal que

@@ -19,7 +19,10 @@ public class MenuView extends MainWindow<MenuViewModel> {
 		this.setTitle("Menu Principal");
 		mainPanel.setLayout(new VerticalLayout());
 		
+		new Label(mainPanel).bindValueToProperty("resultadoOperacion");
+		
 		new FileSelector(mainPanel).setCaption("Cargar Cuentas").bindValueToProperty("ruta");
+		
 		new Label(mainPanel).bindValueToProperty("ruta");
 
 		new Button(mainPanel)

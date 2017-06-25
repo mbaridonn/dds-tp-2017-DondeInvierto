@@ -1,3 +1,4 @@
 INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas
 INDICADORDOS = cuentarara + fds
 INDICADORTRES = INGRESONETO * 10 + ebitda
+A = 5 / 3

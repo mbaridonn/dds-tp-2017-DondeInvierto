@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import com.opencsv.CSVReader;
 
+import excepciones.NoSePudoCerrarArchivoError;
+import excepciones.NoSePudoLeerArchivoError;
+import excepciones.NoSePudoObtenerLaEmpresaError;
+
 public class ArchivoCSV extends ArchivoEmpresas{
 
 	private CSVReader reader;
@@ -82,5 +86,3 @@ public class ArchivoCSV extends ArchivoEmpresas{
 		}
 	}
 }
-
-class NoSePudoObtenerLaEmpresaError extends RuntimeException{NoSePudoObtenerLaEmpresaError(String e){super(e);}}

@@ -3,6 +3,7 @@ package dominio;
 
 import java.util.function.IntBinaryOperator;
 import dominio.*;
+import excepciones.ParserError;
 
 public class ParserIndicadores implements ParserIndicadoresConstants {
 	public static Indicador parse(String strExpresion) {
