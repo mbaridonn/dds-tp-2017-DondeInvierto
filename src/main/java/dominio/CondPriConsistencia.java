@@ -6,6 +6,11 @@ import java.util.stream.IntStream;
 public class CondPriConsistencia implements CondicionPrioritaria{//FALTAN SETTERS/CONSTRUCTOR
 	private Indicador indicador;
 	private int aniosAEvaluar;
+	
+	public CondPriConsistencia(Indicador indicador, int aniosAEvaluar) {
+		this.indicador = indicador;
+		this.aniosAEvaluar = aniosAEvaluar;
+	}
 
 	@Override
 	public boolean esMejorQue(Empresa empresa1, Empresa empresa2) {
