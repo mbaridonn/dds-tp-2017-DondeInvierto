@@ -22,7 +22,7 @@ public class CondTaxIndicador implements CondicionTaxativa{
 	@Override
 	public boolean laCumple(Empresa empresa) {
 		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
-		return IntStream.rangeClosed(anioActual - aniosAEvaluar, anioActual)
+		return IntStream.range(anioActual - aniosAEvaluar, anioActual)
 				.allMatch(anio -> operacionRelacional.aplicarA(indicador.evaluarEn(empresa, String.valueOf(anio)), valor));
 	}
 }
