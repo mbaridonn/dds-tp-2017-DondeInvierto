@@ -8,7 +8,7 @@ import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
 import org.uqbar.commons.utils.Observable;
 
-import dominio.Indicador;
+import dominio.indicadores.Indicador;
 import viewmodels.ConsultarIndicadoresViewModel;
 
 @Observable

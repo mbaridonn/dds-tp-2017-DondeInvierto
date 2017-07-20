@@ -1,4 +1,4 @@
-package dominio;
+package dominio.indicadores;
 
 public class ExpresionBuilder {
 	

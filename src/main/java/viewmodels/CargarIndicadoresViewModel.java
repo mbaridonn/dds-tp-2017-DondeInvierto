@@ -2,8 +2,8 @@ package viewmodels;
 
 import org.uqbar.commons.utils.Observable;
 
-import dominio.ArchivoIndicadores;
-import dominio.ParserIndicadores;
+import dominio.indicadores.ArchivoIndicadores;
+import dominio.parser.ParserIndicadores;
 import excepciones.ParserError;
 
 @Observable

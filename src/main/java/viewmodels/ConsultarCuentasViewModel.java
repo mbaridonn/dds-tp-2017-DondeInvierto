@@ -1,5 +1,7 @@
 package viewmodels;
 import dominio.*;
+import dominio.indicadores.ArchivoIndicadores;
+import dominio.indicadores.Indicador;
 
 import java.util.ArrayList;
 import java.util.Set;

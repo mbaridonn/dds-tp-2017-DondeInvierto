@@ -1,6 +1,8 @@
-package dominio;
+package dominio.indicadores;
 
 import java.util.function.IntBinaryOperator;
+
+import dominio.Empresa;
 
 public class ExpresionOperacion implements Expresion{
 	private Expresion operandoIzq;

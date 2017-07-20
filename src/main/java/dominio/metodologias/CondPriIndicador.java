@@ -1,6 +1,9 @@
-package dominio;
+package dominio.metodologias;
 
 import java.util.Calendar;
+
+import dominio.Empresa;
+import dominio.indicadores.Indicador;
 
 public class CondPriIndicador implements CondicionPrioritaria{
 	private Indicador indicador;

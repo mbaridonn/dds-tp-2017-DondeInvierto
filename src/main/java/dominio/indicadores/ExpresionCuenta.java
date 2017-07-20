@@ -1,4 +1,6 @@
-package dominio;
+package dominio.indicadores;
+
+import dominio.Empresa;
 
 public class ExpresionCuenta implements Expresion{
 	

@@ -1,8 +1,10 @@
-package dominio;
+package dominio.metodologias;
 
 import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
+
+import dominio.Empresa;
 
 public class Metodologia {
 	private ArrayList<CondicionTaxativa> condicionesTaxativas = new ArrayList<CondicionTaxativa>();

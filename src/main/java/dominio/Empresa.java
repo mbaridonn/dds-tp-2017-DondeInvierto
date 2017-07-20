@@ -1,8 +1,11 @@
 package dominio;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
+
+import dominio.indicadores.Indicador;
 
 public class Empresa {
 	private String nombre;
@@ -44,6 +47,13 @@ public class Empresa {
 		indicadores.stream().filter(ind -> ind.esAplicableA(this, anio)).forEach(ind -> indicadoresAplicables.add(ind));
 		indicadoresAplicables.forEach(ind -> resultados.add(new Cuenta(anio,ind.getNombre(),ind.evaluarEn(this, anio))));
 		return resultados;
+	}
+	
+	public int getAntiguedad(){//La antigüedad se obtiene a partir de la cuenta más antigua
+		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
+		int anioCreacion = cuentas.stream().mapToInt(cuenta-> Integer.parseInt(cuenta.getAnio())).min()
+				.orElseThrow(() -> new NoExisteCuentaError("La empresa no tiene ninguna cuenta, por lo que no se puede calcular la antigüedad."));
+		return anioActual - anioCreacion;
 	}
 	
 	public String getNombre(){

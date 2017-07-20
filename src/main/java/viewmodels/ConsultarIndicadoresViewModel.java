@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import org.uqbar.commons.utils.Dependencies;
 
-import dominio.ArchivoIndicadores;
-import dominio.Indicador;
+import dominio.indicadores.ArchivoIndicadores;
+import dominio.indicadores.Indicador;
 
 public class ConsultarIndicadoresViewModel {
 	

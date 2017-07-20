@@ -1,4 +1,4 @@
-package dominio;
+package dominio.metodologias;
 
 public class Mayor implements OperacionRelacional{
 

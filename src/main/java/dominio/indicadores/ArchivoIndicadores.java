@@ -1,4 +1,4 @@
-package dominio;
+package dominio.indicadores;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,6 +15,8 @@ import java.util.Set;
 
 import org.uqbar.commons.utils.Observable;
 
+import dominio.Empresa;
+import dominio.parser.ParserIndicadores;
 import excepciones.NoSePudoLeerArchivoError;
 
 @Observable

@@ -1,7 +1,10 @@
-package dominio;
+package dominio.metodologias;
 
 import java.util.Calendar;
 import java.util.stream.IntStream;
+
+import dominio.Empresa;
+import dominio.indicadores.Indicador;
 
 public class CondPriConsistencia implements CondicionPrioritaria{//FALTAN SETTERS/CONSTRUCTOR
 	private Indicador indicador;

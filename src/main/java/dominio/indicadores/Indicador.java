@@ -1,6 +1,8 @@
-package dominio;
+package dominio.indicadores;
 
 import org.uqbar.commons.utils.Observable;
+
+import dominio.Empresa;
 
 @Observable
 public class Indicador {
