@@ -23,8 +23,8 @@ import dominio.metodologias.Menor;
 
 public class MetodologiaTest {
 	
-	ArrayList<Indicador> indicadores;
-	ArrayList<Empresa> empresasParaIndicadores;
+	private ArrayList<Indicador> indicadores;
+	private ArrayList<Empresa> empresasParaIndicadores;
 	
 	@Before
 	public void setUp() {

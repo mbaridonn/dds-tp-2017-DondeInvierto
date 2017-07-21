@@ -7,7 +7,7 @@ import dominio.Empresa;
 import dominio.indicadores.Indicador;
 
 public class CondTaxAgregacion implements CondicionTaxativa{
-	OperacionAgregacion operacionAgregacion; //Prod/Med/Suma
+	private OperacionAgregacion operacionAgregacion; //Prod/Med/Suma
 	private Indicador indicador;
 	private OperacionRelacional operacionRelacional;
 	private int valor;
