@@ -30,6 +30,10 @@ public class MenuView extends MainWindow<MenuViewModel> {
 			.onClick(() -> this.mostrarCargarIndicadoresView());
 		
 		new Button(mainPanel)
+			.setCaption("Cargar Metodologias")
+			.onClick(() -> this.mostrarCargarMetodologiasView());
+		
+		new Button(mainPanel)
 			.setCaption("Consultar Cuentas")
 			.onClick(() -> this.mostrarConsultarCuentasView())
 			.bindEnabledToProperty("cargado");
@@ -38,11 +42,9 @@ public class MenuView extends MainWindow<MenuViewModel> {
 			.setCaption("Consultar Indicadores")
 			.onClick(() -> this.mostrarConsultarIndicadoresView());
 		
-	}
-	
-	public void mostrarConsultarCuentasView(){
-		Dialog<?> dialog = new ConsultarCuentasView(this);
-		dialog.open();
+		new Button(mainPanel)
+			.setCaption("Consultar Metodologias")
+			.onClick(() -> this.mostrarConsultarMetodologiasView());
 	}
 	
 	public void mostrarCargarIndicadoresView(){
@@ -50,8 +52,23 @@ public class MenuView extends MainWindow<MenuViewModel> {
 		dialog.open();
 	}
 	
+	public void mostrarCargarMetodologiasView(){
+		Dialog<?> dialog = new CargarMetodologiasView(this);
+		dialog.open();
+	}
+	
+	public void mostrarConsultarCuentasView(){
+		Dialog<?> dialog = new ConsultarCuentasView(this);
+		dialog.open();
+	}
+	
 	public void mostrarConsultarIndicadoresView(){
 		Dialog<?> dialog = new ConsultarIndicadoresView(this);
+		dialog.open();
+	}
+	
+	public void mostrarConsultarMetodologiasView(){
+		Dialog<?> dialog = new ConsultarMetodologiasView(this);
 		dialog.open();
 	}
 	
