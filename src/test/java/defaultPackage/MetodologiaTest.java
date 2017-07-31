@@ -30,7 +30,7 @@ public class MetodologiaTest {
 	public void setUp() {
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
 		ArchivoIndicadores archivoIndicadores = ArchivoIndicadores.getInstance();
-		archivoIndicadores.cambiarPath("src/test/resources/indicadoresPredefinidos.txt");
+		archivoIndicadores.cambiarPath("src/main/resources/Indicadores.txt");
 		archivoEjemploIndicadores.leerEmpresas();
 		archivoIndicadores.leerIndicadores();
 		indicadores = archivoIndicadores.getIndicadores();
