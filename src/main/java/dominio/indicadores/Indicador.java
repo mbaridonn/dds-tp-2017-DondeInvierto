@@ -3,9 +3,10 @@ package dominio.indicadores;
 import org.uqbar.commons.utils.Observable;
 
 import dominio.Empresa;
+import dominio.metodologias.EvaluableEnCondicion;
 
 @Observable
-public class Indicador {
+public class Indicador implements EvaluableEnCondicion{
 
 	private String nombre;
 	private String equivalencia; //Provisorio, estaria bueno que en realidad la clase Expresion la tenga.//Volar?
@@ -26,7 +27,6 @@ public class Indicador {
 		} catch (RuntimeException e){ //Revisar que error catchea exactamente.
 			return false;
 		}
-		
 	}
 	
 	public boolean seLlama(String nombre){

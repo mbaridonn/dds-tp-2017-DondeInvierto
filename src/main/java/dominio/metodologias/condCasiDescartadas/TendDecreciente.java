@@ -1,4 +1,4 @@
-package dominio.metodologias;
+package dominio.metodologias.condCasiDescartadas;
 
 import java.util.stream.IntStream;
 

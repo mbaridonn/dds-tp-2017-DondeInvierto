@@ -1,7 +1,6 @@
 package dominio;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -49,11 +48,9 @@ public class Empresa {
 		return resultados;
 	}
 	
-	public int getAntiguedad(){//La antigüedad se obtiene a partir de la cuenta más antigua
-		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
-		int anioCreacion = cuentas.stream().mapToInt(cuenta-> Integer.parseInt(cuenta.getAnio())).min()
-				.orElseThrow(() -> new NoExisteCuentaError("La empresa no tiene ninguna cuenta, por lo que no se puede calcular la antigüedad."));
-		return anioActual - anioCreacion;
+	public int getAnioDeCreacion(){//El anio de creación se obtiene a partir de la cuenta más antigua
+		return cuentas.stream().mapToInt(cuenta-> Integer.parseInt(cuenta.getAnio())).min()
+				.orElseThrow(() -> new NoExisteCuentaError("La empresa no tiene ninguna cuenta, por lo que no se puede calcular el año de creación."));
 	}
 	
 	public String getNombre(){

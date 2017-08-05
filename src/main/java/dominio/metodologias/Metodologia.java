@@ -10,7 +10,7 @@ public class Metodologia {
 	private ArrayList<CondicionTaxativa> condicionesTaxativas = new ArrayList<CondicionTaxativa>();
 	private ArrayList<CondicionPrioritaria> condicionesPrioritarias = new ArrayList<CondicionPrioritaria>();
 	
-	public ArrayList<Empresa> evaluarPara(ArrayList<Empresa> empresas){//FALTA CATCHEAR LAS QUE NO CUMPLEN TAXATIVAS Y LAS QUE NO TIENEN DATOS
+	public ArrayList<Empresa> evaluarPara(ArrayList<Empresa> empresas){//FALTA CATCHEAR LAS QUE NO CUMPLEN TAXATIVAS Y LAS QUE NO TIENEN DATOS (NoExisteCuentaError)
 		ArrayList<Empresa> empresasQueCumplenTaxativas = empresas.stream()
 				.filter(emp -> this.cumpleCondicionesTaxativas(emp))
 				.collect(Collectors.toCollection(ArrayList::new));
