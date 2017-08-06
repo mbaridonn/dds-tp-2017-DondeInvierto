@@ -11,13 +11,7 @@ import dominio.ArchivoXLS;
 import dominio.Empresa;
 import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
-import dominio.metodologias.Antiguedad;
-import dominio.metodologias.CondicionPrioritaria;
-import dominio.metodologias.CondicionTaxativa;
-import dominio.metodologias.Mayor;
-import dominio.metodologias.Menor;
-import dominio.metodologias.OperandoCondicion;
-import dominio.metodologias.Ultimo;
+import dominio.metodologias.*;
 
 public class MetodologiaTest {
 	

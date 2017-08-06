@@ -5,7 +5,6 @@ import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.uqbar.commons.utils.Dependencies;

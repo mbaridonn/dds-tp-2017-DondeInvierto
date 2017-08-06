@@ -7,8 +7,13 @@ import java.util.stream.Collectors;
 import dominio.Empresa;
 
 public class Metodologia {
+	private String nombre = "";
 	private ArrayList<CondicionTaxativa> condicionesTaxativas = new ArrayList<CondicionTaxativa>();
 	private ArrayList<CondicionPrioritaria> condicionesPrioritarias = new ArrayList<CondicionPrioritaria>();
+	
+	public Metodologia(String nombre){
+		this.nombre = nombre;
+	}
 	
 	public ArrayList<Empresa> evaluarPara(ArrayList<Empresa> empresas){//FALTA CATCHEAR LAS QUE NO CUMPLEN TAXATIVAS Y LAS QUE NO TIENEN DATOS (NoExisteCuentaError)
 		ArrayList<Empresa> empresasQueCumplenTaxativas = empresas.stream()
@@ -42,5 +47,13 @@ public class Metodologia {
 	
 	public void agregarCondicionPrioritaria(CondicionPrioritaria cond){
 		condicionesPrioritarias.add(cond);
+	}
+	
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public boolean esMetodologiaValida(){
+		return !nombre.isEmpty() && !condicionesTaxativas.isEmpty() && !condicionesPrioritarias.isEmpty();
 	}
 }
