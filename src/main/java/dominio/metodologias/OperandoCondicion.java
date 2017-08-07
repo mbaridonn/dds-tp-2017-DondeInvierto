@@ -14,6 +14,9 @@ public class OperandoCondicion {
 		this.operacionAgregacion = operacionAgregacion;
 		this.indicadorOAntiguedad = indicadorOAntiguedad;
 		this.aniosAEvaluar = aniosAEvaluar - 1; //Si aniosAEvaluar es 1, el intervalo tiene que ser (X,X), no (X-1,X)
+		if (aniosAEvaluar < 0){
+			throw new AniosAEvaluarMenorAUnoError("La condición se tiene que evaluar al menos en un año");
+		}
 	}
 	
 	public int valorPara(Empresa empresa){
@@ -23,3 +26,5 @@ public class OperandoCondicion {
 		return operacionAgregacion.aplicarA(indicesEnPeriodo);
 	}
 }
+
+class AniosAEvaluarMenorAUnoError extends RuntimeException{AniosAEvaluarMenorAUnoError(String e){super(e);}}

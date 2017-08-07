@@ -24,6 +24,8 @@ public class CargarMetodologiasViewModel {
 			resultadoOperacion = "Metodología cargada";
 		} else {
 			resultadoOperacion = "Metodología incorrecta";
+			//Alternativamente, se podría hacer que cada campo incorrecto lance una excepción por separado (de tipo MetodologiaMalInicializadaError)
+			//y catchearlas acá y mostrar el mensaje de c/u (!)
 		}
 	}
 
