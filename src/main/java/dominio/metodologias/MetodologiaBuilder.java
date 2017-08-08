@@ -9,6 +9,9 @@ public class MetodologiaBuilder {
 	}
 	
 	public Metodologia buildMetodologia(){
+		if (!this.contieneMetodologiaValida()){
+			throw new MetodologiaInvalidaError("Metodología inválida (falta nombre o al menos 1 condición taxativa y 1 prioritaria)");
+		}
 		return metodologia;
 	}
 	
@@ -29,4 +32,10 @@ public class MetodologiaBuilder {
 	private OperandoCondicion crearOperandoCondicion(OperacionAgregacion opAgregacion, EvaluableEnCondicion indicadorOAntiguedad, int aniosAEvaluar){
 		return new OperandoCondicion(opAgregacion, indicadorOAntiguedad, aniosAEvaluar);
 	}
+	
+	public boolean contieneMetodologiaValida(){
+		return metodologia.esMetodologiaValida();
+	}
 }
+
+class MetodologiaInvalidaError extends RuntimeException{MetodologiaInvalidaError(String e){super(e);}}

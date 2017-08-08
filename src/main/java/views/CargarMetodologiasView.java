@@ -1,17 +1,14 @@
 package views;
 
+import org.uqbar.arena.layout.HorizontalLayout;
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Button;
 import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.TextBox;
-import org.uqbar.arena.widgets.tables.Column;
-import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
 
-import dominio.metodologias.CondicionPrioritaria;
-import dominio.metodologias.CondicionTaxativa;
 import viewmodels.CargarMetodologiasViewModel;
 
 public class CargarMetodologiasView extends Dialog<CargarMetodologiasViewModel>{
@@ -28,19 +25,34 @@ public class CargarMetodologiasView extends Dialog<CargarMetodologiasViewModel>{
 		
 		new TextBox(mainPanel).bindValueToProperty("nombreMetodologia");
 		
-		Table<CondicionTaxativa> tablaCondicionesTaxativas = new Table<CondicionTaxativa>(mainPanel, CondicionTaxativa.class);
-		tablaCondicionesTaxativas.bindItemsToProperty("condicionesTaxativas");//CÓMO MUESTRO LA COND EN LA TABLA??
-		
-		//BOTÓN PARA CARGAR TAXATIVA. OTRO FORMULARIO?
-		
-		Table<CondicionPrioritaria> tablaCondicionesPrioritarias = new Table<CondicionPrioritaria>(mainPanel, CondicionPrioritaria.class);
-		tablaCondicionesPrioritarias.bindItemsToProperty("condicionesPrioritarias");
-		
-		//BOTÓN PARA CARGAR PRIORITARIA. OTRO FORMULARIO?
-		
 		new Button(mainPanel)
 			.setCaption("Crear metodología")
 			.onClick(() -> this.getModelObject().crearMetodologia());
+		
+		//DEBERÍA SER UNA VISTA APARTE, QUE SE ABRA DESPUÉS DE QUE SE INGRESA EL NOMBRE
+		Panel condicionesPanel = new Panel(mainPanel);
+		condicionesPanel.setLayout(new HorizontalLayout());
+		new Label(condicionesPanel).setText("OpAgregacion");//DEBERIA SER COMBO
+		new Label(condicionesPanel).setText("Indicador");//DEBERIA SER COMBO
+		new Label(condicionesPanel).setText("Años");//DEBERIA SER TEXTBOX
+		new Label(condicionesPanel).setText("OpRelacional");//DEBERIA SER COMBO
+		Panel botonesCondicionesPanel = new Panel(condicionesPanel);
+		botonesCondicionesPanel.setLayout(new VerticalLayout());
+		Panel condicionesPrioritariasPanel = new Panel(botonesCondicionesPanel);
+		condicionesPrioritariasPanel.setLayout(new HorizontalLayout());
+		new Button(condicionesPrioritariasPanel)
+			.setCaption("Agregar condición prioritaria");
+			//.onClick(() -> this.getModelObject().crearMetodologia());
+		Panel condicionesTaxativasPanel = new Panel(botonesCondicionesPanel);
+		condicionesTaxativasPanel.setLayout(new HorizontalLayout());
+		new Label(condicionesTaxativasPanel).setText("Valor");//DEBERIA SER TEXTBOX
+		new Button(condicionesTaxativasPanel)
+			.setCaption("Agregar condición taxativa");
+			//.onClick(() -> this.getModelObject().crearMetodologia());
+		new Button(mainPanel)
+			.setCaption("Guardar metodología")
+			.onClick(() -> this.getModelObject().crearMetodologia());
+		//FIN VISTA APARTE
 		
 		new Label(mainPanel)
 			.setText("")

@@ -1,29 +1,23 @@
 package viewmodels;
 
-import java.util.ArrayList;
-
 import org.uqbar.commons.utils.Observable;
 
-import dominio.metodologias.CondicionPrioritaria;
-import dominio.metodologias.CondicionTaxativa;
-import dominio.metodologias.Metodologia;
+import dominio.metodologias.MetodologiaBuilder;
 
 @Observable
 public class CargarMetodologiasViewModel {
 	private String nombreMetodologia = "";
 	private String resultadoOperacion;
-	private ArrayList<CondicionTaxativa> condicionesTaxativas = new ArrayList<CondicionTaxativa>();
-	private ArrayList<CondicionPrioritaria> condicionesPrioritarias = new ArrayList<CondicionPrioritaria>();
+	private MetodologiaBuilder metodologiaBuilder;
 
 	public void crearMetodologia() {
-		Metodologia metodologia = new Metodologia(nombreMetodologia);
-		//forEach condTax in condicionesTaxativas : metodologia.agregarCondicionTaxativa(cond);
-		//forEach condPri in condicionesPrioritarias : metodologia.agregarCondicionPrioritaria(cond);
-		if (metodologia.esMetodologiaValida()) {
+		metodologiaBuilder.crearMetodologia(nombreMetodologia);
+		if (metodologiaBuilder.contieneMetodologiaValida()) {
 			//Cargar la metodología donde corresponda
-			resultadoOperacion = "Metodología cargada";
+			resultadoOperacion = "Metodología creada";
+			//ABRIR PANEL CONDICIONES. HAY QUE PASAR EL BUILDER DE UNA VISTA A OTRA PARA CONTINUAR CON LA CREACIÓN DE LA METODOLOGÍA (!!)
 		} else {
-			resultadoOperacion = "Metodología incorrecta";
+			resultadoOperacion = "Ingrese un nombre para la Metodología";
 			//Alternativamente, se podría hacer que cada campo incorrecto lance una excepción por separado (de tipo MetodologiaMalInicializadaError)
 			//y catchearlas acá y mostrar el mensaje de c/u (!)
 		}
@@ -44,4 +38,5 @@ public class CargarMetodologiasViewModel {
 	public void setResultadoOperacion(String resultadoOperacion) {
 		this.resultadoOperacion = resultadoOperacion;
 	}
+
 }
