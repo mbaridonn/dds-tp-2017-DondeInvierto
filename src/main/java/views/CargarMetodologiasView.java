@@ -18,19 +18,19 @@ public class CargarMetodologiasView extends Dialog<CargarMetodologiasViewModel>{
 
 	@Override
 	protected void createFormPanel(Panel mainPanel) {
-		this.setTitle("Cargar Metodologías");
+		this.setTitle("Cargar Metodologias");
 		mainPanel.setLayout(new VerticalLayout());
 		
-		new Label(mainPanel).setText("Ingrese una metodología");
+		new Label(mainPanel).setText("Ingrese una metodologia");
 		
 		new TextBox(mainPanel).bindValueToProperty("nombreMetodologia");
 		
 		new Button(mainPanel)
-			.setCaption("Crear metodología")
-			.onClick(() -> this.getModelObject().crearMetodologia());
+			.setCaption("Crear metodologia")
+			.onClick(() -> this.mostrarCargarDatosMetodologiaView());
 		
-		//DEBERÍA SER UNA VISTA APARTE, QUE SE ABRA DESPUÉS DE QUE SE INGRESA EL NOMBRE
-		Panel condicionesPanel = new Panel(mainPanel);
+		//DEBERÃ�A SER UNA VISTA APARTE, QUE SE ABRA DESPUÃ‰S DE QUE SE INGRESA EL NOMBRE
+		/*Panel condicionesPanel = new Panel(mainPanel);
 		condicionesPanel.setLayout(new HorizontalLayout());
 		new Label(condicionesPanel).setText("OpAgregacion");//DEBERIA SER COMBO
 		new Label(condicionesPanel).setText("Indicador");//DEBERIA SER COMBO
@@ -41,22 +41,27 @@ public class CargarMetodologiasView extends Dialog<CargarMetodologiasViewModel>{
 		Panel condicionesPrioritariasPanel = new Panel(botonesCondicionesPanel);
 		condicionesPrioritariasPanel.setLayout(new HorizontalLayout());
 		new Button(condicionesPrioritariasPanel)
-			.setCaption("Agregar condición prioritaria");
+			.setCaption("Agregar condicion prioritaria");
 			//.onClick(() -> this.getModelObject().crearMetodologia());
 		Panel condicionesTaxativasPanel = new Panel(botonesCondicionesPanel);
 		condicionesTaxativasPanel.setLayout(new HorizontalLayout());
 		new Label(condicionesTaxativasPanel).setText("Valor");//DEBERIA SER TEXTBOX
 		new Button(condicionesTaxativasPanel)
-			.setCaption("Agregar condición taxativa");
+			.setCaption("Agregar condicion taxativa");
 			//.onClick(() -> this.getModelObject().crearMetodologia());
 		new Button(mainPanel)
-			.setCaption("Guardar metodología")
+			.setCaption("Guardar metodologia")
 			.onClick(() -> this.getModelObject().crearMetodologia());
 		//FIN VISTA APARTE
 		
 		new Label(mainPanel)
 			.setText("")
-			.bindValueToProperty("resultadoOperacion");
+			.bindValueToProperty("resultadoOperacion");*/
+	}
+	
+	public void mostrarCargarDatosMetodologiaView(){
+		Dialog<?> dialog = new CargarDatosMetodologiaView(this);
+		dialog.open();
 	}
 	
 }
