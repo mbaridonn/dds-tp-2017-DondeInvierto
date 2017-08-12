@@ -66,4 +66,9 @@ public class Indicador implements EvaluableEnCondicion{
 		this.expresion = expresion;
 	}
 	
+	@Override
+	public String toString() {
+		return nombre;
+	}
+	
 }

@@ -15,24 +15,39 @@ import dominio.Empresa;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.OperacionAgregacion;
 import dominio.metodologias.OperacionRelacional;
-import viewmodels.CargarDatosMetodologiaViewModel;
+import viewmodels.CargarMetodologiasViewModel;
 
-public class CargarDatosMetodologiaView extends Dialog<CargarDatosMetodologiaViewModel> {
+public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewModel> {
 	public CargarDatosMetodologiaView(WindowOwner owner) {
-		super(owner, CargarDatosMetodologiaViewModel.getInstance());
+		super(owner, CargarMetodologiasViewModel.getInstance());
 	}
 
 	@Override
 	protected void createFormPanel(Panel mainPanel) {
 		this.setTitle("Cargar Metodologias");
 		mainPanel.setLayout(new VerticalLayout());
+		
+		new Label(mainPanel).bindValueToProperty("nombreMetodologia");
 
 		Panel condicionesPanel = new Panel(mainPanel);
 		condicionesPanel.setLayout(new HorizontalLayout());
+		
 		Selector<OperacionAgregacion> selectorOperacionAgregacion = new Selector<OperacionAgregacion>(condicionesPanel);// opAgregacion COMBOBOX
+		this.getModelObject().cargarOperacionesAgregacion();
+		selectorOperacionAgregacion.bindValueToProperty("operacionAgregacionSeleccionada");
+		selectorOperacionAgregacion.bindItemsToProperty("operacionesAgregacion");
+		
 		Selector<Indicador> selectorIndicador = new Selector<Indicador>(condicionesPanel);//Indicador COMBOBOX
+		this.getModelObject().cargarIndicadores();
+		selectorIndicador.bindValueToProperty("indicadorSeleccionado");
+		selectorIndicador.bindItemsToProperty("indicadores");
+		
 		new NumericField(condicionesPanel); //AÑOS
+		
 		Selector<OperacionRelacional> selectorOpRelacional = new Selector<OperacionRelacional>(condicionesPanel);//opRelacional COMBOBOX
+		this.getModelObject().cargarOperacionesRelacionales();
+		selectorOpRelacional.bindValueToProperty("operacionRelacionalSeleccionada");
+		selectorOpRelacional.bindItemsToProperty("operacionesRelacionales");
 		
 		Panel botonesCondicionesPanel = new Panel(condicionesPanel);
 		botonesCondicionesPanel.setLayout(new VerticalLayout());

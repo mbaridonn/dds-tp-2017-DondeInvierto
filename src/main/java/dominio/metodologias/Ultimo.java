@@ -9,4 +9,9 @@ public class Ultimo implements OperacionAgregacion{
 		int vals[] = valores.toArray();
 		return vals[vals.length-1];
 	}
+	
+	@Override
+	public String toString() {
+		return "Ultimo";
+	}
 }

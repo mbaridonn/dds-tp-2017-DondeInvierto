@@ -14,4 +14,9 @@ public class Variacion implements OperacionAgregacion{
 		}
 		return variacionAcumulada;
 	}
+	
+	@Override
+	public String toString() {
+		return "Variacion";
+	}
 }

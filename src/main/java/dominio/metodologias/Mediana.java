@@ -15,4 +15,9 @@ public class Mediana implements OperacionAgregacion{
 			return (vals[middle-1] + vals[middle]) / 2;
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Mediana";
+	}
 }

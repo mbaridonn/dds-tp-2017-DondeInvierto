@@ -6,5 +6,10 @@ public class Mayor implements OperacionRelacional{
 	public boolean aplicarA(int num1, int num2) {
 		return num1 > num2;
 	}
+	
+	@Override
+	public String toString(){
+		return ">";
+	}
 
 }

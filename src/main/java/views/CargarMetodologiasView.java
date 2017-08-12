@@ -1,6 +1,5 @@
 package views;
 
-import org.uqbar.arena.layout.HorizontalLayout;
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Button;
 import org.uqbar.arena.widgets.Label;
@@ -13,7 +12,7 @@ import viewmodels.CargarMetodologiasViewModel;
 
 public class CargarMetodologiasView extends Dialog<CargarMetodologiasViewModel>{
 	public CargarMetodologiasView(WindowOwner owner) {
-		super(owner, new CargarMetodologiasViewModel());
+		super(owner, CargarMetodologiasViewModel.getInstance());
 	}
 
 	@Override
@@ -60,6 +59,7 @@ public class CargarMetodologiasView extends Dialog<CargarMetodologiasViewModel>{
 	}
 	
 	public void mostrarCargarDatosMetodologiaView(){
+		this.getModelObject().crearMetodologia();
 		Dialog<?> dialog = new CargarDatosMetodologiaView(this);
 		dialog.open();
 	}

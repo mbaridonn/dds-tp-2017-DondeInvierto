@@ -8,4 +8,9 @@ public class Sumatoria implements OperacionAgregacion{
 	public int aplicarA(IntStream valores) {
 		return valores.sum();
 	}
+	
+	@Override
+	public String toString() {
+		return "Sumatoria";
+	}
 }
