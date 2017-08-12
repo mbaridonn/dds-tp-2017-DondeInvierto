@@ -24,6 +24,10 @@ public class CargarMetodologiasViewModel {
 	private String resultadoOperacion;
 	private MetodologiaBuilder metodologiaBuilder;
 	
+	private int añosSeleccionados;
+	
+	private int valorSeleccionado;
+
 	private Indicador indicadorSeleccionado;
 	private ArrayList<Indicador> indicadores;
 	
@@ -34,6 +38,22 @@ public class CargarMetodologiasViewModel {
 	private static ArrayList<OperacionRelacional> operacionesRelacionales = new ArrayList<OperacionRelacional>();
 
 	private static CargarMetodologiasViewModel singleton = new CargarMetodologiasViewModel();
+	
+	public int getValorSeleccionado() {
+		return valorSeleccionado;
+	}
+
+	public void setValorSeleccionado(int valorSeleccionado) {
+		this.valorSeleccionado = valorSeleccionado;
+	}
+
+	public int getAñosSeleccionados() {
+		return añosSeleccionados;
+	}
+
+	public void setAñosSeleccionados(int añosSeleccionados) {
+		this.añosSeleccionados = añosSeleccionados;
+	}
 	
 	public OperacionAgregacion getOperacionAgregacionSeleccionada() {
 		return operacionAgregacionSeleccionada;
@@ -129,6 +149,22 @@ public class CargarMetodologiasViewModel {
 		operacionesAgregacion.add(new Sumatoria());
 		operacionesAgregacion.add(new Ultimo());
 		operacionesAgregacion.add(new Variacion());
-	}	
+	}
+
+	public void agregarCondicionProritaria() {
+		metodologiaBuilder = metodologiaBuilder.agregarCondicionPrioritaria(operacionAgregacionSeleccionada, indicadorSeleccionado, añosSeleccionados, operacionRelacionalSeleccionada);
+	}
+	
+	public void agregarCondicionTaxativa() {
+		metodologiaBuilder = metodologiaBuilder.agregarCondicionTaxativa(operacionAgregacionSeleccionada, indicadorSeleccionado, añosSeleccionados, operacionRelacionalSeleccionada, valorSeleccionado);
+	}
+
+	public void guardarMetodologia() {
+		System.out.println(operacionAgregacionSeleccionada);
+		System.out.println(indicadorSeleccionado);
+		System.out.println(añosSeleccionados);
+		System.out.println(operacionRelacionalSeleccionada);
+		System.out.println(valorSeleccionado);
+	}
 
 }

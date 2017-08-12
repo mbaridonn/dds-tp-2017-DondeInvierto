@@ -42,7 +42,7 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		selectorIndicador.bindValueToProperty("indicadorSeleccionado");
 		selectorIndicador.bindItemsToProperty("indicadores");
 		
-		new NumericField(condicionesPanel); //AÑOS
+		new NumericField(condicionesPanel).bindValueToProperty("añosSeleccionados"); //AÑOS
 		
 		Selector<OperacionRelacional> selectorOpRelacional = new Selector<OperacionRelacional>(condicionesPanel);//opRelacional COMBOBOX
 		this.getModelObject().cargarOperacionesRelacionales();
@@ -54,15 +54,19 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		
 		Panel condicionesPrioritariasPanel = new Panel(botonesCondicionesPanel);
 		condicionesPrioritariasPanel.setLayout(new HorizontalLayout());
-		new Button(condicionesPrioritariasPanel).setCaption("Agregar condicion prioritaria");
-		// .onClick(() -> this.getModelObject().crearMetodologia());
+		new Button(condicionesPrioritariasPanel).setCaption("Agregar condicion prioritaria")
+												.onClick(() -> this.getModelObject().agregarCondicionProritaria());
 		
 		Panel condicionesTaxativasPanel = new Panel(botonesCondicionesPanel);
 		condicionesTaxativasPanel.setLayout(new HorizontalLayout());
-		new NumericField(condicionesTaxativasPanel);//VALOR
-		new Button(condicionesTaxativasPanel).setCaption("Agregar condicion taxativa");
-		// .onClick(() -> this.getModelObject().crearMetodologia());
-		new Button(mainPanel).setCaption("Guardar metodologia");
+		
+		new NumericField(condicionesTaxativasPanel).bindValueToProperty("valorSeleccionado");//VALOR
+		
+		new Button(condicionesTaxativasPanel).setCaption("Agregar condicion taxativa")
+											 .onClick(() -> this.getModelObject().agregarCondicionTaxativa());
+		
+		new Button(mainPanel).setCaption("Guardar metodologia")
+							 .onClick(() -> this.getModelObject().guardarMetodologia());
 
 	}
 }
