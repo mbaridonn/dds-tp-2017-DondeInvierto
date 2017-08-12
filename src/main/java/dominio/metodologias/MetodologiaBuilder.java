@@ -1,5 +1,7 @@
 package dominio.metodologias;
 
+import excepciones.MetodologiaInvalidaError;
+
 public class MetodologiaBuilder {
 	private Metodologia metodologia;
 	
@@ -37,5 +39,3 @@ public class MetodologiaBuilder {
 		return metodologia.esMetodologiaValida();
 	}
 }
-
-class MetodologiaInvalidaError extends RuntimeException{MetodologiaInvalidaError(String e){super(e);}}

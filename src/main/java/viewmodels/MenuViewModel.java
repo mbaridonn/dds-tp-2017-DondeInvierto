@@ -15,13 +15,13 @@ public class MenuViewModel {
 
 	public void cargarArchivo(){
 		try{
-		ArrayList<Empresa> empresas;
-		LectorArchivos lectorArchivos = new LectorArchivos(ruta);
-		ArchivoEmpresas archivo = lectorArchivos.obtenerLectorApropiado();
-		archivo.leerEmpresas();
-		empresas = archivo.getEmpresas();
-		ConsultarCuentasViewModel.getInstance().setEmpresas(empresas);
-		resultadoOperacion = "Archivo cargado";
+			ArrayList<Empresa> empresas;
+			LectorArchivos lectorArchivos = new LectorArchivos(ruta);
+			ArchivoEmpresas archivo = lectorArchivos.obtenerLectorApropiado();
+			archivo.leerEmpresas();
+			empresas = archivo.getEmpresas();
+			RepositorioEmpresas.getInstance().setEmpresas(empresas);
+			resultadoOperacion = "Archivo cargado";
 		}
 		catch(NoSePudoLeerEseTipoDeArchivoError e){
 			this.ruta = "";

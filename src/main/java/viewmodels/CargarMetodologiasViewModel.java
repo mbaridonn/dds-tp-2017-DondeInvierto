@@ -6,17 +6,8 @@ import org.uqbar.commons.utils.Observable;
 
 import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
-import dominio.metodologias.Igual;
-import dominio.metodologias.Mayor;
-import dominio.metodologias.Mediana;
-import dominio.metodologias.Menor;
-import dominio.metodologias.MetodologiaBuilder;
-import dominio.metodologias.OperacionAgregacion;
-import dominio.metodologias.OperacionRelacional;
-import dominio.metodologias.Promedio;
-import dominio.metodologias.Sumatoria;
-import dominio.metodologias.Ultimo;
-import dominio.metodologias.Variacion;
+import dominio.metodologias.*;
+import excepciones.MetodologiaInvalidaError;
 
 @Observable
 public class CargarMetodologiasViewModel {
@@ -160,11 +151,12 @@ public class CargarMetodologiasViewModel {
 	}
 
 	public void guardarMetodologia() {
-		System.out.println(operacionAgregacionSeleccionada);
-		System.out.println(indicadorSeleccionado);
-		System.out.println(añosSeleccionados);
-		System.out.println(operacionRelacionalSeleccionada);
-		System.out.println(valorSeleccionado);
+		try {
+			RepositorioMetodologias.getInstance().agregarMetodologia(metodologiaBuilder.buildMetodologia());
+			resultadoOperacion = "Metodologia guardada";
+		} catch (MetodologiaInvalidaError e){
+			resultadoOperacion = e.getMessage();
+		}
 	}
 
 }

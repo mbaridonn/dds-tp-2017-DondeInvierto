@@ -56,4 +56,10 @@ public class Metodologia {
 	public boolean esMetodologiaValida(){
 		return !nombre.isEmpty() && !condicionesTaxativas.isEmpty() && !condicionesPrioritarias.isEmpty();
 	}
+	
+	@Override
+	public String toString(){
+		return nombre;
+	}
+	
 }
