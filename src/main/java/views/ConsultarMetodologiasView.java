@@ -1,10 +1,9 @@
 package views;
 
 import org.uqbar.arena.layout.VerticalLayout;
+import org.uqbar.arena.widgets.List;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.Selector;
-import org.uqbar.arena.widgets.tables.Column;
-import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
 
@@ -26,26 +25,15 @@ public class ConsultarMetodologiasView extends Dialog<ConsultarMetodologiasViewM
 		selectorMetodologia.bindValueToProperty("metodologiaSeleccionada");
 		selectorMetodologia.bindItemsToProperty("metodologias");
 		
-		Table<Empresa> empresasOrdenadas = new Table<Empresa>(mainPanel, Empresa.class);
+		List<Empresa> empresasOrdenadas = new List<Empresa>(mainPanel);
 		empresasOrdenadas.bindItemsToProperty("empresasOrdenadas");
-		new Column<Empresa>(empresasOrdenadas)
-	    .setTitle("Nombre")
-	    .setFixedSize(150)
-	    .bindContentsToProperty("nombre");
 		
-		/*Table<Empresa> empresasQueNoCumplen = new Table<Empresa>(mainPanel, Empresa.class);
-		empresasQueNoCumplen.bindItemsToProperty("empresasQueNoCumplen");
-		new Column<Empresa>(empresasOrdenadas)
-	    .setTitle("Nombre")
-	    .setFixedSize(150)
-	    .bindContentsToProperty("nombre");
+		/*List<Empresa> empresasQueNoCumplen = new List<Empresa>(mainPanel);
+		empresasOrdenadas.bindItemsToProperty("empresasQueNoCumplen");
 		
-		Table<Empresa> empresasSinDatos = new Table<Empresa>(mainPanel, Empresa.class);
-		empresasSinDatos.bindItemsToProperty("empresasSinDatos");
-		new Column<Empresa>(empresasOrdenadas)
-	    .setTitle("Nombre")
-	    .setFixedSize(150)
-	    .bindContentsToProperty("nombre");*/
+		List<Empresa> empresasSinDatos = new List<Empresa>(mainPanel);
+		empresasOrdenadas.bindItemsToProperty("empresasSinDatos");*/
+		
 	}
 	
 }

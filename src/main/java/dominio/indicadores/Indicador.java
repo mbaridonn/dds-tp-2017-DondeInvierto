@@ -4,6 +4,7 @@ import org.uqbar.commons.utils.Observable;
 
 import dominio.Empresa;
 import dominio.metodologias.EvaluableEnCondicion;
+import excepciones.NoExisteCuentaError;
 
 @Observable
 public class Indicador implements EvaluableEnCondicion{
@@ -24,7 +25,7 @@ public class Indicador implements EvaluableEnCondicion{
 		try{
 			this.evaluarEn(empresa, anio);
 			return true;
-		} catch (RuntimeException e){ //Revisar que error catchea exactamente.
+		} catch (NoExisteCuentaError e){
 			return false;
 		}
 	}

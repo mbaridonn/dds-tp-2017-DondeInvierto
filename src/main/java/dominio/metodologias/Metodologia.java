@@ -23,11 +23,37 @@ public class Metodologia {
 		return empresasQueCumplenTaxativas;
 	}
 	
+	public ArrayList<Empresa> empresasConDatosFaltantes(ArrayList<Empresa> empresas){
+		ArrayList<Empresa> empresasConDatosFaltantes = new ArrayList<Empresa>();
+		ArrayList<Condicion> condiciones = new ArrayList<Condicion>();
+		condiciones.addAll(condicionesTaxativas);
+		condiciones.addAll(condicionesPrioritarias);
+		for (Empresa emp: empresas){
+			for(Condicion cond: condiciones){
+				if (!cond.getOperandoCondicion().sePuedeEvaluarPara(emp)) empresasConDatosFaltantes.add(emp);
+			}
+		}
+		return empresasConDatosFaltantes;
+	}
+	
+	//IDEA: YA TENGO LISTA DE EMP CON DATOS FALTANTES. OBTENER LAS QUE NO CUMPLEN TAXATIVAS (EXCLUYENDO LAS DE DATOS FALTANTES)
+	//DESPUÉS EVALUAR LAS QUE NO ESTÁN EN LAS DOS LISTAS ANTERIORES
+	
+	//IDEA 2: YA TENGO LISTA DE EMP CON DATOS FALTANTES. OBTENER LAS QUE 'SÍ' CUMPLEN TAXATIVAS (EXCLUYENDO LAS DE DATOS FALTANTES)
+	//DESPUÉS OBTENER LAS QUE NO CUMPLEN (SON LAS QUE NO ESTÁN EN LAS DOS LISTAS ANTERIORES)
+	
+	/*public ArrayList<Empresa> empresasQueNoCumplenTaxativas(ArrayList<Empresa> empresas){ DEJÉ ACÁ. PROBLEMA: REMOVEALL NO DEVUELVE OTRA LISTA
+		ArrayList<Empresa> empresasSinDatosFaltantes = empresas.removeAll(this.empresasConDatosFaltantes(empresas));
+		return empresasSinDatosFaltantes.stream()
+				.filter(emp -> !this.cumpleCondicionesTaxativas(emp))
+				.collect(Collectors.toCollection(ArrayList::new));
+	}*/
+	
 	private boolean cumpleCondicionesTaxativas(Empresa empr){
 		return condicionesTaxativas.stream().allMatch(cond -> cond.laCumple(empr));
 	}
 	
-	private Integer puntaje(Empresa empr, ArrayList<Empresa> empresas){//ASQUEROSAMENTE PROCEDURAL, PERO ES LA IDEA DE LO QUE TIENE QUE HACER
+	private Integer puntaje(Empresa empr, ArrayList<Empresa> empresas){
 		int puntaje = 0;
 		ListIterator<CondicionPrioritaria> iteradorCond = condicionesPrioritarias.listIterator();
 		ListIterator<Empresa> iteradorEmpr = empresas.listIterator();

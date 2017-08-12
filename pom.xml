@@ -42,12 +42,6 @@
 	<artifactId>opencsv</artifactId>
 	<version>3.8</version>
       </dependency>
-      
-      <dependency>
-    <groupId>net.java.dev.javacc</groupId>
-    <artifactId>javacc</artifactId>
-    <version>7.0.2</version>
-	</dependency>
 
 </dependencies>
 

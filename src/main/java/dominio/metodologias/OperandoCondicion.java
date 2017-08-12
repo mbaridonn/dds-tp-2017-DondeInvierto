@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.stream.IntStream;
 
 import dominio.Empresa;
+import excepciones.AntiguedadMenorACeroError;
+import excepciones.NoExisteCuentaError;
 
 public class OperandoCondicion {
 	private OperacionAgregacion operacionAgregacion;
@@ -16,6 +18,15 @@ public class OperandoCondicion {
 		this.aniosAEvaluar = aniosAEvaluar - 1; //Si aniosAEvaluar es 1, el intervalo tiene que ser (X,X), no (X-1,X)
 		if (aniosAEvaluar < 0){
 			throw new AniosAEvaluarMenorAUnoError("La condición se tiene que evaluar al menos en un año");
+		}
+	}
+	
+	public boolean sePuedeEvaluarPara(Empresa empresa){
+		try{
+			this.valorPara(empresa);
+			return true;
+		} catch (NoExisteCuentaError | AntiguedadMenorACeroError e) {
+			return false;
 		}
 	}
 	

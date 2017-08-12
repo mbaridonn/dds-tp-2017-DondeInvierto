@@ -2,9 +2,7 @@ package dominio.metodologias;
 
 import dominio.Empresa;
 
-public class CondicionTaxativa {
-	private OperandoCondicion operandoCondicion;
-	private OperacionRelacional operacionRelacional;
+public class CondicionTaxativa extends Condicion{
 	private int valor;
 	
 	public CondicionTaxativa(OperandoCondicion operandoCondicion, OperacionRelacional operacionRelacional, int valor) {
@@ -16,4 +14,5 @@ public class CondicionTaxativa {
 	public boolean laCumple(Empresa empresa){
 		return operacionRelacional.aplicarA(operandoCondicion.valorPara(empresa), valor);
 	}
+
 }

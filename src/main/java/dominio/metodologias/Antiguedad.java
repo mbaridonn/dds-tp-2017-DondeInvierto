@@ -1,6 +1,7 @@
 package dominio.metodologias;
 
 import dominio.Empresa;
+import excepciones.AntiguedadMenorACeroError;
 
 public class Antiguedad implements EvaluableEnCondicion {
 	public int evaluarEn(Empresa empresa, String anio){
@@ -11,5 +12,3 @@ public class Antiguedad implements EvaluableEnCondicion {
 		return antiguedad;
 	}
 }
-
-class AntiguedadMenorACeroError extends RuntimeException{AntiguedadMenorACeroError(String e){super(e);}}

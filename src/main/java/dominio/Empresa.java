@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import dominio.indicadores.Indicador;
+import excepciones.NoExisteCuentaError;
 
 public class Empresa {
 	private String nombre;
@@ -73,5 +74,3 @@ public class Empresa {
 	}
 	
 }
-
-class NoExisteCuentaError extends RuntimeException{NoExisteCuentaError(String e){super(e);}}

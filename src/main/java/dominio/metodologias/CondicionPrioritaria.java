@@ -2,9 +2,7 @@ package dominio.metodologias;
 
 import dominio.Empresa;
 
-public class CondicionPrioritaria {
-	private OperandoCondicion operandoCondicion;
-	private OperacionRelacional operacionRelacional;
+public class CondicionPrioritaria extends Condicion{
 	
 	public CondicionPrioritaria(OperandoCondicion operandoCondicion, OperacionRelacional operacionRelacional) {
 		this.operandoCondicion = operandoCondicion;
