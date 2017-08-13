@@ -16,6 +16,10 @@ public class Mediana implements OperacionAgregacion{
 		}
 	}
 	
+	public String toString() {
+		return "Mediana";
+	}
+	
 	private int[] streamToArray(IntStream valores){ // No se puede aplicar dos mensajes a un Intstream no se porque, por eso tuve que crear este metodo.
 		return valores.toArray();
 	}

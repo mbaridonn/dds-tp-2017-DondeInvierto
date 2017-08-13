@@ -39,8 +39,8 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		selectorIndicador.bindValueToProperty("indicadorSeleccionado");
 		selectorIndicador.bindItemsToProperty("indicadores");
 		
-		new Label(condicionesPanel).setText("Años:");
-		new NumericField(condicionesPanel).bindValueToProperty("añosSeleccionados");
+		new Label(condicionesPanel).setText("Anios:");
+		new NumericField(condicionesPanel).bindValueToProperty("aniosSeleccionados");
 		
 		new Label(condicionesPanel).setText("Operacion Relacional:");
 		Selector<OperacionRelacional> selectorOpRelacional = new Selector<OperacionRelacional>(condicionesPanel);
@@ -58,11 +58,11 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		Panel condicionesTaxativasPanel = new Panel(botonesCondicionesPanel);
 		condicionesTaxativasPanel.setLayout(new HorizontalLayout());
 		
-		new Label(condicionesTaxativasPanel).setText("Valor:");
-		new NumericField(condicionesTaxativasPanel).bindValueToProperty("valorSeleccionado");//VALOR
-		
 		new Button(condicionesTaxativasPanel).setCaption("Agregar condicion taxativa")
 											 .onClick(() -> this.getModelObject().agregarCondicionTaxativa());
+		
+			new Label(condicionesTaxativasPanel).setText("Valor:");
+		new NumericField(condicionesTaxativasPanel).bindValueToProperty("valorSeleccionado");//VALOR
 		
 		new Button(mainPanel).setCaption("Guardar metodologia")
 							 .onClick(() -> this.getModelObject().guardarMetodologia());
