@@ -26,7 +26,8 @@ public class CargarMetodologiasView extends Dialog<CargarMetodologiasViewModel>{
 		
 		new Button(mainPanel)
 			.setCaption("Crear metodologia")
-			.onClick(() -> this.mostrarCargarDatosMetodologiaView());
+			.onClick(() -> this.mostrarCargarDatosMetodologiaView())
+			.bindEnabledToProperty("cargado");
 		
 	}
 	

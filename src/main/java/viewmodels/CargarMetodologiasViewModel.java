@@ -2,6 +2,7 @@ package viewmodels;
 
 import java.util.ArrayList;
 
+import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
 import dominio.indicadores.ArchivoIndicadores;
@@ -157,6 +158,11 @@ public class CargarMetodologiasViewModel {
 		} catch (MetodologiaInvalidaError e){
 			resultadoOperacion = e.getMessage();
 		}
+	}
+	
+	@Dependencies({"nombreMetodologia"})
+	public boolean getCargado() {
+		return nombreMetodologia.length() > 0;
 	}
 
 }
