@@ -7,11 +7,8 @@ import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.NumericField;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.Selector;
-import org.uqbar.arena.widgets.TextBox;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
-
-import dominio.Empresa;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.OperacionAgregacion;
 import dominio.metodologias.OperacionRelacional;
@@ -32,19 +29,23 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		Panel condicionesPanel = new Panel(mainPanel);
 		condicionesPanel.setLayout(new HorizontalLayout());
 		
-		Selector<OperacionAgregacion> selectorOperacionAgregacion = new Selector<OperacionAgregacion>(condicionesPanel);// opAgregacion COMBOBOX
+		new Label(condicionesPanel).setText("Operacion Agregacion:");
+		Selector<OperacionAgregacion> selectorOperacionAgregacion = new Selector<OperacionAgregacion>(condicionesPanel);
 		this.getModelObject().cargarOperacionesAgregacion();
 		selectorOperacionAgregacion.bindValueToProperty("operacionAgregacionSeleccionada");
 		selectorOperacionAgregacion.bindItemsToProperty("operacionesAgregacion");
 		
-		Selector<Indicador> selectorIndicador = new Selector<Indicador>(condicionesPanel);//Indicador COMBOBOX
+		new Label(condicionesPanel).setText("Indicador:");
+		Selector<Indicador> selectorIndicador = new Selector<Indicador>(condicionesPanel);
 		this.getModelObject().cargarIndicadores();
 		selectorIndicador.bindValueToProperty("indicadorSeleccionado");
 		selectorIndicador.bindItemsToProperty("indicadores");
 		
-		new NumericField(condicionesPanel).bindValueToProperty("añosSeleccionados"); //AÑOS
+		new Label(condicionesPanel).setText("Años:");
+		new NumericField(condicionesPanel).bindValueToProperty("añosSeleccionados");
 		
-		Selector<OperacionRelacional> selectorOpRelacional = new Selector<OperacionRelacional>(condicionesPanel);//opRelacional COMBOBOX
+		new Label(condicionesPanel).setText("Operacion Relacional:");
+		Selector<OperacionRelacional> selectorOpRelacional = new Selector<OperacionRelacional>(condicionesPanel);
 		this.getModelObject().cargarOperacionesRelacionales();
 		selectorOpRelacional.bindValueToProperty("operacionRelacionalSeleccionada");
 		selectorOpRelacional.bindItemsToProperty("operacionesRelacionales");
@@ -60,6 +61,7 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		Panel condicionesTaxativasPanel = new Panel(botonesCondicionesPanel);
 		condicionesTaxativasPanel.setLayout(new HorizontalLayout());
 		
+		new Label(condicionesTaxativasPanel).setText("Valor:");
 		new NumericField(condicionesTaxativasPanel).bindValueToProperty("valorSeleccionado");//VALOR
 		
 		new Button(condicionesTaxativasPanel).setCaption("Agregar condicion taxativa")
@@ -67,6 +69,5 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		
 		new Button(mainPanel).setCaption("Guardar metodologia")
 							 .onClick(() -> this.getModelObject().guardarMetodologia());
-
 	}
 }
