@@ -1,6 +1,7 @@
 package viewmodels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
@@ -21,13 +22,15 @@ public class CargarMetodologiasViewModel {
 	private int valorSeleccionado;
 
 	private Indicador indicadorSeleccionado;
-	private ArrayList<Indicador> indicadores;
+	private static ArrayList<Indicador> indicadores = ArchivoIndicadores.getInstance().getIndicadores();
 	
 	private OperacionAgregacion operacionAgregacionSeleccionada;
-	private static ArrayList<OperacionAgregacion> operacionesAgregacion = new ArrayList<OperacionAgregacion>();
+	private static ArrayList<OperacionAgregacion> operacionesAgregacion = new ArrayList<OperacionAgregacion>
+																		  (Arrays.asList(new Mediana(),new Promedio(),new Sumatoria(),new Ultimo(),new Variacion()));
 	
 	private OperacionRelacional operacionRelacionalSeleccionada;
-	private static ArrayList<OperacionRelacional> operacionesRelacionales = new ArrayList<OperacionRelacional>();
+	private static ArrayList<OperacionRelacional> operacionesRelacionales = new ArrayList<OperacionRelacional>
+																			(Arrays.asList(new Mayor(), new Menor(), new Igual()));
 
 	private static CargarMetodologiasViewModel singleton = new CargarMetodologiasViewModel();
 	
@@ -123,24 +126,6 @@ public class CargarMetodologiasViewModel {
 
 	public ArrayList<OperacionRelacional> getOperacionesRelacionales() {
 		return operacionesRelacionales;
-	}
-
-	public void cargarOperacionesRelacionales() {
-		operacionesRelacionales.add(new Mayor());
-		operacionesRelacionales.add(new Menor());
-		operacionesRelacionales.add(new Igual());
-	}
-	
-	public void cargarIndicadores() {
-		indicadores = ArchivoIndicadores.getInstance().getIndicadores();
-	}
-
-	public void cargarOperacionesAgregacion() {
-		operacionesAgregacion.add(new Mediana());
-		operacionesAgregacion.add(new Promedio());
-		operacionesAgregacion.add(new Sumatoria());
-		operacionesAgregacion.add(new Ultimo());
-		operacionesAgregacion.add(new Variacion());
 	}
 
 	public void agregarCondicionProritaria() {

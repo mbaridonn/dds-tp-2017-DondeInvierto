@@ -31,13 +31,11 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		
 		new Label(condicionesPanel).setText("Operacion Agregacion:");
 		Selector<OperacionAgregacion> selectorOperacionAgregacion = new Selector<OperacionAgregacion>(condicionesPanel);
-		this.getModelObject().cargarOperacionesAgregacion();
 		selectorOperacionAgregacion.bindValueToProperty("operacionAgregacionSeleccionada");
 		selectorOperacionAgregacion.bindItemsToProperty("operacionesAgregacion");
 		
 		new Label(condicionesPanel).setText("Indicador:");
 		Selector<Indicador> selectorIndicador = new Selector<Indicador>(condicionesPanel);
-		this.getModelObject().cargarIndicadores();
 		selectorIndicador.bindValueToProperty("indicadorSeleccionado");
 		selectorIndicador.bindItemsToProperty("indicadores");
 		
@@ -46,7 +44,6 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		
 		new Label(condicionesPanel).setText("Operacion Relacional:");
 		Selector<OperacionRelacional> selectorOpRelacional = new Selector<OperacionRelacional>(condicionesPanel);
-		this.getModelObject().cargarOperacionesRelacionales();
 		selectorOpRelacional.bindValueToProperty("operacionRelacionalSeleccionada");
 		selectorOpRelacional.bindItemsToProperty("operacionesRelacionales");
 		

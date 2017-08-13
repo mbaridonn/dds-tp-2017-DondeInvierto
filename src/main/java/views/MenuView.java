@@ -9,6 +9,8 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.MainWindow;
 
+import dominio.indicadores.ArchivoIndicadores;
+
 public class MenuView extends MainWindow<MenuViewModel> {
 
 	public MenuView() {
@@ -17,6 +19,9 @@ public class MenuView extends MainWindow<MenuViewModel> {
 	
 	@Override
 	public void createContents(Panel mainPanel) {
+		
+		ArchivoIndicadores.getInstance().leerIndicadores();
+		
 		this.setTitle("Menu Principal");
 		mainPanel.setLayout(new VerticalLayout());
 		
