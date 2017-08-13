@@ -1,6 +1,7 @@
 package views;
 
 import org.uqbar.arena.layout.VerticalLayout;
+import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.List;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.Selector;
@@ -25,14 +26,20 @@ public class ConsultarMetodologiasView extends Dialog<ConsultarMetodologiasViewM
 		selectorMetodologia.bindValueToProperty("metodologiaSeleccionada");
 		selectorMetodologia.bindItemsToProperty("metodologias");
 		
+		new Label(mainPanel).setText("Empresas ordenadas:");
+		
 		List<Empresa> empresasOrdenadas = new List<Empresa>(mainPanel);
 		empresasOrdenadas.bindItemsToProperty("empresasOrdenadas");
 		
-		/*List<Empresa> empresasQueNoCumplen = new List<Empresa>(mainPanel);
+		new Label(mainPanel).setText("Empresas que no cumplen condiciones taxativas:");
+		
+		List<Empresa> empresasQueNoCumplen = new List<Empresa>(mainPanel);
 		empresasOrdenadas.bindItemsToProperty("empresasQueNoCumplen");
 		
+		new Label(mainPanel).setText("Empresas con datos faltantes:");
+		
 		List<Empresa> empresasSinDatos = new List<Empresa>(mainPanel);
-		empresasOrdenadas.bindItemsToProperty("empresasSinDatos");*/
+		empresasOrdenadas.bindItemsToProperty("empresasSinDatos");
 		
 	}
 	

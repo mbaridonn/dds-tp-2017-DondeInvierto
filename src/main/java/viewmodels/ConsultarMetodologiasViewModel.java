@@ -11,8 +11,6 @@ import dominio.metodologias.Metodologia;
 @Observable
 public class ConsultarMetodologiasViewModel {
 	private Metodologia metodologiaSeleccionada; // Guarda la metodología seleccionada en el Selector
-	/*private ArrayList<Empresa> empresasQueNoCumplen = new ArrayList<Empresa>();
-	private ArrayList<Empresa> empresasSinDatos = new ArrayList<Empresa>();*/
 	
 	public ArrayList<Metodologia> getMetodologias(){
 		return RepositorioMetodologias.getInstance().getMetodologias();
@@ -29,25 +27,23 @@ public class ConsultarMetodologiasViewModel {
 	@Dependencies({ "metodologiaSeleccionada" })
 	public ArrayList<Empresa> getEmpresasOrdenadas(){
 		if (metodologiaSeleccionada==null) return null;//Necesario para cuando se abre la view (todavía no se eligió ninguna metodología)
-		/*empresasQueNoCumplen.clear();
-		empresasSinDatos.clear();*/
-		return metodologiaSeleccionada.evaluarPara(RepositorioEmpresas.getInstance().getEmpresas());
-		//FALTA CATCHEAR LAS QUE NO CUMPLEN TAXATIVAS Y LAS QUE NO TIENEN DATOS (NoExisteCuentaError)
+		return metodologiaSeleccionada.evaluarPara(this.getEmpresas());
 	}
 	
-	/*public ArrayList<Empresa> getEmpresasQueNoCumplen() {
-		return empresasQueNoCumplen;
+	@Dependencies({ "metodologiaSeleccionada" })
+	public ArrayList<Empresa> getEmpresasQueNoCumplen() {
+		if (metodologiaSeleccionada==null) return null;
+		return metodologiaSeleccionada.empresasQueNoCumplenTaxativas(this.getEmpresas());
 	}
 	
-	public void setEmpresasQueNoCumplen(ArrayList<Empresa> empresasQueNoCumplen) {
-		this.empresasQueNoCumplen = empresasQueNoCumplen;
-	}
-	
+	@Dependencies({ "metodologiaSeleccionada" })
 	public ArrayList<Empresa> getEmpresasSinDatos() {
-		return empresasSinDatos;
+		if (metodologiaSeleccionada==null) return null;
+		return metodologiaSeleccionada.empresasConDatosFaltantes(this.getEmpresas());
 	}
 	
-	public void setEmpresasSinDatos(ArrayList<Empresa> empresasSinDatos) {
-		this.empresasSinDatos = empresasSinDatos;
-	}*/
+	private ArrayList<Empresa> getEmpresas(){
+		return RepositorioEmpresas.getInstance().getEmpresas();
+	}
+	
 }

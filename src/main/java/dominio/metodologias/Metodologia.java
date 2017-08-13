@@ -15,8 +15,10 @@ public class Metodologia {
 		this.nombre = nombre;
 	}
 	
-	public ArrayList<Empresa> evaluarPara(ArrayList<Empresa> empresas){//FALTA CATCHEAR LAS QUE NO CUMPLEN TAXATIVAS Y LAS QUE NO TIENEN DATOS (NoExisteCuentaError)
-		ArrayList<Empresa> empresasQueCumplenTaxativas = empresas.stream()
+	public ArrayList<Empresa> evaluarPara(ArrayList<Empresa> empresas){
+		ArrayList<Empresa> empresasSinDatosFaltantes = (ArrayList<Empresa>) empresas.clone();
+		empresasSinDatosFaltantes.removeAll(this.empresasConDatosFaltantes(empresas));
+		ArrayList<Empresa> empresasQueCumplenTaxativas = empresasSinDatosFaltantes.stream()
 				.filter(emp -> this.cumpleCondicionesTaxativas(emp))
 				.collect(Collectors.toCollection(ArrayList::new));
 		empresasQueCumplenTaxativas.sort((emp1, emp2)-> this.puntaje(emp1, empresas).compareTo(this.puntaje(emp2, empresas)));//Sort modifica la misma lista
@@ -36,18 +38,12 @@ public class Metodologia {
 		return empresasConDatosFaltantes;
 	}
 	
-	//IDEA: YA TENGO LISTA DE EMP CON DATOS FALTANTES. OBTENER LAS QUE NO CUMPLEN TAXATIVAS (EXCLUYENDO LAS DE DATOS FALTANTES)
-	//DESPUÉS EVALUAR LAS QUE NO ESTÁN EN LAS DOS LISTAS ANTERIORES
-	
-	//IDEA 2: YA TENGO LISTA DE EMP CON DATOS FALTANTES. OBTENER LAS QUE 'SÍ' CUMPLEN TAXATIVAS (EXCLUYENDO LAS DE DATOS FALTANTES)
-	//DESPUÉS OBTENER LAS QUE NO CUMPLEN (SON LAS QUE NO ESTÁN EN LAS DOS LISTAS ANTERIORES)
-	
-	/*public ArrayList<Empresa> empresasQueNoCumplenTaxativas(ArrayList<Empresa> empresas){ DEJÉ ACÁ. PROBLEMA: REMOVEALL NO DEVUELVE OTRA LISTA
-		ArrayList<Empresa> empresasSinDatosFaltantes = empresas.removeAll(this.empresasConDatosFaltantes(empresas));
-		return empresasSinDatosFaltantes.stream()
-				.filter(emp -> !this.cumpleCondicionesTaxativas(emp))
-				.collect(Collectors.toCollection(ArrayList::new));
-	}*/
+	public ArrayList<Empresa> empresasQueNoCumplenTaxativas(ArrayList<Empresa> empresas){ //Devuelve sólo las que no cumplen (no las que faltan datos)
+		ArrayList<Empresa> empresasQueNoCumplenTaxativas = (ArrayList<Empresa>) empresas.clone();
+		empresasQueNoCumplenTaxativas.removeAll(this.empresasConDatosFaltantes(empresas));
+		empresasQueNoCumplenTaxativas.removeAll(this.evaluarPara(empresas));
+		return empresasQueNoCumplenTaxativas;
+	}
 	
 	private boolean cumpleCondicionesTaxativas(Empresa empr){
 		return condicionesTaxativas.stream().allMatch(cond -> cond.laCumple(empr));
