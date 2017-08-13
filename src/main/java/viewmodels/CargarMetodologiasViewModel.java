@@ -17,7 +17,7 @@ public class CargarMetodologiasViewModel {
 	private String resultadoOperacion;
 	private MetodologiaBuilder metodologiaBuilder;
 	
-	private int añosSeleccionados;
+	private int aniosSeleccionados;
 	
 	private int valorSeleccionado;
 
@@ -42,12 +42,12 @@ public class CargarMetodologiasViewModel {
 		this.valorSeleccionado = valorSeleccionado;
 	}
 
-	public int getAñosSeleccionados() {
-		return añosSeleccionados;
+	public int getAniosSeleccionados() {
+		return aniosSeleccionados;
 	}
 
-	public void setAñosSeleccionados(int añosSeleccionados) {
-		this.añosSeleccionados = añosSeleccionados;
+	public void setAniosSeleccionados(int aniosSeleccionados) {
+		this.aniosSeleccionados = aniosSeleccionados;
 	}
 	
 	public OperacionAgregacion getOperacionAgregacionSeleccionada() {
@@ -129,11 +129,11 @@ public class CargarMetodologiasViewModel {
 	}
 
 	public void agregarCondicionProritaria() {
-		metodologiaBuilder = metodologiaBuilder.agregarCondicionPrioritaria(operacionAgregacionSeleccionada, indicadorSeleccionado, añosSeleccionados, operacionRelacionalSeleccionada);
+		metodologiaBuilder = metodologiaBuilder.agregarCondicionPrioritaria(operacionAgregacionSeleccionada, indicadorSeleccionado, aniosSeleccionados, operacionRelacionalSeleccionada);
 	}
 	
 	public void agregarCondicionTaxativa() {
-		metodologiaBuilder = metodologiaBuilder.agregarCondicionTaxativa(operacionAgregacionSeleccionada, indicadorSeleccionado, añosSeleccionados, operacionRelacionalSeleccionada, valorSeleccionado);
+		metodologiaBuilder = metodologiaBuilder.agregarCondicionTaxativa(operacionAgregacionSeleccionada, indicadorSeleccionado, aniosSeleccionados, operacionRelacionalSeleccionada, valorSeleccionado);
 	}
 
 	public void guardarMetodologia() {
