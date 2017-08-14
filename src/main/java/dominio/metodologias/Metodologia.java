@@ -21,7 +21,7 @@ public class Metodologia {
 		ArrayList<Empresa> empresasQueCumplenTaxativas = empresasSinDatosFaltantes.stream()
 				.filter(emp -> this.cumpleCondicionesTaxativas(emp))
 				.collect(Collectors.toCollection(ArrayList::new));
-		empresasQueCumplenTaxativas.sort((emp1, emp2)-> this.puntaje(emp1, empresas).compareTo(this.puntaje(emp2, empresas)));//Sort modifica la misma lista
+		empresasQueCumplenTaxativas.sort((emp1, emp2)-> this.puntaje(emp2, empresas).compareTo(this.puntaje(emp1, empresas)));//Sort modifica la misma lista
 		return empresasQueCumplenTaxativas;
 	}
 	
