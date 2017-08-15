@@ -491,7 +491,7 @@ public class MetodologiaTest {
 		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==empresaReLoca && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==miEmpresa);
 	}
 	
-	@Test//VER POR QUÉ NO FILTRA empresaLoca SI LE PASO A LA METODOLOGÍA empresasParaComparacionConMetodologias
+	@Test//VER POR QUE NO FILTRA empresaLoca SI LE PASO A LA METODOLOGIA empresasParaComparacionConMetodologias
 	public void seAplicaCorrectamenteUnaMetodologiaConCondTaxPRUEBAConUltimoMayorA0YConCondPriorPRUEBAConUltimoAmbosEnUltimoAnioDevolviendoEnCorrectoOrdenAEmpresaReLocaYmiEmpresa(){
 		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
@@ -504,7 +504,7 @@ public class MetodologiaTest {
 		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(new Ultimo(),prueba,1), new Mayor());
 		metodologia.agregarCondicionTaxativa(condTax);
 		metodologia.agregarCondicionPrioritaria(condPrior);
-		assertTrue(metodologia.evaluarPara(empresasAEvaluar).get(0)==empresaReLoca && metodologia.evaluarPara(empresasAEvaluar).get(1)==miEmpresa);
+		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==empresaReLoca && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==miEmpresa);
 	}
 
 }
