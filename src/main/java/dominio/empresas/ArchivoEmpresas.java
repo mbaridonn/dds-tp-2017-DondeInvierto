@@ -1,4 +1,4 @@
-package dominio;
+package dominio.empresas;
 
 import java.util.ArrayList;
 

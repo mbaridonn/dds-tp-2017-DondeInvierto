@@ -3,7 +3,7 @@ package dominio.metodologias;
 import java.time.LocalDate;
 import java.util.stream.IntStream;
 
-import dominio.Empresa;
+import dominio.empresas.Empresa;
 import excepciones.AntiguedadMenorACeroError;
 import excepciones.NoExisteCuentaError;
 

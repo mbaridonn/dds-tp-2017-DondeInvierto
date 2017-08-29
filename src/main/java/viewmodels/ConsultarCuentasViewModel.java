@@ -1,6 +1,9 @@
 package viewmodels;
 
 import dominio.*;
+import dominio.empresas.Cuenta;
+import dominio.empresas.Empresa;
+import dominio.empresas.RepositorioEmpresas;
 import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
 

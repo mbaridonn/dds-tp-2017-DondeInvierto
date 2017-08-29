@@ -2,7 +2,7 @@ package dominio.indicadores;
 
 import org.uqbar.commons.utils.Observable;
 
-import dominio.Empresa;
+import dominio.empresas.Empresa;
 import dominio.metodologias.EvaluableEnCondicion;
 import excepciones.NoExisteCuentaError;
 

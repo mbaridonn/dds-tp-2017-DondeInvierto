@@ -1,22 +1,43 @@
-package dominio;
+package dominio.empresas;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
 import dominio.indicadores.Indicador;
 import excepciones.NoExisteCuentaError;
 
+@Entity
 public class Empresa {
+	
+	@Id 
+	@GeneratedValue
+	private Long id;
+	
 	private String nombre;
+	
+	/*@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@JoinColumn(name="cuenta_id")*/
+	@Transient//VER CÓMO PERSISTIR CUENTAS
 	private ArrayList<Cuenta> cuentas;
+	
+	private Empresa(){} //Necesario para persistir la clase
 	
 	public Empresa(String nombre,ArrayList<Cuenta> cuentas){
 		this.nombre = nombre;
 		this.cuentas = cuentas;
 	}
 	
-	public int cantidadDeCuentasQuePosee(){
+	public int cantidadDeCuentas(){
 		return cuentas.size();
 	}
 	

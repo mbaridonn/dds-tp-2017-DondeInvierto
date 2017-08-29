@@ -13,6 +13,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dominio.*;
+import dominio.empresas.ArchivoCSV;
+import dominio.empresas.ArchivoXLS;
+import dominio.empresas.Cuenta;
+import dominio.empresas.Empresa;
 import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
 
@@ -97,7 +101,7 @@ public class EmpresaTest {
 
 	@Test
 	public void laPrimerEmpresaTieneSieteCuentas() {
-		assertEquals(7, empresasLibroDos.get(0).cantidadDeCuentasQuePosee());
+		assertEquals(7, empresasLibroDos.get(0).cantidadDeCuentas());
 	}
 
 	@Test

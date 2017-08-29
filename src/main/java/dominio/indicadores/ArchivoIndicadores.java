@@ -15,7 +15,7 @@ import java.util.Set;
 
 import org.uqbar.commons.utils.Observable;
 
-import dominio.Empresa;
+import dominio.empresas.Empresa;
 import dominio.parser.ParserIndicadores;
 import excepciones.NoSePudoLeerArchivoError;
 

@@ -8,7 +8,7 @@ import org.uqbar.arena.widgets.Selector;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
 
-import dominio.Empresa;
+import dominio.empresas.Empresa;
 import dominio.metodologias.Metodologia;
 import viewmodels.ConsultarMetodologiasViewModel;
 

@@ -1,4 +1,4 @@
-package dominio;
+package dominio.empresas;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

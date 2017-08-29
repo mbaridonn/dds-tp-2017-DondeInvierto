@@ -1,6 +1,6 @@
 package dominio.indicadores;
 
-import dominio.Empresa;
+import dominio.empresas.Empresa;
 
 public class ExpresionValor implements Expresion{
 	

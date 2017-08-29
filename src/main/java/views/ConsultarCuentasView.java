@@ -1,6 +1,9 @@
 package views;
 import viewmodels.*;
 import dominio.*;
+import dominio.empresas.Cuenta;
+import dominio.empresas.Empresa;
+
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.*;
 import org.uqbar.arena.widgets.Panel;

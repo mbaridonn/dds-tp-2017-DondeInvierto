@@ -1,8 +1,6 @@
-package viewmodels;
+package dominio.metodologias;
 
 import java.util.ArrayList;
-
-import dominio.metodologias.Metodologia;
 
 public class RepositorioMetodologias {
 	private ArrayList<Metodologia> metodologias = new ArrayList<Metodologia>();

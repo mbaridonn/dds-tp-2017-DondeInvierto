@@ -1,6 +1,7 @@
-package dominio;
+package dominio.empresas;
 
 import java.util.ArrayList;
+
 import excepciones.NoSePudoLeerEseTipoDeArchivoError;
 
 public class LectorArchivos {

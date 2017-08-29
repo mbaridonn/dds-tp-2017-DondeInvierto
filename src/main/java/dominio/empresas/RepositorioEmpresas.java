@@ -1,10 +1,10 @@
-package viewmodels;
+package dominio.empresas;
 
 import java.util.ArrayList;
 
-import dominio.Empresa;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
-public class RepositorioEmpresas {
+public class RepositorioEmpresas implements WithGlobalEntityManager{
 	private ArrayList<Empresa> empresas = new ArrayList<Empresa>();
 	
 	private static RepositorioEmpresas singleton = new RepositorioEmpresas();
@@ -21,5 +21,13 @@ public class RepositorioEmpresas {
 	
 	public ArrayList<Empresa> getEmpresas() {
 		return empresas;
+	}
+	
+	public Empresa findById(Long id) {
+		return entityManager().find(Empresa.class, id);
+	}
+
+	public void agregar(Empresa empresa) {//LO AGREGO TAMBIÉN A LA LISTA?
+		entityManager().persist(empresa);
 	}
 }

@@ -3,9 +3,11 @@ package viewmodels;
 import java.util.ArrayList;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
-import dominio.ArchivoEmpresas;
-import dominio.Empresa;
-import dominio.LectorArchivos;
+
+import dominio.empresas.ArchivoEmpresas;
+import dominio.empresas.Empresa;
+import dominio.empresas.LectorArchivos;
+import dominio.empresas.RepositorioEmpresas;
 import excepciones.NoSePudoLeerEseTipoDeArchivoError;
 
 @Observable

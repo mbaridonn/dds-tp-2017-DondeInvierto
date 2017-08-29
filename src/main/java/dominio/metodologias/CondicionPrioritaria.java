@@ -1,6 +1,6 @@
 package dominio.metodologias;
 
-import dominio.Empresa;
+import dominio.empresas.Empresa;
 
 public class CondicionPrioritaria extends Condicion{
 	

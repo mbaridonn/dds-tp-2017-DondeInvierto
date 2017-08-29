@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 
-import dominio.Empresa;
+import dominio.empresas.Empresa;
 
 public class Metodologia {
 	private String nombre = "";

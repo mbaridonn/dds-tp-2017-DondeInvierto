@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import dominio.ArchivoXLS;
-import dominio.Empresa;
+import dominio.empresas.ArchivoXLS;
+import dominio.empresas.Empresa;
 import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
@@ -41,8 +41,6 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
 		assertTrue(new CondicionPrioritaria(new OperandoCondicion(new Ultimo(), new Antiguedad(), 1), new Mayor()).esMejorQue(miEmpresa, empresaReLoca));
 	}
-	
-	//FALTA TEST DE CondPriConsistencia
 	
 	@Test
 	public void miEmpresaCumpleCondTaxAntiguedadMenorA10() {
@@ -491,13 +489,10 @@ public class MetodologiaTest {
 		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==empresaReLoca && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==miEmpresa);
 	}
 	
-	@Test//VER POR QUE NO FILTRA empresaLoca SI LE PASO A LA METODOLOGIA empresasParaComparacionConMetodologias
+	@Test
 	public void seAplicaCorrectamenteUnaMetodologiaConCondTaxPRUEBAConUltimoMayorA0YConCondPriorPRUEBAConUltimoAmbosEnUltimoAnioDevolviendoEnCorrectoOrdenAEmpresaReLocaYmiEmpresa(){
 		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		ArrayList<Empresa> empresasAEvaluar = new ArrayList<Empresa>(); // !
-		empresasAEvaluar.add(miEmpresa);
-		empresasAEvaluar.add(empresaReLoca);
 		Indicador prueba = indicadores.get(4);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(new Ultimo(),prueba,1), new Mayor(), 0);

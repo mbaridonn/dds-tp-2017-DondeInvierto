@@ -1,6 +1,6 @@
 package dominio.metodologias;
 
-import dominio.Empresa;
+import dominio.empresas.Empresa;
 import excepciones.AntiguedadMenorACeroError;
 
 public class Antiguedad implements EvaluableEnCondicion {

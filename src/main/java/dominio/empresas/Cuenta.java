@@ -1,12 +1,24 @@
-package dominio;
+package dominio.empresas;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 import org.uqbar.commons.utils.Observable;
 
 @Observable
+@Entity
 public class Cuenta {
+	
+	@Id 
+	@GeneratedValue
+	private Long id;
+	
 	private String anio;
 	private String tipoCuenta;
 	private int valor;
+	
+	private Cuenta(){} //Necesario para persistir la clase
 	
 	public Cuenta(String anio, String tipoCuenta, int valor){
 		this.anio = anio;

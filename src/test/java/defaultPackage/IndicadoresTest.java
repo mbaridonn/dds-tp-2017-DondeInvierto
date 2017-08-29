@@ -13,6 +13,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dominio.*;
+import dominio.empresas.ArchivoXLS;
+import dominio.empresas.Cuenta;
+import dominio.empresas.Empresa;
 import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
 
