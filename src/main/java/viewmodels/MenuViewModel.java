@@ -14,7 +14,12 @@ import excepciones.NoSePudoLeerEseTipoDeArchivoError;
 public class MenuViewModel {
 	private String resultadoOperacion = "";
 	private String ruta = "";
-
+	
+	public void cargarCuentasDesdeBD(){
+		RepositorioEmpresas.getInstance().getEmpresasDeBD();
+		resultadoOperacion = "Empresas cargadas desde la BD";
+	}
+	
 	public void cargarArchivo(){
 		try{
 			ArrayList<Empresa> empresas;

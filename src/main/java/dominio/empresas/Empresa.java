@@ -2,6 +2,7 @@ package dominio.empresas;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -11,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
 import dominio.indicadores.Indicador;
 import excepciones.NoExisteCuentaError;
@@ -25,10 +25,9 @@ public class Empresa {
 	
 	private String nombre;
 	
-	/*@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	@JoinColumn(name="cuenta_id")*/
-	@Transient//VER CÓMO PERSISTIR CUENTAS
-	private ArrayList<Cuenta> cuentas;
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	/*@JoinColumn(name="cuenta_id")*/
+	private List<Cuenta> cuentas;//Hibernate requiere que las colecciones a persistir estén declarados como una interfaz (no una clase concreta).
 	
 	private Empresa(){} //Necesario para persistir la clase
 	
@@ -80,7 +79,7 @@ public class Empresa {
 	}
 
 	public ArrayList<Cuenta> getCuentas() {
-		return cuentas;
+		return (ArrayList<Cuenta>) cuentas;
 	}
 	
 	public int getValorCuenta(String tipoCuenta, String anio){

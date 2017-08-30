@@ -27,7 +27,11 @@ public class MenuView extends MainWindow<MenuViewModel> {
 		
 		new Label(mainPanel).bindValueToProperty("resultadoOperacion");
 		
-		new FileSelector(mainPanel).setCaption("Cargar Cuentas").bindValueToProperty("ruta");
+		new Button(mainPanel)
+			.setCaption("Cargar Cuentas desde BD")
+			.onClick(() -> this.getModelObject().cargarCuentasDesdeBD());
+		
+		new FileSelector(mainPanel).setCaption("Cargar Cuentas desde Archivo").bindValueToProperty("ruta");
 		
 		new Label(mainPanel).bindValueToProperty("ruta");
 
