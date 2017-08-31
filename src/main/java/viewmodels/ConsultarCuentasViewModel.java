@@ -8,6 +8,7 @@ import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.uqbar.commons.utils.Dependencies;
@@ -23,7 +24,7 @@ public class ConsultarCuentasViewModel {
 		return singleton;
 	}
 
-	public ArrayList<Empresa> getEmpresas() {
+	public List<Empresa> getEmpresas() {
 		return RepositorioEmpresas.getInstance().getEmpresas();
 	}
 
@@ -35,7 +36,7 @@ public class ConsultarCuentasViewModel {
 		this.empresaSeleccionada = empresaSeleccionada;
 	}
 	
-	ArrayList<Cuenta> obtenerCuentasSinRepetidos(ArrayList<Cuenta> cuentasSinRepetidos){
+	public List<Cuenta> obtenerCuentasSinRepetidos(List<Cuenta> cuentasSinRepetidos){
 		for (int i = 0; i < cuentasSinRepetidos.size(); i++) {
 			for (int j = i + 1; j < cuentasSinRepetidos.size(); j++) {
 				if(cuentasSinRepetidos.get(i).getAnio().equals(cuentasSinRepetidos.get(j).getAnio())
@@ -50,8 +51,8 @@ public class ConsultarCuentasViewModel {
 	}
 
 	@Dependencies({ "empresaSeleccionada" })
-	public ArrayList<Cuenta> getCuentasEmpresa() {// cuentasEmpresa se muestra en la tabla
-		ArrayList<Cuenta> cuentasSeleccionadas;
+	public List<Cuenta> getCuentasEmpresa() {// cuentasEmpresa se muestra en la tabla
+		List<Cuenta> cuentasSeleccionadas;
 		if (empresaSeleccionada == null) {
 			cuentasSeleccionadas = null;
 		} else {

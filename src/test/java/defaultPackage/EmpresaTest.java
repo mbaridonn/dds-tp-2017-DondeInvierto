@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /*import static org.junit.Assert.assertFalse;
@@ -23,8 +24,8 @@ import dominio.indicadores.Indicador;
 public class EmpresaTest {
 
 	Empresa empresa;
-	ArrayList<Cuenta> cuentas;
-	ArrayList<Empresa> empresasLibroDos;
+	List<Cuenta> cuentas;
+	List<Empresa> empresasLibroDos;
 	
 	@Before
 	public void setUp() {
@@ -138,7 +139,7 @@ public class EmpresaTest {
 				&& this.sonLasMismasCuentas(unaEmpresa.getCuentas(), otraEmpresa.getCuentas());
 	}
 
-	private boolean sonLasMismasCuentas(ArrayList<Cuenta> cuentasEsperadas, ArrayList<Cuenta> cuentas) {
+	private boolean sonLasMismasCuentas(List<Cuenta> cuentasEsperadas, List<Cuenta> cuentas) {
 		boolean resultado = true;
 		for (int i = 0; i < cuentasEsperadas.size(); i++) {
 			resultado = resultado && this.cuentasSonIguales(cuentas.get(i), cuentasEsperadas.get(i));

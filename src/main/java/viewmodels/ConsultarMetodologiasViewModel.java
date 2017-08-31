@@ -1,6 +1,7 @@
 package viewmodels;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
@@ -14,7 +15,7 @@ import dominio.metodologias.RepositorioMetodologias;
 public class ConsultarMetodologiasViewModel {
 	private Metodologia metodologiaSeleccionada; // Guarda la metodología seleccionada en el Selector
 	
-	public ArrayList<Metodologia> getMetodologias(){
+	public List<Metodologia> getMetodologias(){
 		return RepositorioMetodologias.getInstance().getMetodologias();
 	}
 	
@@ -27,24 +28,24 @@ public class ConsultarMetodologiasViewModel {
 	}
 	
 	@Dependencies({ "metodologiaSeleccionada" })
-	public ArrayList<Empresa> getEmpresasOrdenadas(){
+	public List<Empresa> getEmpresasOrdenadas(){
 		if (metodologiaSeleccionada==null) return null;//Necesario para cuando se abre la view (todavía no se eligió ninguna metodología)
 		return metodologiaSeleccionada.evaluarPara(this.getEmpresas());
 	}
 	
 	@Dependencies({ "metodologiaSeleccionada" })
-	public ArrayList<Empresa> getEmpresasQueNoCumplen() {
+	public List<Empresa> getEmpresasQueNoCumplen() {
 		if (metodologiaSeleccionada==null) return null;
 		return metodologiaSeleccionada.empresasQueNoCumplenTaxativas(this.getEmpresas());
 	}
 	
 	@Dependencies({ "metodologiaSeleccionada" })
-	public ArrayList<Empresa> getEmpresasSinDatos() {
+	public List<Empresa> getEmpresasSinDatos() {
 		if (metodologiaSeleccionada==null) return null;
 		return metodologiaSeleccionada.empresasConDatosFaltantes(this.getEmpresas());
 	}
 	
-	private ArrayList<Empresa> getEmpresas(){
+	private List<Empresa> getEmpresas(){
 		return RepositorioEmpresas.getInstance().getEmpresas();
 	}
 	

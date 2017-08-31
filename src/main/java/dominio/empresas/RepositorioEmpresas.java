@@ -1,6 +1,7 @@
 package dominio.empresas;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -8,7 +9,7 @@ import javax.persistence.EntityTransaction;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 public class RepositorioEmpresas implements WithGlobalEntityManager{
-	private ArrayList<Empresa> empresas = new ArrayList<Empresa>();
+	private List<Empresa> empresas = new ArrayList<Empresa>();
 	
 	private static RepositorioEmpresas singleton = new RepositorioEmpresas();
 	
@@ -18,23 +19,18 @@ public class RepositorioEmpresas implements WithGlobalEntityManager{
 		return singleton;
 	}
 	
-	public void setEmpresas(ArrayList<Empresa> empresas) {
+	public void setEmpresas(List<Empresa> empresas) {
 		this.empresas = empresas;
 		this.agregarEmpresas(empresas);//LO AGREGO TAMBIÉN A LA LISTA EN CUANTO LO CARGO DEL ARCHIVO? QUÉ PASA CON LOS REPETIDOS?
 	}
 	
-	public ArrayList<Empresa> getEmpresas() {
+	public List<Empresa> getEmpresas() {
 		return empresas;
 	}
 	
 	public void getEmpresasDeBD() {
-		EntityManager entityManager = this.entityManager();
-		EntityTransaction tx = entityManager.getTransaction();
-		tx.begin();
-		ArrayList<Empresa> empleadosEnBD = (ArrayList<Empresa>) entityManager.createQuery("SELECT e FROM Empresa e").getResultList();
+		List<Empresa> empleadosEnBD = (List<Empresa>) this.entityManager().createQuery("SELECT e FROM Empresa e").getResultList();
 		//NO ESTÁ BUENO TENER QUE ESCRIBIR LA CONSULTA, HAY ALGUNA OTRA FORMA PARA HACERLO??
-		//TRAE SOLO LAS EMPRESAS, NO LAS CUENTAS!!
-		tx.commit();
 		this.setEmpresas(empleadosEnBD);
 	}
 	
@@ -42,7 +38,7 @@ public class RepositorioEmpresas implements WithGlobalEntityManager{
 		return this.entityManager().find(Empresa.class, id);
 	}
 
-	public void agregarEmpresas(ArrayList<Empresa> empresas) {
+	public void agregarEmpresas(List<Empresa> empresas) {
 		EntityManager entityManager = this.entityManager();
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();

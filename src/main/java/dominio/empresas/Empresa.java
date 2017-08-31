@@ -26,12 +26,12 @@ public class Empresa {
 	private String nombre;
 	
 	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	/*@JoinColumn(name="cuenta_id")*/
+	//@JoinColumn(name="cuenta_id") NECESARIO??
 	private List<Cuenta> cuentas;//Hibernate requiere que las colecciones a persistir estén declarados como una interfaz (no una clase concreta).
 	
 	private Empresa(){} //Necesario para persistir la clase
 	
-	public Empresa(String nombre,ArrayList<Cuenta> cuentas){
+	public Empresa(String nombre, List<Cuenta> cuentas){
 		this.nombre = nombre;
 		this.cuentas = cuentas;
 	}
@@ -54,16 +54,16 @@ public class Empresa {
 		return anios;
 	}
 	
-	public ArrayList<Cuenta> resultadosIndicadoresTotales(Set<Indicador> indicadores){
+	public List<Cuenta> resultadosIndicadoresTotales(Set<Indicador> indicadores){
 		Set<String> anios = this.aniosDeLosQueTieneCuentas();
-		ArrayList<Cuenta> resultadosTotales = new ArrayList<Cuenta>();
+		List<Cuenta> resultadosTotales = new ArrayList<Cuenta>();
 		anios.forEach(anio -> resultadosTotales.addAll(this.resultadosIndicadoresSegunAnio(indicadores,anio)));
 		return resultadosTotales;
 	}
 	
-	public ArrayList<Cuenta> resultadosIndicadoresSegunAnio(Set<Indicador> indicadores, String anio){
-		ArrayList<Cuenta> resultados = new ArrayList<Cuenta>();
-		ArrayList<Indicador> indicadoresAplicables = new ArrayList<Indicador>();
+	public List<Cuenta> resultadosIndicadoresSegunAnio(Set<Indicador> indicadores, String anio){
+		List<Cuenta> resultados = new ArrayList<Cuenta>();
+		List<Indicador> indicadoresAplicables = new ArrayList<Indicador>();
 		indicadores.stream().filter(ind -> ind.esAplicableA(this, anio)).forEach(ind -> indicadoresAplicables.add(ind));
 		indicadoresAplicables.forEach(ind -> resultados.add(new Cuenta(anio,ind.getNombre(),ind.evaluarEn(this, anio))));
 		return resultados;
@@ -78,8 +78,8 @@ public class Empresa {
 		return nombre;
 	}
 
-	public ArrayList<Cuenta> getCuentas() {
-		return (ArrayList<Cuenta>) cuentas;
+	public List<Cuenta> getCuentas() {
+		return cuentas;
 	}
 	
 	public int getValorCuenta(String tipoCuenta, String anio){

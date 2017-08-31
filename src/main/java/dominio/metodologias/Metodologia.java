@@ -1,6 +1,7 @@
 package dominio.metodologias;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 
@@ -8,26 +9,27 @@ import dominio.empresas.Empresa;
 
 public class Metodologia {
 	private String nombre = "";
-	private ArrayList<CondicionTaxativa> condicionesTaxativas = new ArrayList<CondicionTaxativa>();
-	private ArrayList<CondicionPrioritaria> condicionesPrioritarias = new ArrayList<CondicionPrioritaria>();
+	private List<CondicionTaxativa> condicionesTaxativas = new ArrayList<CondicionTaxativa>();
+	private List<CondicionPrioritaria> condicionesPrioritarias = new ArrayList<CondicionPrioritaria>();
 	
 	public Metodologia(String nombre){
 		this.nombre = nombre;
 	}
 	
-	public ArrayList<Empresa> evaluarPara(ArrayList<Empresa> empresas){
-		ArrayList<Empresa> empresasSinDatosFaltantes = (ArrayList<Empresa>) empresas.clone();
+	public List<Empresa> evaluarPara(List<Empresa> empresas){
+		List<Empresa> empresasSinDatosFaltantes = (List<Empresa>) ((ArrayList<Empresa>) empresas).clone();
+		//clone me obliga a acoplarme a una implementacion concreta de List, ya que List no implementa Cloneable
 		empresasSinDatosFaltantes.removeAll(this.empresasConDatosFaltantes(empresas));
-		ArrayList<Empresa> empresasQueCumplenTaxativas = empresasSinDatosFaltantes.stream()
+		List<Empresa> empresasQueCumplenTaxativas = empresasSinDatosFaltantes.stream()
 				.filter(emp -> this.cumpleCondicionesTaxativas(emp))
 				.collect(Collectors.toCollection(ArrayList::new));
 		empresasQueCumplenTaxativas.sort((emp1, emp2)-> this.puntaje(emp2, empresasQueCumplenTaxativas).compareTo(this.puntaje(emp1, empresasQueCumplenTaxativas)));//Sort modifica la misma lista
 		return empresasQueCumplenTaxativas;
 	}
 	
-	public ArrayList<Empresa> empresasConDatosFaltantes(ArrayList<Empresa> empresas){
-		ArrayList<Empresa> empresasConDatosFaltantes = new ArrayList<Empresa>();
-		ArrayList<Condicion> condiciones = new ArrayList<Condicion>();
+	public List<Empresa> empresasConDatosFaltantes(List<Empresa> empresas){
+		List<Empresa> empresasConDatosFaltantes = new ArrayList<Empresa>();
+		List<Condicion> condiciones = new ArrayList<Condicion>();
 		condiciones.addAll(condicionesTaxativas);
 		condiciones.addAll(condicionesPrioritarias);
 		for (Empresa emp: empresas){
@@ -38,8 +40,8 @@ public class Metodologia {
 		return empresasConDatosFaltantes;
 	}
 	
-	public ArrayList<Empresa> empresasQueNoCumplenTaxativas(ArrayList<Empresa> empresas){ //Devuelve sólo las que no cumplen (no las que faltan datos)
-		ArrayList<Empresa> empresasQueNoCumplenTaxativas = (ArrayList<Empresa>) empresas.clone();
+	public List<Empresa> empresasQueNoCumplenTaxativas(List<Empresa> empresas){ //Devuelve sólo las que no cumplen (no las que faltan datos)
+		List<Empresa> empresasQueNoCumplenTaxativas = (List<Empresa>) ((ArrayList<Empresa>) empresas).clone();
 		empresasQueNoCumplenTaxativas.removeAll(this.empresasConDatosFaltantes(empresas));
 		empresasQueNoCumplenTaxativas.removeAll(this.evaluarPara(empresas));
 		return empresasQueNoCumplenTaxativas;
@@ -49,7 +51,7 @@ public class Metodologia {
 		return condicionesTaxativas.stream().allMatch(cond -> cond.laCumple(empr));
 	}
 	
-	private Integer puntaje(Empresa empr, ArrayList<Empresa> empresas){
+	private Integer puntaje(Empresa empr, List<Empresa> empresas){
 		int puntaje = 0;
 		ListIterator<CondicionPrioritaria> iteradorCond = condicionesPrioritarias.listIterator();
 		ListIterator<Empresa> iteradorEmpr = empresas.listIterator();

@@ -18,6 +18,7 @@ public class MenuViewModel {
 	public void cargarCuentasDesdeBD(){
 		RepositorioEmpresas.getInstance().getEmpresasDeBD();
 		resultadoOperacion = "Empresas cargadas desde la BD";
+		ruta = " ";//Hack para que se habilite ConsultarCuentas
 	}
 	
 	public void cargarArchivo(){

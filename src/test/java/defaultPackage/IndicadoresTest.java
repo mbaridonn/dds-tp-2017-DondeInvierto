@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /*import static org.junit.Assert.assertFalse;
@@ -12,7 +13,6 @@ import static org.junit.Assert.assertTrue;*/
 import org.junit.Before;
 import org.junit.Test;
 
-import dominio.*;
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
@@ -140,7 +140,7 @@ public class IndicadoresTest {
 
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
 	
-	private void mostrarCuentas(ArrayList<Cuenta> cuentas){
+	private void mostrarCuentas(List<Cuenta> cuentas){
 		cuentas.forEach(cuenta -> cuenta.mostrarDatos());
 	}
 	
