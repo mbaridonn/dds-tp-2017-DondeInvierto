@@ -12,6 +12,11 @@
     	<class>dominio.Empresa</class>
     	<class>dominio.Cuenta</class>
     	<class>dominio.indicadores.Indicador</class>
+    	<class>dominio.indicadores.Expresion</class>
+    	<class>dominio.indicadores.ExpresionCuenta</class>
+    	<class>dominio.indicadores.ExpresionIndicador</class>
+    	<class>dominio.indicadores.ExpresionOperacion</class>
+    	<class>dominio.indicadores.ExpresionValor</class>
     	<class>dominio.metodologias.Metodologia</class>
     	 
         <properties> 

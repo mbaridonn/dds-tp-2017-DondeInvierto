@@ -1,7 +1,10 @@
 package dominio.indicadores;
 
+import javax.persistence.Entity;
+
 import dominio.empresas.Empresa;
 
+@Entity
 public class ExpresionCuenta implements Expresion{
 	
 	private String cuenta;

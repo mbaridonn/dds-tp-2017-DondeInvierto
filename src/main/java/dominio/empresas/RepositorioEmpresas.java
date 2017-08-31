@@ -9,7 +9,7 @@ import javax.persistence.EntityTransaction;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 public class RepositorioEmpresas implements WithGlobalEntityManager{
-	private List<Empresa> empresas = new ArrayList<Empresa>();
+	private List<Empresa> empresas = new ArrayList<Empresa>();//TIENE SENTIDO SEGUIR TENIENDO UNA COPIA LOCAL??
 	
 	private static RepositorioEmpresas singleton = new RepositorioEmpresas();
 	
@@ -21,7 +21,7 @@ public class RepositorioEmpresas implements WithGlobalEntityManager{
 	
 	public void setEmpresas(List<Empresa> empresas) {
 		this.empresas = empresas;
-		this.agregarEmpresas(empresas);//LO AGREGO TAMBIÉN A LA LISTA EN CUANTO LO CARGO DEL ARCHIVO? QUÉ PASA CON LOS REPETIDOS?
+		this.agregarEmpresas(empresas);//LO AGREGO TAMBIÉN A LA LISTA EN CUANTO LO CARGO DEL ARCHIVO? QUÉ PASA CON LOS REPETIDOS??
 	}
 	
 	public List<Empresa> getEmpresas() {

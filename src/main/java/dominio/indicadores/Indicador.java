@@ -1,5 +1,11 @@
 package dominio.indicadores;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
 import org.uqbar.commons.utils.Observable;
 
 import dominio.empresas.Empresa;
@@ -7,10 +13,17 @@ import dominio.metodologias.EvaluableEnCondicion;
 import excepciones.NoExisteCuentaError;
 
 @Observable
+@Entity
 public class Indicador implements EvaluableEnCondicion{
 
+	@Id 
+	@GeneratedValue
+	private Long id;
+	
 	private String nombre;
+	@Transient //ES NECESARIO QUE SIGA ESTANDO?? YA NO VAMOS A TRABAJAR CON ARCHIVOS DE TEXTO
 	private String equivalencia; //Provisorio, estaria bueno que en realidad la clase Expresion la tenga.//Volar?
+	@OneToOne
 	private Expresion expresion;
 
 	public Indicador(String nombre){

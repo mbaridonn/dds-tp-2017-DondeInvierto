@@ -2,8 +2,11 @@ package dominio.indicadores;
 
 import java.util.function.IntBinaryOperator;
 
+import javax.persistence.Entity;
+
 import dominio.empresas.Empresa;
 
+@Entity
 public class ExpresionOperacion implements Expresion{
 	private Expresion operandoIzq;
 	private Expresion operandoDer;
