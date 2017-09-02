@@ -3,13 +3,17 @@ package dominio.indicadores;
 import java.util.function.IntBinaryOperator;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 
 import dominio.empresas.Empresa;
 
 //@Entity
 public class ExpresionOperacion extends Expresion{
+//	@OneToOne
 	private Expresion operandoIzq;
+//	@OneToOne
 	private Expresion operandoDer;
+//	CONVENDRÁ USAR UN CONVERTER O CREAR OBJETOS MÁS/MENOS/POR/DIVIDIDO??
 	private IntBinaryOperator operadorBinario;
 	
 	public ExpresionOperacion(Expresion operandoIzq, Expresion operandoDer, /*IntBinaryOperator*/ String operadorBinario){

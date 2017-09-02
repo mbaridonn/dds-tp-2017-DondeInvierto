@@ -12,23 +12,24 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 public class PersistenciaTest extends AbstractPersistenceTest implements WithGlobalEntityManager {
-
-	@Test
-	public void contextUp() {
-		assertNotNull(entityManager());
-	}
-
-	@Test
-	public void contextUpWithTransaction() throws Exception {
-		withTransaction(() -> {});
+	
+	EntityManager entityManager;
+	EntityTransaction tx;
+	
+	@Before
+	public void startTransaction() {
+		entityManager = this.entityManager();
+		tx = entityManager.getTransaction();
+		tx.begin(); 
 	}
 	
-	/*@Test
-	public void sePuedePersistirUnaEmpresa(){
-		EntityManager entityManager = this.entityManager();
-		EntityTransaction tx = entityManager.getTransaction();
-		tx.begin(); //HASTA ACA VA EN EL @Before setUp 
-		//CREAR EMPRESA CON CUENTAS Y PERSISTIRLA
-		tx.rollback(); //ESTO VA EN EL @After
-	}*/
+	@After
+	public void rollbackTransaction() {
+		tx.rollback();
+	}
+	
+	@Test
+	public void alAgregarDosEmpresasAlRepositorioEmpresasEstasSePersistenCorrectamente(){
+		//CREAR EMPRESAS CON CUENTAS Y PERSISTIRLAS
+	}
 }

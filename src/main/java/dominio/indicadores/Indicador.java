@@ -4,7 +4,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import org.uqbar.commons.utils.Observable;
 
@@ -21,9 +20,10 @@ public class Indicador implements EvaluableEnCondicion{
 	private Long id;
 	
 	private String nombre;
-	@Transient //ES NECESARIO QUE SIGA ESTANDO?? YA NO VAMOS A TRABAJAR CON ARCHIVOS DE TEXTO
+	
+	//ES NECESARIO QUE SIGA ESTANDO?? YA NO VAMOS A TRABAJAR CON ARCHIVOS DE TEXTO
 	private String equivalencia; //Provisorio, estaria bueno que en realidad la clase Expresion la tenga.//Volar?
-	@OneToOne
+	@OneToOne//CONVENDRÁ EMBEBER LA EXPRESIÓN?? (!!!)
 	private Expresion expresion;
 
 	public Indicador(String nombre){

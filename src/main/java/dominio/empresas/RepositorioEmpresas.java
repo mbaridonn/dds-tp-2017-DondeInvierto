@@ -31,7 +31,7 @@ public class RepositorioEmpresas implements WithGlobalEntityManager{
 		tx.commit();
 	}
 	
-	private boolean existeEmpresa(Empresa empresa){
+	private boolean existeEmpresa(Empresa empresa){ //PROBLEMA GENERAL: CÓMO EVITO DUPLICADOS?? (!!!)
 		return this.getEmpresas().contains(empresa); //NO FUNCIONA, LAS EMPRESAS TIENEN DISTINTA IDENTIDAD !!
 	}
 }
