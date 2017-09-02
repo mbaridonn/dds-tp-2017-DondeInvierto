@@ -25,7 +25,7 @@ public class Empresa {
 	
 	private String nombre;
 	
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	//@JoinColumn(name="cuenta_id") NECESARIO??
 	private List<Cuenta> cuentas;//Hibernate requiere que las colecciones a persistir estén declarados como una interfaz (no una clase concreta).
 	

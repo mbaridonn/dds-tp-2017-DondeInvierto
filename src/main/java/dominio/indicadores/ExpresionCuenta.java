@@ -5,7 +5,7 @@ import javax.persistence.Entity;
 import dominio.empresas.Empresa;
 
 @Entity
-public class ExpresionCuenta implements Expresion{
+public class ExpresionCuenta extends Expresion{
 	
 	private String cuenta;
 	

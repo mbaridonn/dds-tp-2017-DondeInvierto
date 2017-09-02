@@ -6,8 +6,8 @@ import javax.persistence.Entity;
 
 import dominio.empresas.Empresa;
 
-@Entity
-public class ExpresionOperacion implements Expresion{
+//@Entity
+public class ExpresionOperacion extends Expresion{
 	private Expresion operandoIzq;
 	private Expresion operandoDer;
 	private IntBinaryOperator operadorBinario;

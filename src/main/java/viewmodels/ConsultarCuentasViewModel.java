@@ -1,13 +1,11 @@
 package viewmodels;
 
-import dominio.*;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
 import dominio.indicadores.ArchivoIndicadores;
 import dominio.indicadores.Indicador;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +23,7 @@ public class ConsultarCuentasViewModel {
 	}
 
 	public List<Empresa> getEmpresas() {
-		return RepositorioEmpresas.getInstance().getEmpresas();
+		return new RepositorioEmpresas().getEmpresas();
 	}
 
 	public Empresa getEmpresaSeleccionada() {

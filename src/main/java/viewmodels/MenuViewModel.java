@@ -15,10 +15,9 @@ public class MenuViewModel {
 	private String resultadoOperacion = "";
 	private String ruta = "";
 	
-	public void cargarCuentasDesdeBD(){
-		RepositorioEmpresas.getInstance().getEmpresasDeBD();
-		resultadoOperacion = "Empresas cargadas desde la BD";
-		ruta = " ";//Hack para que se habilite ConsultarCuentas
+	//@Dependencies({ "ruta" })// EN ESTE MOMENTO, SI ARRANCA LA BD SIN EMPRESAS Y DESPUÉS SE AGREGAN, EL BOTÓN SIGUE BLOQUEADO (!!)
+	public boolean getHayCuentas(){
+		return (new RepositorioEmpresas().hayEmpresas());
 	}
 	
 	public void cargarArchivo(){
@@ -28,7 +27,7 @@ public class MenuViewModel {
 			ArchivoEmpresas archivo = lectorArchivos.obtenerLectorApropiado();
 			archivo.leerEmpresas();
 			empresas = archivo.getEmpresas();
-			RepositorioEmpresas.getInstance().setEmpresas(empresas);
+			new RepositorioEmpresas().agregarEmpresas(empresas);
 			resultadoOperacion = "Archivo cargado";
 		}
 		catch(NoSePudoLeerEseTipoDeArchivoError e){
@@ -54,8 +53,4 @@ public class MenuViewModel {
 		this.cargarArchivo();
 	}
 
-	@Dependencies({ "ruta" })
-	public boolean getCargado() {
-		return ruta.length() > 0;
-	}
 }

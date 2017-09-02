@@ -1,6 +1,5 @@
 package viewmodels;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.uqbar.commons.utils.Dependencies;
@@ -46,7 +45,7 @@ public class ConsultarMetodologiasViewModel {
 	}
 	
 	private List<Empresa> getEmpresas(){
-		return RepositorioEmpresas.getInstance().getEmpresas();
+		return new RepositorioEmpresas().getEmpresas();
 	}
 	
 }
