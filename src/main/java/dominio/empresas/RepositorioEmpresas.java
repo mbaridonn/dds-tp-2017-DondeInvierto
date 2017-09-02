@@ -27,10 +27,16 @@ public class RepositorioEmpresas implements WithGlobalEntityManager{
 		EntityManager entityManager = this.entityManager();
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();
-		empresasNuevas.forEach(emp -> entityManager.persist(emp));
+		empresasNuevas.forEach(empresa -> this.persistirSiNoExiste(empresa));
 		tx.commit();
 	}
 	
+	private void persistirSiNoExiste(Empresa empresa) {
+		if(!this.entityManager().contains(empresa)) {
+			this.entityManager().persist(empresa);
+		}
+	}
+
 	private boolean existeEmpresa(Empresa empresa){ //PROBLEMA GENERAL: CÓMO EVITO DUPLICADOS?? (!!!)
 		return this.getEmpresas().contains(empresa); //NO FUNCIONA, LAS EMPRESAS TIENEN DISTINTA IDENTIDAD !!
 	}
