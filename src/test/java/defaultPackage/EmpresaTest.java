@@ -124,8 +124,8 @@ public class EmpresaTest {
 
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
 
-	private boolean tienenLasMismasEmpresas(ArrayList<Empresa> primerListaEmpresas,
-			ArrayList<Empresa> segundaListaEmpresas) {
+	public boolean tienenLasMismasEmpresas(List<Empresa> primerListaEmpresas,
+			List<Empresa> segundaListaEmpresas) {
 		for (int i = 0; i < primerListaEmpresas.size(); i++) {
 			if (!this.sonLasMismasEmpresas(primerListaEmpresas.get(i), segundaListaEmpresas.get(i))) {
 				return false;
