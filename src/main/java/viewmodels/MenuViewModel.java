@@ -15,8 +15,11 @@ public class MenuViewModel {
 	private String resultadoOperacion = "";
 	private String ruta = "";
 	
-	//@Dependencies({ "ruta" })// EN ESTE MOMENTO, SI ARRANCA LA BD SIN EMPRESAS Y DESPUÉS SE AGREGAN, EL BOTÓN SIGUE BLOQUEADO (!!)
+	@Dependencies({ "ruta" })// EN ESTE MOMENTO, SI ARRANCA LA BD SIN EMPRESAS Y DESPUÉS SE AGREGAN, EL BOTÓN SIGUE BLOQUEADO (!!)
 	public boolean getHayCuentas(){
+		if(ruta != "") {
+			return true;
+		}
 		return (new RepositorioEmpresas().hayEmpresas());
 	}
 	
