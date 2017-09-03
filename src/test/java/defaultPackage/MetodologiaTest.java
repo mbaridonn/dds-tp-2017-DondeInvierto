@@ -9,14 +9,14 @@ import org.junit.Test;
 
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Empresa;
-import dominio.indicadores.ArchivoIndicadores;
+import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
 import excepciones.NoExisteCuentaError;
 
 public class MetodologiaTest {
 	
-	private ArrayList<Indicador> indicadores;
+	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
 	private ArrayList<Empresa> empresasParaIndicadores;
 	private ArrayList<Empresa> empresasParaComparacionConMetodologias;
 	
@@ -24,15 +24,13 @@ public class MetodologiaTest {
 	public void setUp() {
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
 		ArchivoXLS archivoEjemploMetodologias = new ArchivoXLS("src/test/resources/EjemploMetodologias.xls");
-		ArchivoIndicadores archivoIndicadores = ArchivoIndicadores.getInstance();
-		archivoIndicadores.cambiarPath("src/main/resources/Indicadores.txt");
+		RepositorioIndicadores archivoIndicadores = RepositorioIndicadores.getInstance();
 		archivoEjemploIndicadores.leerEmpresas();
 		archivoEjemploMetodologias.leerEmpresas();
-		archivoIndicadores.leerIndicadores();
-		indicadores = archivoIndicadores.getIndicadores();
+		indicadores.addAll(archivoIndicadores.getIndicadores());
 		empresasParaIndicadores = archivoEjemploIndicadores.getEmpresas();
 		empresasParaComparacionConMetodologias = archivoEjemploMetodologias.getEmpresas();
-		//Ver formas de testear métodos que usan fecha actual (QUIZAS CONVENGA USAR INYECCION DE DEPENDENCIAS) (!!!)
+		//Ver formas de testear métodos que usan fecha actual (!!!)
 	}
 	
 	@Test

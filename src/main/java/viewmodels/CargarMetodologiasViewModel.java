@@ -2,11 +2,12 @@ package viewmodels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Set;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 
-import dominio.indicadores.ArchivoIndicadores;
+import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
 import excepciones.MetodologiaInvalidaError;
@@ -22,7 +23,7 @@ public class CargarMetodologiasViewModel {
 	private int valorSeleccionado;
 
 	private Indicador indicadorSeleccionado;
-	private static ArrayList<Indicador> indicadores = ArchivoIndicadores.getInstance().getIndicadores();
+	private static Set<Indicador> indicadores = RepositorioIndicadores.getInstance().getIndicadores();
 	
 	private OperacionAgregacion operacionAgregacionSeleccionada;
 	private static ArrayList<OperacionAgregacion> operacionesAgregacion = new ArrayList<OperacionAgregacion>
@@ -74,11 +75,11 @@ public class CargarMetodologiasViewModel {
 		this.indicadorSeleccionado = indicadorSeleccionado;
 	}
 
-	public ArrayList<Indicador> getIndicadores() {
+	public Set<Indicador> getIndicadores() {
 		return indicadores;
 	}
 
-	public void setIndicadores(ArrayList<Indicador> indicadores) {
+	public void setIndicadores(Set<Indicador> indicadores) {
 		this.indicadores = indicadores;
 	}
 	

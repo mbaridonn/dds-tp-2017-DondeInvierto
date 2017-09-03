@@ -17,10 +17,8 @@ public class MenuViewModel {
 	
 	@Dependencies({ "ruta" })
 	public boolean getHayCuentas(){
-		if(ruta != "") {
-			return true;
-		}
-		return (new RepositorioEmpresas().hayEmpresas());
+		return (new RepositorioEmpresas().hayEmpresas()) || ruta != "";
+		//Hay que poner la cond de la ruta xq, si no hay empresas, al cargar un archivo se dispara la propiedad antes de que se agreguen las empresas a la BD
 	}
 	
 	public void cargarArchivo(){

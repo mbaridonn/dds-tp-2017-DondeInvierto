@@ -23,6 +23,7 @@ public class Indicador implements EvaluableEnCondicion{
 	
 	//ES NECESARIO QUE SIGA ESTANDO?? YA NO VAMOS A TRABAJAR CON ARCHIVOS DE TEXTO
 	private String equivalencia; //Provisorio, estaria bueno que en realidad la clase Expresion la tenga.//Volar?
+	
 	@OneToOne//CONVENDRÁ EMBEBER LA EXPRESIÓN?? (!!!)
 	private Expresion expresion;
 
@@ -43,33 +44,20 @@ public class Indicador implements EvaluableEnCondicion{
 		}
 	}
 	
-	public boolean seLlama(String nombre){
-		return this.nombre.equalsIgnoreCase(nombre);
+	public boolean seLlama(String nombre){//VER DONDE SE USA (PROBABLEMENTE SE ESTÁ REPITIENDO LÓGICA CON EL EQUALS) (!!!)
+		return this.nombre.equals/*IgnoreCase*/(nombre);
 	}
 	
 	public String formulaIndicador(){//Volar?
 		return nombre + " = " + equivalencia;
 	}
 	
-	public void registrarseEn(ArchivoIndicadores archivo){//Volar?
-		archivo.escribirIndicador(this.formulaIndicador());
-	}
-	
-	public void sobreEscribirseEn(ArchivoIndicadores archivo){//Volar?
-		archivo.borrarIndicador(this.nombre);
-		this.registrarseEn(archivo);
+	public void setEquivalencia(String equivalencia){//Volar?
+		this.equivalencia = equivalencia;
 	}
 	
 	public String getNombre() {
 		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-	
-	public void setEquivalencia(String equivalencia){//Volar?
-		this.equivalencia = equivalencia;
 	}
 	
 	public Expresion getExpresion() {
@@ -78,6 +66,14 @@ public class Indicador implements EvaluableEnCondicion{
 	
 	public void setExpresion(Expresion expresion) {
 		this.expresion = expresion;
+	}
+	
+	public boolean equals(Object otroObjeto) {
+	    return (otroObjeto instanceof Indicador) && this.seLlama(((Indicador) otroObjeto).getNombre());
+	}
+	
+	public int hashCode() {
+		return nombre.hashCode();
 	}
 	
 	@Override

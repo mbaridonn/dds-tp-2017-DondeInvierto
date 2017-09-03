@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -16,40 +17,38 @@ import org.junit.Test;
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
-import dominio.indicadores.ArchivoIndicadores;
+import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
+import excepciones.IndicadorExistenteError;
 
 public class IndicadoresTest {
 
-	ArrayList<Indicador> indicadores;
+	List<Indicador> indicadores = new ArrayList<Indicador>();
 	ArrayList<Empresa> empresasParaIndicadores;
-	ArchivoIndicadores archivoIndicadores = ArchivoIndicadores.getInstance();
+	RepositorioIndicadores archivoIndicadores;
 
 	@Before
 	public void setUp() {
+		RepositorioIndicadores.setIndicadoresPredefinidos(new HashSet(Arrays.asList(new String[] { "INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
+				"INDICADORDOS = cuentarara + fds", "INDICADORTRES = INGRESONETO * 10 + ebitda" , "A = 5 / 3", "PRUEBA = ebitda + 5" })));
+		archivoIndicadores = RepositorioIndicadores.getInstance();
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
-		ArchivoIndicadores archivoIndicadores = ArchivoIndicadores.getInstance();
-		archivoIndicadores.cambiarPath("src/main/resources/Indicadores.txt");
+		RepositorioIndicadores archivoIndicadores = RepositorioIndicadores.getInstance();
 		archivoEjemploIndicadores.leerEmpresas();
-		archivoIndicadores.leerIndicadores();
-		indicadores = archivoIndicadores.getIndicadores();
+		indicadores.addAll(archivoIndicadores.getIndicadores());
 		empresasParaIndicadores = archivoEjemploIndicadores.getEmpresas();
-
 	}
 	
 
 	@Test
 	public void elArchivoIndicadoresLeeCorrectamente() {
-		ArrayList<Indicador> indicadoresEsperados = new ArrayList<Indicador>() {
-			{
-				add(new Indicador("INGRESONETO"));
-				add(new Indicador("INDICADORDOS"));
-				add(new Indicador("INDICADORTRES"));
-				add(new Indicador("A"));
-				add(new Indicador("PRUEBA"));
-			}
-		};
-		assertTrue(this.sonLosMismosIndicadores(indicadoresEsperados, indicadores));
+		Set<Indicador> indicadoresEsperados = new HashSet<Indicador>(Arrays.asList(new Indicador[] {
+			new Indicador("INGRESONETO"),
+			new Indicador("INDICADORDOS"),
+			new Indicador("INDICADORTRES"),
+			new Indicador("A"),
+			new Indicador("PRUEBA")}));
+		assertTrue(indicadoresEsperados.equals(indicadores));
 	}
 
 	@Test
@@ -67,7 +66,6 @@ public class IndicadoresTest {
 	
 	@Test
 	public void unIndicadorCompuestoPorIndicadorCuentaYNumeroSeAplicaCorrectamente(){
-		indicadores = archivoIndicadores.getIndicadores();
 		Indicador indicadorTres = indicadores.get(2);
 		int resultadosEsperados[] = {190000,330000,260000};
 		int resultados[] = this.resultadosLuegoDeAplicarIndicadorAEmpresas(indicadorTres);
@@ -76,11 +74,11 @@ public class IndicadoresTest {
 	
 	
 	@Test
-	public void noSePuedeEscribirUnIndicadorConElMismoNombreQueOtro() {
+	public void noSePuedeGuardarUnIndicadorConElMismoNombreQueOtro() {
 		try {
-			archivoIndicadores.escribirIndicador("INGRESONETO = ebitda + 2");
+			archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
 			assertTrue(false);
-		} catch (RuntimeException e) {
+		} catch (IndicadorExistenteError e) {
 			assertTrue(true);
 		}
 	}
@@ -98,13 +96,13 @@ public class IndicadoresTest {
 		assertEquals(4,archivoIndicadores.indicadoresAplicablesA(empresaLoca, "2014").size());
 	}
 	
-	@Test
+	/*@Test
 	public void elArchivoIndicadoresNoDuplicaLaCantidadSiLeeDosVeces(){
 		archivoIndicadores.leerIndicadores();
 		int cantidadOriginal = archivoIndicadores.getIndicadores().size();
 		archivoIndicadores.leerIndicadores();
 		assertEquals(cantidadOriginal,archivoIndicadores.getIndicadores().size());
-	}
+	}*/
 	
 	@Test
 	public void laCantidadDeIndicadoresAplicablesAEmpresaReLocaSonCinco(){
@@ -127,16 +125,6 @@ public class IndicadoresTest {
 		this.mostrarCuentas(empresaReLoca.resultadosIndicadoresTotales(indicadoresAplicables));
 		assertTrue(true);
 	}
-	
-	/*@Test
-	public void elArchivoIndicadoresEliminaCorrectamente() {
-		archivoIndicadores.escribirIndicador("HOLA = algo");
-		archivoIndicadores.leerIndicadores();
-		int cantidadAntesDeBorrar = archivoIndicadores.getIndicadores().size();
-		archivoIndicadores.borrarIndicador("HOLA");
-		archivoIndicadores.leerIndicadores();
-		assertEquals(cantidadAntesDeBorrar - 1, archivoIndicadores.getIndicadores().size());
-	}*/
 
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
 	
@@ -156,19 +144,14 @@ public class IndicadoresTest {
 		return resultados;
 	}
 
-	private boolean sonLosMismosIndicadores(ArrayList<Indicador> unosIndicadores, ArrayList<Indicador> otrosIndicadores) {
+	/*private boolean sonLosMismosIndicadores(Set<Indicador> unosIndicadores, Set<Indicador> otrosIndicadores) {
 		for (int i = 0; i < otrosIndicadores.size(); i++) {
 			if (!this.sonLosMismosIndicadores(unosIndicadores.get(i), otrosIndicadores.get(i))) {
 				return false;
 			}
 		}
 		return true && unosIndicadores.size() == otrosIndicadores.size();
-	}
-
-	private boolean sonLosMismosIndicadores(Indicador unIndicador, Indicador otroIndicador) {
-		return unIndicador.getNombre().equals(otroIndicador.getNombre());
-	}
-
+	}*/
 
 }
 

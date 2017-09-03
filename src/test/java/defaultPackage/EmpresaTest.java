@@ -18,7 +18,7 @@ import dominio.empresas.ArchivoCSV;
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
-import dominio.indicadores.ArchivoIndicadores;
+import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 
 public class EmpresaTest {

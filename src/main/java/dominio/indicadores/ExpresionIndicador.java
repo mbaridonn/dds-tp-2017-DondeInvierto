@@ -14,7 +14,7 @@ public class ExpresionIndicador extends Expresion{
 	}
 	
 	public int evaluarEn(Empresa empresa, String anio){
-		Indicador indicador = ArchivoIndicadores.getInstance().buscarIndicador(nombreIndicador);
+		Indicador indicador = RepositorioIndicadores.getInstance().buscarIndicador(nombreIndicador);
 		return indicador.evaluarEn(empresa,anio);
 	}
 }

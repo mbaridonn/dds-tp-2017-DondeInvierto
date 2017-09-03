@@ -3,7 +3,7 @@ package viewmodels;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
-import dominio.indicadores.ArchivoIndicadores;
+import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 
 import java.util.List;
@@ -55,7 +55,7 @@ public class ConsultarCuentasViewModel {
 			cuentasSeleccionadas = null;
 		} else {
 			cuentasSeleccionadas = this.empresaSeleccionada.getCuentas();
-			Set<Indicador> indicadoresAplicables = ArchivoIndicadores.getInstance().todosLosIndicadoresAplicablesA(empresaSeleccionada);
+			Set<Indicador> indicadoresAplicables = RepositorioIndicadores.getInstance().todosLosIndicadoresAplicablesA(empresaSeleccionada);
 			cuentasSeleccionadas.addAll(empresaSeleccionada.resultadosIndicadoresTotales(indicadoresAplicables));			
 			cuentasSeleccionadas = obtenerCuentasSinRepetidos(cuentasSeleccionadas);
 		}
