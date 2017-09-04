@@ -9,6 +9,8 @@ public class ExpresionIndicador extends Expresion{
 	
 	private String nombreIndicador;
 	
+	private ExpresionIndicador(){} //Necesario para persistir la clase
+	
 	public ExpresionIndicador(String nombreIndicador){
 		this.nombreIndicador=nombreIndicador;		
 	}

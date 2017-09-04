@@ -9,6 +9,8 @@ public class ExpresionCuenta extends Expresion{
 	
 	private String cuenta;
 	
+	private ExpresionCuenta(){} //Necesario para persistir la clase
+	
 	public ExpresionCuenta(String cuenta) {
 		this.cuenta = cuenta;
 	}

@@ -57,9 +57,9 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	
 	public void guardarIndicador(String strIndicador){
 		Indicador nuevoIndicador = ParserIndicadores.parse(strIndicador);
-		if(this.existeIndicador(nuevoIndicador.getNombre())){
+		if(this.existeIndicador(nuevoIndicador.getNombre())){//NO ESTÁ FUNCIONANDO EL CHEQUEO (!!!)
 			throw new IndicadorExistenteError("Ya existe un indicador con el nombre " + strIndicador);
-		}
+		}//QUÉ PASA SI SE QUIERE GUARDAR UN INDICADOR QUE ANTES SE CARGÓ PERO NO SE GUARDÓ?? (!!!)
 		EntityManager entityManager = this.entityManager();
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();

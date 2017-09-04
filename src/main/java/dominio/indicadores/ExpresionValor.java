@@ -9,6 +9,8 @@ public class ExpresionValor extends Expresion{
 	
 	private int valor;
 	
+	private ExpresionValor(){} //Necesario para persistir la clase
+	
 	public ExpresionValor(int valor) {
 		this.valor = valor;
 	}
