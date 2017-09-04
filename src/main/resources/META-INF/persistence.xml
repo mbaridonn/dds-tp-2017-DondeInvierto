@@ -17,6 +17,11 @@
     	<class>dominio.indicadores.ExpresionIndicador</class>
     	<class>dominio.indicadores.ExpresionOperacion</class>
     	<class>dominio.indicadores.ExpresionValor</class>
+    	<class>dominio.indicadores.operadores_binarios.IntBinaryOperator</class>
+    	<class>dominio.indicadores.operadores_binarios.Mas</class>
+    	<class>dominio.indicadores.operadores_binarios.Menos</class>
+    	<class>dominio.indicadores.operadores_binarios.Por</class>
+    	<class>dominio.indicadores.operadores_binarios.Dividido</class>
     	<class>dominio.metodologias.Metodologia</class>
     	 
         <properties> 

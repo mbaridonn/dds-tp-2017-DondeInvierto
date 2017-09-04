@@ -33,6 +33,6 @@ public class RepositorioEmpresas implements WithGlobalEntityManager{
 
 	private boolean existeEmpresa(Empresa empresa){
 		List<Empresa> empresasConMismoNombre = this.entityManager().createQuery("FROM Empresa where nombre = '" + empresa.getNombre() + "'").getResultList();
-		return empresasConMismoNombre.size() > 0;
+		return !empresasConMismoNombre.isEmpty();
 	}
 }

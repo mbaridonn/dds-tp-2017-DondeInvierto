@@ -57,14 +57,15 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	
 	public void guardarIndicador(String strIndicador){
 		Indicador nuevoIndicador = ParserIndicadores.parse(strIndicador);
-		if(this.existeIndicador(nuevoIndicador.getNombre())){//NO ESTÁ FUNCIONANDO EL CHEQUEO (!!!)
+		if(this.existeIndicador(nuevoIndicador.getNombre())){
 			throw new IndicadorExistenteError("Ya existe un indicador con el nombre " + strIndicador);
-		}//QUÉ PASA SI SE QUIERE GUARDAR UN INDICADOR QUE ANTES SE CARGÓ PERO NO SE GUARDÓ?? (!!!)
+		}
 		EntityManager entityManager = this.entityManager();
 		EntityTransaction tx = entityManager.getTransaction();
 		tx.begin();
 		entityManager.persist(nuevoIndicador);
 		tx.commit();
+		agregarIndicador(strIndicador);//Cuando se guarda un indicador también se carga
 	}
 	
 	public Set<Indicador> todosLosIndicadoresAplicablesA(Empresa empresa){
@@ -86,12 +87,8 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	}
 	
 	public boolean existeIndicador(String nombreIndicador){
-		try{
-			this.buscarIndicador(nombreIndicador);
-			return true;
-		} catch(NoExisteIndicadorError e) {
-			return false;
-		}
+		List<Indicador> indicadoresConMismoNombre = this.entityManager().createQuery("FROM Indicador where nombre = '" + nombreIndicador + "'").getResultList();
+		return !indicadoresConMismoNombre.isEmpty();
 	}
 }
 
