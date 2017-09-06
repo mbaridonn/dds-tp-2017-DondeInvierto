@@ -5,9 +5,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
 import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
@@ -60,11 +57,7 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 		if(this.existeIndicador(nuevoIndicador.getNombre())){
 			throw new IndicadorExistenteError("Ya existe un indicador con el nombre " + strIndicador);
 		}
-		EntityManager entityManager = this.entityManager();
-		EntityTransaction tx = entityManager.getTransaction();
-		tx.begin();
-		entityManager.persist(nuevoIndicador);
-		tx.commit();
+		this.entityManager().persist(nuevoIndicador);//La transacción se tiene que agregar donde se envíe el mensaje (!)
 		agregarIndicador(strIndicador);//Cuando se guarda un indicador también se carga
 	}
 	
