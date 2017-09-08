@@ -5,12 +5,34 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
 import dominio.empresas.Empresa;
 
+@Entity
 public class Metodologia {
+	@Id 
+	@GeneratedValue
+	private Long id;
+	
 	private String nombre = "";
+	
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name="metodologia_id")
 	private List<CondicionTaxativa> condicionesTaxativas = new ArrayList<CondicionTaxativa>();
+	
+	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@JoinColumn(name="metodologia_id")
 	private List<CondicionPrioritaria> condicionesPrioritarias = new ArrayList<CondicionPrioritaria>();
+	
+	private Metodologia(){} //Necesario para persistir la clase
 	
 	public Metodologia(String nombre){
 		this.nombre = nombre;

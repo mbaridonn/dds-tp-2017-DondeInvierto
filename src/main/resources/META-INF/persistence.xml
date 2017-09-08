@@ -23,6 +23,8 @@
     	<class>dominio.indicadores.operadores_binarios.Por</class>
     	<class>dominio.indicadores.operadores_binarios.Dividido</class>
     	<class>dominio.metodologias.Metodologia</class>
+    	<class>dominio.metodologias.CondicionProritaria</class>
+    	<class>dominio.metodologias.CondicionTaxativa</class>
     	 
         <properties> 
 	    <property name="hibernate.archive.autodetection" value="class"/>        

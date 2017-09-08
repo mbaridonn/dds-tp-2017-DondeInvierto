@@ -1,8 +1,18 @@
 package dominio.metodologias;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import dominio.empresas.Empresa;
 
+@Entity
 public class CondicionPrioritaria extends Condicion{
+	@Id 
+	@GeneratedValue
+	private Long id;
+	
+	private CondicionPrioritaria() {} //Necesario para persistir la clase
 	
 	public CondicionPrioritaria(OperandoCondicion operandoCondicion, OperacionRelacional operacionRelacional) {
 		this.operandoCondicion = operandoCondicion;
