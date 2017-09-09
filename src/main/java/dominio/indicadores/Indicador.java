@@ -26,7 +26,7 @@ public class Indicador implements EvaluableEnCondicion{
 	//ES NECESARIO QUE SIGA ESTANDO?? YA NO VAMOS A TRABAJAR CON ARCHIVOS DE TEXTO
 	private String equivalencia; //Provisorio, estaria bueno que en realidad la clase Expresion la tenga.//Volar?
 	
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)//CONVENDRÁ EMBEBER LA EXPRESIÓN?? (!!!)
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private Expresion expresion;
 
 	private Indicador(){}

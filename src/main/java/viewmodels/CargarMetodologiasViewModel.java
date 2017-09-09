@@ -10,6 +10,7 @@ import org.uqbar.commons.utils.Observable;
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
+import excepciones.MetodologiaExistenteError;
 import excepciones.MetodologiaInvalidaError;
 
 @Observable
@@ -17,24 +18,25 @@ public class CargarMetodologiasViewModel {
 	private String nombreMetodologia = "";
 	private String resultadoOperacion;
 	private MetodologiaBuilder metodologiaBuilder;
-	
+
 	private int aniosSeleccionados;
-	
+
 	private int valorSeleccionado;
 
 	private Indicador indicadorSeleccionado;
 	private static Set<Indicador> indicadores = RepositorioIndicadores.getInstance().getIndicadores();
-	
+
 	private OperacionAgregacion operacionAgregacionSeleccionada;
-	private static ArrayList<OperacionAgregacion> operacionesAgregacion = new ArrayList<OperacionAgregacion>
-																		  (Arrays.asList(new Mediana(),new Promedio(),new Sumatoria(),new Ultimo(),new Variacion()));
-	
+	private static ArrayList<OperacionAgregacion> operacionesAgregacion = new ArrayList<OperacionAgregacion>(
+			Arrays.asList(OperacionAgregacion.Mediana, OperacionAgregacion.Promedio, OperacionAgregacion.Sumatoria,
+					OperacionAgregacion.Ultimo, OperacionAgregacion.Variacion));
+
 	private OperacionRelacional operacionRelacionalSeleccionada;
-	private static ArrayList<OperacionRelacional> operacionesRelacionales = new ArrayList<OperacionRelacional>
-																			(Arrays.asList(new Mayor(), new Menor(), new Igual()));
+	private static ArrayList<OperacionRelacional> operacionesRelacionales = new ArrayList<OperacionRelacional>(
+			Arrays.asList(OperacionRelacional.Mayor, OperacionRelacional.Menor, OperacionRelacional.Igual));
 
 	private static CargarMetodologiasViewModel singleton = new CargarMetodologiasViewModel();
-	
+
 	public int getValorSeleccionado() {
 		return valorSeleccionado;
 	}
@@ -50,7 +52,7 @@ public class CargarMetodologiasViewModel {
 	public void setAniosSeleccionados(int aniosSeleccionados) {
 		this.aniosSeleccionados = aniosSeleccionados;
 	}
-	
+
 	public OperacionAgregacion getOperacionAgregacionSeleccionada() {
 		return operacionAgregacionSeleccionada;
 	}
@@ -66,7 +68,7 @@ public class CargarMetodologiasViewModel {
 	public void setOperacionesAgregacion(ArrayList<OperacionAgregacion> operacionesAgregacion) {
 		this.operacionesAgregacion = operacionesAgregacion;
 	}
-	
+
 	public Indicador getIndicadorSeleccionado() {
 		return indicadorSeleccionado;
 	}
@@ -82,11 +84,11 @@ public class CargarMetodologiasViewModel {
 	public void setIndicadores(Set<Indicador> indicadores) {
 		this.indicadores = indicadores;
 	}
-	
+
 	public static CargarMetodologiasViewModel getInstance() {
 		return singleton;
 	}
-	
+
 	public OperacionRelacional getOperacionRelacionalSeleccionada() {
 		return operacionRelacionalSeleccionada;
 	}
@@ -99,28 +101,31 @@ public class CargarMetodologiasViewModel {
 		metodologiaBuilder = new MetodologiaBuilder();
 		metodologiaBuilder.crearMetodologia(nombreMetodologia);
 		if (metodologiaBuilder.contieneMetodologiaValida()) {
-			//Cargar la metodologÃ­a donde corresponda
+			// Cargar la metodologÃ­a donde corresponda
 			resultadoOperacion = "MetodologÃ­a creada";
-			//ABRIR PANEL CONDICIONES. HAY QUE PASAR EL BUILDER DE UNA VISTA A OTRA PARA CONTINUAR CON LA CREACIÃ“N DE LA METODOLOGÃ�A (!!)
+			// ABRIR PANEL CONDICIONES. HAY QUE PASAR EL BUILDER DE UNA VISTA A
+			// OTRA PARA CONTINUAR CON LA CREACIÃ“N DE LA METODOLOGÃ�A (!!)
 		} else {
 			resultadoOperacion = "Ingrese un nombre para la MetodologÃ­a";
-			//Alternativamente, se podrÃ­a hacer que cada campo incorrecto lance una excepciÃ³n por separado (de tipo MetodologiaMalInicializadaError)
-			//y catchearlas acÃ¡ y mostrar el mensaje de c/u (!)
+			// Alternativamente, se podrÃ­a hacer que cada campo incorrecto
+			// lance una excepciÃ³n por separado (de tipo
+			// MetodologiaMalInicializadaError)
+			// y catchearlas acÃ¡ y mostrar el mensaje de c/u (!)
 		}
 	}
 
 	public String getNombreMetodologia() {
 		return nombreMetodologia;
 	}
-	
+
 	public void setNombreMetodologia(String nombreMetodologia) {
 		this.nombreMetodologia = nombreMetodologia;
 	}
-	
+
 	public String getResultadoOperacion() {
 		return resultadoOperacion;
 	}
-	
+
 	public void setResultadoOperacion(String resultadoOperacion) {
 		this.resultadoOperacion = resultadoOperacion;
 	}
@@ -130,23 +135,25 @@ public class CargarMetodologiasViewModel {
 	}
 
 	public void agregarCondicionProritaria() {
-		metodologiaBuilder = metodologiaBuilder.agregarCondicionPrioritaria(operacionAgregacionSeleccionada, indicadorSeleccionado, aniosSeleccionados, operacionRelacionalSeleccionada);
+		metodologiaBuilder = metodologiaBuilder.agregarCondicionPrioritaria(operacionAgregacionSeleccionada,
+				indicadorSeleccionado, aniosSeleccionados, operacionRelacionalSeleccionada);
 	}
-	
+
 	public void agregarCondicionTaxativa() {
-		metodologiaBuilder = metodologiaBuilder.agregarCondicionTaxativa(operacionAgregacionSeleccionada, indicadorSeleccionado, aniosSeleccionados, operacionRelacionalSeleccionada, valorSeleccionado);
+		metodologiaBuilder = metodologiaBuilder.agregarCondicionTaxativa(operacionAgregacionSeleccionada,
+				indicadorSeleccionado, aniosSeleccionados, operacionRelacionalSeleccionada, valorSeleccionado);
 	}
 
 	public void guardarMetodologia() {
 		try {
-			RepositorioMetodologias.getInstance().agregarMetodologia(metodologiaBuilder.buildMetodologia());
+			new RepositorioMetodologias().agregarMetodologia(metodologiaBuilder.buildMetodologia());
 			resultadoOperacion = "Metodologia guardada";
-		} catch (MetodologiaInvalidaError e){
+		} catch (MetodologiaInvalidaError | MetodologiaExistenteError e) {
 			resultadoOperacion = e.getMessage();
 		}
 	}
-	
-	@Dependencies({"nombreMetodologia"})
+
+	@Dependencies({ "nombreMetodologia" })
 	public boolean getCargado() {
 		return nombreMetodologia.length() > 0;
 	}

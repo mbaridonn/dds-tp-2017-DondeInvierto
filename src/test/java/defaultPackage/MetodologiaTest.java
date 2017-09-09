@@ -37,33 +37,33 @@ public class MetodologiaTest {
 	public void miEmpresaEsMasAntiguaQueEmpresaReLoca() {
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		assertTrue(new CondicionPrioritaria(new OperandoCondicion(new Ultimo(), new Antiguedad(), 1), new Mayor()).esMejorQue(miEmpresa, empresaReLoca));
+		assertTrue(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor).esMejorQue(miEmpresa, empresaReLoca));
 	}
 	
 	@Test
 	public void miEmpresaCumpleCondTaxAntiguedadMenorA10() {
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		assertTrue(new CondicionTaxativa(new OperandoCondicion(new Ultimo(), new Antiguedad(), 1), new Menor(), 10).laCumple(miEmpresa));
+		assertTrue(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10).laCumple(miEmpresa));
 	}
 	
 	@Test
 	public void empresaReLocaNoCumpleCondTaxAntiguedadMayorA3() {
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		assertFalse(new CondicionTaxativa(new OperandoCondicion(new Ultimo(), new Antiguedad(), 1), new Mayor(), 3).laCumple(empresaReLoca));
+		assertFalse(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor, 3).laCumple(empresaReLoca));
 	}
 	
 	@Test
 	public void empresaReLocaCumpleCondTaxAntiguedadIgualA1(){
 		Empresa miEmpresa = empresasParaIndicadores.get(2);
-		assertTrue(new CondicionTaxativa(new OperandoCondicion(new Ultimo(), new Antiguedad(), 1), new Igual(), 1).laCumple(miEmpresa));
+		assertTrue(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Igual, 1).laCumple(miEmpresa));
 	}
 	
 	@Test
 	public void empresaReLocaNOCumpleCondTaxIndicadorINDICADORDOSMayorA360000() {
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
 		Indicador indicadorDos = indicadores.get(1);
-		OperandoCondicion operando = new OperandoCondicion(new Ultimo(),indicadorDos,1);
-		CondicionTaxativa cond = new CondicionTaxativa(operando, new Mayor(), 360000);
+		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,indicadorDos,1);
+		CondicionTaxativa cond = new CondicionTaxativa(operando, OperacionRelacional.Mayor, 360000);
 		assertFalse(cond.laCumple(empresaReLoca));
 	}
 	
@@ -71,8 +71,8 @@ public class MetodologiaTest {
 	public void empresaReLocaNOCumpleCondTaxIndicadorINDICADORDOSMenorA200000(){
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
 		Indicador indicadorDos = indicadores.get(1);
-		OperandoCondicion operando = new OperandoCondicion(new Ultimo(),indicadorDos,1);
-		CondicionTaxativa cond = new CondicionTaxativa(operando, new Menor(), 200000);
+		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,indicadorDos,1);
+		CondicionTaxativa cond = new CondicionTaxativa(operando, OperacionRelacional.Menor, 200000);
 		assertFalse(cond.laCumple(empresaReLoca));
 	}
 	
@@ -80,8 +80,8 @@ public class MetodologiaTest {
 	public void empresaReLocaCumpleCondTaxIndicadorINDICADORDOSIgualA30000(){
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
 		Indicador indicadorDos = indicadores.get(1);
-		OperandoCondicion operando = new OperandoCondicion(new Ultimo(),indicadorDos,1);
-		CondicionTaxativa cond = new CondicionTaxativa(operando, new Igual(), 300000);
+		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,indicadorDos,1);
+		CondicionTaxativa cond = new CondicionTaxativa(operando, OperacionRelacional.Igual, 300000);
 		assertTrue(cond.laCumple(empresaReLoca));
 	}
 	
@@ -89,7 +89,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOMayorA20000EnUltimoAnio() {
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Ultimo(),ingresoNeto,1), new Mayor(), 20000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo,ingresoNeto,1), OperacionRelacional.Mayor, 20000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -97,7 +97,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOMenorA8000EnUltimoAnio(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Ultimo(),ingresoNeto,1), new Menor(), 8000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo,ingresoNeto,1), OperacionRelacional.Menor, 8000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -105,7 +105,7 @@ public class MetodologiaTest {
 	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOIgualA17000EnUltimoAnio(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Ultimo(),ingresoNeto,1), new Igual(), 17000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo,ingresoNeto,1), OperacionRelacional.Igual, 17000);
 		assertTrue(cond.laCumple(miEmpresa));
 	}
 	
@@ -113,7 +113,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConSumatoriaMayorA30000EnUltimosDosAnios() {
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Sumatoria(),ingresoNeto,2), new Mayor(), 30000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,2), OperacionRelacional.Mayor, 30000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -121,7 +121,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConSumatoriaMenorA15000EnUltimosDosAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Sumatoria(),ingresoNeto,2), new Menor(), 15000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,2), OperacionRelacional.Menor, 15000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -129,7 +129,7 @@ public class MetodologiaTest {
 	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConSumatoriaIgualA28000EnUltimosDosAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Sumatoria(),ingresoNeto,2), new Igual(), 28000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,2), OperacionRelacional.Igual, 28000);
 		assertTrue(cond.laCumple(miEmpresa));
 	}
 	
@@ -137,7 +137,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConPromedioMayorA15000EnUltimosDosAnios() {
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Mayor(), 15000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 15000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -145,7 +145,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConPromedioMenorA10000EnUltimosDosAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Menor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Menor, 10000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -153,7 +153,7 @@ public class MetodologiaTest {
 	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConPromedioIgualA14000EnUltimosDosAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Igual(), 14000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Igual, 14000);
 		assertTrue(cond.laCumple(miEmpresa));
 	}
 	
@@ -161,7 +161,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConPromedioMayorA10000EnUltimosCuatroAnios() {
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,4), new Mayor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,4), OperacionRelacional.Mayor, 10000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -169,7 +169,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConPromedioMenorA8000EnUltimosCuatroAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,4), new Menor(), 8000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,4), OperacionRelacional.Menor, 8000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -177,7 +177,7 @@ public class MetodologiaTest {
 	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConPromedioIgualA9500EnUltimosCuatroAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,4), new Igual(), 9500);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,4), OperacionRelacional.Igual, 9500);
 		assertTrue(cond.laCumple(miEmpresa));
 	}
 	
@@ -185,7 +185,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConMedianaMayorA15000EnUltimosTresAnios() { // Mediana con n impar
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Mediana(),ingresoNeto,3), new Mayor(), 15000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,3), OperacionRelacional.Mayor, 15000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -193,7 +193,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConMedianaMenorA10000EnUltimosTresAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Mediana(),ingresoNeto,3), new Menor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,3), OperacionRelacional.Menor, 10000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -201,7 +201,7 @@ public class MetodologiaTest {
 	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConMedianaIgualA11000EnUltimosTresAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Mediana(),ingresoNeto,3), new Igual(), 11000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,3), OperacionRelacional.Igual, 11000);
 		assertTrue(cond.laCumple(miEmpresa));
 	}
 	
@@ -209,7 +209,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConMedianaMayorA10000EnUltimosCuatroAnios() { // Mediana con n impar
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Mediana(),ingresoNeto,4), new Mayor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,4), OperacionRelacional.Mayor, 10000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -217,7 +217,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConMedianaMenorA7000EnUltimosCuatroAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Mediana(),ingresoNeto,4), new Menor(), 7000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,4), OperacionRelacional.Menor, 7000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -225,7 +225,7 @@ public class MetodologiaTest {
 	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConMedianaIgualA9000EnUltimosCuatroAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Mediana(),ingresoNeto,4), new Igual(), 9000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,4), OperacionRelacional.Igual, 9000);
 		assertTrue(cond.laCumple(miEmpresa));
 	}
 	
@@ -233,7 +233,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConVariacionMayorA15000EnUltimosCuatroAnios() { // Mediana con n impar
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Variacion(),ingresoNeto,4), new Mayor(), 15000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,4), OperacionRelacional.Mayor, 15000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -241,7 +241,7 @@ public class MetodologiaTest {
 	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConVariacionMenorA13000EnUltimosCuatroAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Variacion(),ingresoNeto,4), new Menor(), 13000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,4), OperacionRelacional.Menor, 13000);
 		assertFalse(cond.laCumple(miEmpresa));
 	}
 	
@@ -249,7 +249,7 @@ public class MetodologiaTest {
 	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConVariacionIgualA14000EnUltimosCuatroAnios(){
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Variacion(),ingresoNeto,4), new Igual(), 14000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,4), OperacionRelacional.Igual, 14000);
 		assertTrue(cond.laCumple(miEmpresa));
 	}
 	
@@ -259,7 +259,7 @@ public class MetodologiaTest {
 		Indicador ingresoNeto = indicadores.get(0);
 		boolean huboError = false;
 		try{
-			CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Variacion(),ingresoNeto,3), new Igual(), 14000);
+			CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,3), OperacionRelacional.Igual, 14000);
 			cond.laCumple(empresaReLoca);
 		}catch(NoExisteCuentaError e){
 			huboError = true;
@@ -273,7 +273,7 @@ public class MetodologiaTest {
 		Indicador ingresoNeto = indicadores.get(0);
 		boolean huboError = false;
 		try{
-			CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Variacion(),ingresoNeto,5), new Igual(), 50000);
+			CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,5), OperacionRelacional.Igual, 50000);
 			cond.laCumple(miEmpresa);
 		}catch(RuntimeException e){
 			huboError = true;
@@ -286,7 +286,7 @@ public class MetodologiaTest {
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(new Ultimo(),ingresoNeto,1), new Mayor());
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo,ingresoNeto,1), OperacionRelacional.Mayor);
 		assertTrue(cond.esMejorQue(miEmpresa, empresaReLoca));
 	}
 	
@@ -295,7 +295,7 @@ public class MetodologiaTest {
 		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Indicador indicadorDos = indicadores.get(1);
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(new Sumatoria(),indicadorDos,1), new Mayor());
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,indicadorDos,1), OperacionRelacional.Mayor);
 		assertTrue(cond.esMejorQue(empresaReLoca, miEmpresa));
 	}
 	
@@ -304,7 +304,7 @@ public class MetodologiaTest {
 		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Indicador indicadorDos = indicadores.get(1);
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(new Promedio(),indicadorDos,1), new Mayor());
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Promedio,indicadorDos,1), OperacionRelacional.Mayor);
 		assertTrue(cond.esMejorQue(empresaReLoca, miEmpresa));
 	}
 	
@@ -314,7 +314,7 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1); 
 		Indicador indicadorDos = indicadores.get(1);
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(new Promedio(),indicadorDos,1), new Mayor());
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Promedio,indicadorDos,1), OperacionRelacional.Mayor);
 		assertTrue(cond.esMejorQue(empresaReLoca, miEmpresa) && cond.esMejorQue(miEmpresa, empresaLoca));
 	}
 	
@@ -324,7 +324,7 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1); 
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(new Sumatoria(),ingresoNeto,1), new Mayor());
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,1), OperacionRelacional.Mayor);
 		assertTrue(cond.esMejorQue(miEmpresa, empresaReLoca) && cond.esMejorQue(empresaReLoca, empresaLoca));
 	}
 	
@@ -334,7 +334,7 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1); 
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(new Variacion(),ingresoNeto,2), new Mayor());
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,2), OperacionRelacional.Mayor);
 		assertTrue(cond.esMejorQue(miEmpresa, empresaReLoca) && cond.esMejorQue(empresaReLoca, empresaLoca));
 	}
 	
@@ -344,7 +344,7 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1); 
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(new Variacion(),ingresoNeto,2), new Menor());
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,2), OperacionRelacional.Menor);
 		assertTrue(cond.esMejorQue(empresaLoca, empresaReLoca) && cond.esMejorQue(empresaReLoca, miEmpresa));
 	}
 	
@@ -355,7 +355,7 @@ public class MetodologiaTest {
 		Indicador ingresoNeto = indicadores.get(0);
 		boolean huboError = false;
 		try{
-			CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(new Sumatoria(),ingresoNeto,3), new Mayor());
+			CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor);
 			cond.esMejorQue(miEmpresa, empresaLoca);
 		}catch(NoExisteCuentaError e){
 			huboError = true;
@@ -367,7 +367,7 @@ public class MetodologiaTest {
 	public void soloDosEmpresasCumplenINGRESONETOConPromedioMayorA10000EnUltimos2Anios(){
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Mayor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertEquals(2,metodologia.evaluarPara(empresasParaComparacionConMetodologias).size());
 	}
@@ -378,7 +378,7 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Mayor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == miEmpresa) &&  metodologia.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == empresaReLoca));
 	}
@@ -389,7 +389,7 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Mayor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==miEmpresa && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==empresaReLoca);
 	}
@@ -398,7 +398,7 @@ public class MetodologiaTest {
 	public void soloUnaEmpresaNoCumpleINGRESONETOConPromedioMayorA10000EnUltimos2Anios(){
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Mayor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertEquals(1,metodologia.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).size());
 	}
@@ -408,7 +408,7 @@ public class MetodologiaTest {
 		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Mayor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertTrue(metodologia.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).get(0)==empresaLoca);
 	}
@@ -417,7 +417,7 @@ public class MetodologiaTest {
 	public void soloUnaEmpresaCumpleINGRESONETOConSumatoriaMayorA20000EnUltimos3Anios(){
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Sumatoria(),ingresoNeto,3), new Mayor(), 20000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertEquals(1,metodologia.evaluarPara(empresasParaComparacionConMetodologias).size());
 	}
@@ -427,7 +427,7 @@ public class MetodologiaTest {
 		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,3), new Mayor(), 10000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,3), OperacionRelacional.Mayor, 10000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == miEmpresa));
 	}
@@ -436,7 +436,7 @@ public class MetodologiaTest {
 	public void ningunaEmpresaNOCumpleINGRESONETOConSumatoriaMayorA20000EnUltimos3Anios(){
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Sumatoria(),ingresoNeto,3), new Mayor(), 20000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertEquals(0,metodologia.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).size());
 	}
@@ -445,7 +445,7 @@ public class MetodologiaTest {
 	public void soloDosEmpresasNOtienenDatosSuficientesParaINGRESONETOConSumatoriaMayorA20000EnUltimos3Anios(){
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Sumatoria(),ingresoNeto,3), new Mayor(), 20000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertEquals(2,metodologia.empresasConDatosFaltantes(empresasParaComparacionConMetodologias).size());
 	}
@@ -456,7 +456,7 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		Indicador ingresoNeto = indicadores.get(0);
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(new Sumatoria(),ingresoNeto,3), new Mayor(), 20000);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
 		metodologia.agregarCondicionTaxativa(cond);
 		assertTrue(metodologia.empresasConDatosFaltantes(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == empresaLoca) &&  metodologia.empresasConDatosFaltantes(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == empresaReLoca));
 	}
@@ -466,8 +466,8 @@ public class MetodologiaTest {
 		Indicador ingresoNeto = indicadores.get(0);
 		Indicador indicadorDos = indicadores.get(1);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
-		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Mayor(), 10000);
-		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(new Sumatoria(),indicadorDos,2), new Mayor());
+		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
+		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,indicadorDos,2), OperacionRelacional.Mayor);
 		metodologia.agregarCondicionTaxativa(condTax);
 		metodologia.agregarCondicionPrioritaria(condPrior);
 		assertEquals(2,metodologia.evaluarPara(empresasParaComparacionConMetodologias).size());
@@ -480,8 +480,8 @@ public class MetodologiaTest {
 		Indicador ingresoNeto = indicadores.get(0);
 		Indicador indicadorDos = indicadores.get(1);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
-		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(new Promedio(),ingresoNeto,2), new Mayor(), 10000);
-		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(new Variacion(),indicadorDos,2), new Mayor());
+		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
+		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Variacion,indicadorDos,2), OperacionRelacional.Mayor);
 		metodologia.agregarCondicionTaxativa(condTax);
 		metodologia.agregarCondicionPrioritaria(condPrior);
 		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==empresaReLoca && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==miEmpresa);
@@ -493,8 +493,8 @@ public class MetodologiaTest {
 		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
 		Indicador prueba = indicadores.get(4);
 		Metodologia metodologia = new Metodologia("Una Metodologia");
-		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(new Ultimo(),prueba,1), new Mayor(), 0);
-		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(new Ultimo(),prueba,1), new Mayor());
+		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo,prueba,1), OperacionRelacional.Mayor, 0);
+		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo,prueba,1), OperacionRelacional.Mayor);
 		metodologia.agregarCondicionTaxativa(condTax);
 		metodologia.agregarCondicionPrioritaria(condPrior);
 		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==empresaReLoca && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==miEmpresa);

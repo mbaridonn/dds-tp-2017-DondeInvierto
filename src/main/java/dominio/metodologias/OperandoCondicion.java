@@ -3,12 +3,21 @@ package dominio.metodologias;
 import java.time.LocalDate;
 import java.util.stream.IntStream;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
+
 import dominio.empresas.Empresa;
 import excepciones.AntiguedadMenorACeroError;
 import excepciones.NoExisteCuentaError;
 
 public class OperandoCondicion {
+	@Enumerated
 	private OperacionAgregacion operacionAgregacion;
+	//@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@Transient
 	private EvaluableEnCondicion indicadorOAntiguedad;
 	private int aniosAEvaluar;
 	

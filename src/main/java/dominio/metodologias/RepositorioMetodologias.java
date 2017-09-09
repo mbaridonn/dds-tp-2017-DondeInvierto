@@ -1,24 +1,27 @@
 package dominio.metodologias;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class RepositorioMetodologias {
-	private ArrayList<Metodologia> metodologias = new ArrayList<Metodologia>();
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
+import excepciones.MetodologiaExistenteError;
+
+public class RepositorioMetodologias implements WithGlobalEntityManager{
 	
-	private static RepositorioMetodologias singleton = new RepositorioMetodologias();
-	
-	private RepositorioMetodologias(){}
-	
-	public static RepositorioMetodologias getInstance(){
-		return singleton;
+	public List<Metodologia> getMetodologias() {
+		return (List<Metodologia>) this.entityManager().createQuery("FROM Metodologia").getResultList();
 	}
 	
 	public void agregarMetodologia(Metodologia metodologia){
-		metodologias.add(metodologia);
+		if (existeMetodologia(metodologia)){
+			throw new MetodologiaExistenteError("Ya existe una metodología con el nombre " + metodologia.getNombre());
+		}
+		this.entityManager().persist(metodologia);//La transacción se tiene que agregar donde se envíe el mensaje (!)
 	}
 	
-	public ArrayList<Metodologia> getMetodologias() {
-		return metodologias;
+	private boolean existeMetodologia(Metodologia metodologia){
+		List<Metodologia> metodologiasConMismoNombre = this.entityManager().createQuery("FROM Metodologia where nombre = '" + metodologia.getNombre() + "'").getResultList();
+		return !metodologiasConMismoNombre.isEmpty();
 	}
 	
 }

@@ -17,14 +17,13 @@
     	<class>dominio.indicadores.ExpresionIndicador</class>
     	<class>dominio.indicadores.ExpresionOperacion</class>
     	<class>dominio.indicadores.ExpresionValor</class>
-    	<class>dominio.indicadores.operadores_binarios.IntBinaryOperator</class>
-    	<class>dominio.indicadores.operadores_binarios.Mas</class>
-    	<class>dominio.indicadores.operadores_binarios.Menos</class>
-    	<class>dominio.indicadores.operadores_binarios.Por</class>
-    	<class>dominio.indicadores.operadores_binarios.Dividido</class>
     	<class>dominio.metodologias.Metodologia</class>
-    	<class>dominio.metodologias.CondicionProritaria</class>
+    	<class>dominio.metodologias.CondicionPrioritaria</class>
     	<class>dominio.metodologias.CondicionTaxativa</class>
+    	<class>dominio.metodologias.Condicion</class>
+    	<class>dominio.metodologias.OperandoCondicion</class>
+    	<class>dominio.metodologias.EvaluableEnCondicion</class>
+    	<class>dominio.metodologias.Antiguedad</class>
     	 
         <properties> 
 	    <property name="hibernate.archive.autodetection" value="class"/>        

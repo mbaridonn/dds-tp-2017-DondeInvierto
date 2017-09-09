@@ -85,8 +85,4 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	}
 }
 
-class NoExisteIndicadorError extends RuntimeException {
-	NoExisteIndicadorError(String e) {
-		super(e);
-	}
-}
+class NoExisteIndicadorError extends RuntimeException {NoExisteIndicadorError(String e) {super(e);}}
