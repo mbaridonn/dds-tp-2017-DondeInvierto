@@ -7,7 +7,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 @MappedSuperclass
 public abstract class Condicion {
@@ -15,8 +14,7 @@ public abstract class Condicion {
 	@GeneratedValue
 	private Long id;
 	
-//	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@Transient
+	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	protected OperandoCondicion operandoCondicion;
 	@Enumerated
 	protected OperacionRelacional operacionRelacional;

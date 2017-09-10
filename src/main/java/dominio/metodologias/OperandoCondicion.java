@@ -4,22 +4,31 @@ import java.time.LocalDate;
 import java.util.stream.IntStream;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 
 import dominio.empresas.Empresa;
 import excepciones.AntiguedadMenorACeroError;
 import excepciones.NoExisteCuentaError;
 
+@Entity
 public class OperandoCondicion {
+	
+	@Id 
+	@GeneratedValue
+	private Long id;
+	
 	@Enumerated
 	private OperacionAgregacion operacionAgregacion;
-	//@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-	@Transient
+	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private EvaluableEnCondicion indicadorOAntiguedad;
 	private int aniosAEvaluar;
+	
+	private OperandoCondicion() {} //Necesario para persistir la clase
 	
 	public OperandoCondicion(OperacionAgregacion operacionAgregacion, EvaluableEnCondicion indicadorOAntiguedad, int aniosAEvaluar) {
 		this.operacionAgregacion = operacionAgregacion;

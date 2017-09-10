@@ -1,9 +1,15 @@
 package dominio.metodologias;
 
+import javax.persistence.Entity;
+
 import dominio.empresas.Empresa;
 import excepciones.AntiguedadMenorACeroError;
 
-public class Antiguedad implements EvaluableEnCondicion {
+@Entity
+public class Antiguedad extends EvaluableEnCondicion {
+	
+	public Antiguedad(){} //PROBLEMA: SE VAN A ESTAR CREANDO MÚLTIPLES INSTANCIAS DE ANTIGUEDAD, CUANDO UNA SERÍA SUFICIENTE (!!!)
+	
 	public int evaluarEn(Empresa empresa, String anio){
 		int antiguedad = Integer.parseInt(anio) - empresa.getAnioDeCreacion();
 		if(antiguedad < 0){

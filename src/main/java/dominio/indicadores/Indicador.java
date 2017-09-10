@@ -3,8 +3,6 @@ package dominio.indicadores;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 import org.uqbar.commons.utils.Observable;
@@ -15,11 +13,7 @@ import excepciones.NoExisteCuentaError;
 
 @Observable
 @Entity
-public class Indicador implements EvaluableEnCondicion{
-
-	@Id 
-	@GeneratedValue
-	private Long id;
+public class Indicador extends EvaluableEnCondicion{
 	
 	private String nombre;
 	

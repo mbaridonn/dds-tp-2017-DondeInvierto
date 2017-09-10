@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
@@ -14,7 +18,7 @@ import excepciones.MetodologiaExistenteError;
 import excepciones.MetodologiaInvalidaError;
 
 @Observable
-public class CargarMetodologiasViewModel {
+public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
 	private String nombreMetodologia = "";
 	private String resultadoOperacion;
 	private MetodologiaBuilder metodologiaBuilder;
@@ -146,7 +150,11 @@ public class CargarMetodologiasViewModel {
 
 	public void guardarMetodologia() {
 		try {
+			EntityManager entityManager = this.entityManager();
+			EntityTransaction tx = entityManager.getTransaction();
+			tx.begin();
 			new RepositorioMetodologias().agregarMetodologia(metodologiaBuilder.buildMetodologia());
+			tx.commit();
 			resultadoOperacion = "Metodologia guardada";
 		} catch (MetodologiaInvalidaError | MetodologiaExistenteError e) {
 			resultadoOperacion = e.getMessage();
