@@ -1,6 +1,7 @@
 package dominio.metodologias;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.stream.Collectors;
@@ -48,17 +49,21 @@ public class Metodologia {
 		return empresasQueCumplenTaxativas;
 	}
 	
-	public List<Empresa> empresasConDatosFaltantes(List<Empresa> empresas){
-		List<Empresa> empresasConDatosFaltantes = new ArrayList<Empresa>();
+	public List<Empresa> empresasConDatosFaltantes(List<Empresa> empresas){	
 		List<Condicion> condiciones = new ArrayList<Condicion>();
 		condiciones.addAll(condicionesTaxativas);
 		condiciones.addAll(condicionesPrioritarias);
-		for (Empresa emp: empresas){
-			for(Condicion cond: condiciones){
-				if (!cond.getOperandoCondicion().sePuedeEvaluarPara(emp)) empresasConDatosFaltantes.add(emp);
-			}
-		}
-		return empresasConDatosFaltantes;
+		return this.empresasConDatosInsuficientesParaLasCondiciones(empresas,condiciones);
+	}
+	
+	private List<Empresa> empresasConDatosInsuficientesParaLasCondiciones(List<Empresa> empresas, List<Condicion> condiciones){
+		HashSet<Empresa> empresasConDatosFaltantes = new HashSet<Empresa>();
+		condiciones.forEach(cond -> empresasConDatosFaltantes.addAll(this.empresasConDatosFaltantesParaEstaCondicion(empresas,cond)));
+		return new ArrayList<Empresa>(empresasConDatosFaltantes);
+	}
+	
+	private List<Empresa> empresasConDatosFaltantesParaEstaCondicion(List<Empresa> empresas, Condicion condicion){
+		return empresas.stream().filter(emp -> !condicion.getOperandoCondicion().sePuedeEvaluarPara(emp)).collect(Collectors.toList());
 	}
 	
 	public List<Empresa> empresasQueNoCumplenTaxativas(List<Empresa> empresas){ //Devuelve sólo las que no cumplen (no las que faltan datos)
