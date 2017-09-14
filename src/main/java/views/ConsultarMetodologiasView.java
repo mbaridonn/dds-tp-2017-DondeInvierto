@@ -34,12 +34,12 @@ public class ConsultarMetodologiasView extends Dialog<ConsultarMetodologiasViewM
 		new Label(mainPanel).setText("Empresas que no cumplen condiciones taxativas:");
 		
 		List<Empresa> empresasQueNoCumplen = new List<Empresa>(mainPanel);
-		empresasOrdenadas.bindItemsToProperty("empresasQueNoCumplen");
+		empresasQueNoCumplen.bindItemsToProperty("empresasQueNoCumplen");
 		
 		new Label(mainPanel).setText("Empresas con datos faltantes:");
 		
 		List<Empresa> empresasSinDatos = new List<Empresa>(mainPanel);
-		empresasOrdenadas.bindItemsToProperty("empresasSinDatos");
+		empresasSinDatos.bindItemsToProperty("empresasSinDatos");
 		
 	}
 	
