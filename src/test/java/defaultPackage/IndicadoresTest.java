@@ -43,12 +43,13 @@ public class IndicadoresTest {
 	@Test
 	public void elArchivoIndicadoresLeeCorrectamente() {
 		Set<Indicador> indicadoresEsperados = new HashSet<Indicador>(Arrays.asList(new Indicador[] {
-			new Indicador("INGRESONETO"),
 			new Indicador("INDICADORDOS"),
-			new Indicador("INDICADORTRES"),
 			new Indicador("A"),
-			new Indicador("PRUEBA")}));
-		assertTrue(indicadoresEsperados.equals(indicadores));
+			new Indicador("INGRESONETO"),
+			new Indicador("PRUEBA"),
+			new Indicador("INDICADORTRES")}));
+		boolean todosLosIndicadoresSonLosEsperados = indicadores.stream().allMatch(ind -> indicadoresEsperados.stream().anyMatch(ind2 -> ind.getNombre().equalsIgnoreCase(ind2.getNombre())));
+		assertTrue(todosLosIndicadoresSonLosEsperados);
 	}
 
 	@Test
@@ -59,16 +60,18 @@ public class IndicadoresTest {
 	@Test
 	public void elIndicadorIngresoNetoSeAplicaCorrectamenteALasEmpresas() {
 		int resultadosEsperados[] = { 7000, 3000, 11000};
-		Indicador ingresoNeto = indicadores.get(0);
+		Indicador ingresoNeto = this.getIndicadorLlamado("ingresoNeto");
 		int resultados[] = this.resultadosLuegoDeAplicarIndicadorAEmpresas(ingresoNeto);
 		assertTrue(Arrays.equals(resultadosEsperados, resultados));
 	}
 	
 	@Test
 	public void unIndicadorCompuestoPorIndicadorCuentaYNumeroSeAplicaCorrectamente(){
-		Indicador indicadorTres = indicadores.get(2);
+		Indicador indicadorTres = this.getIndicadorLlamado("indicadorTres");
 		int resultadosEsperados[] = {190000,330000,260000};
 		int resultados[] = this.resultadosLuegoDeAplicarIndicadorAEmpresas(indicadorTres);
+		System.out.println(resultados[0]);
+		System.out.println(resultados[1]);
 		assertTrue(Arrays.equals(resultadosEsperados, resultados));
 	}
 	
@@ -86,7 +89,7 @@ public class IndicadoresTest {
 	@Test
 	public void elINDICADORDOSEsInaplicableAEmpresaLocaEn2016PorInexistenciaDeCuenta(){
 		Empresa EmpresaLoca = empresasParaIndicadores.get(1);
-		Indicador indicadorDos = indicadores.get(1);
+		Indicador indicadorDos = this.getIndicadorLlamado("indicadorDos");
 		assertTrue(!indicadorDos.esAplicableA(EmpresaLoca, "2016"));
 	}
 	
@@ -152,6 +155,12 @@ public class IndicadoresTest {
 		}
 		return true && unosIndicadores.size() == otrosIndicadores.size();
 	}*/
+	
+	private Indicador getIndicadorLlamado(String nombreIndicador){
+		return indicadores.stream().filter(ind -> ind.getNombre().equalsIgnoreCase(nombreIndicador)).findFirst().orElseThrow(() -> new NoSePudoObtenerIndicadorError("No se pudo obtener un indicador con ese nombre."));
+	}
 
 }
+
+class NoSePudoObtenerIndicadorError extends RuntimeException{public NoSePudoObtenerIndicadorError(String e){super(e);}}
 
