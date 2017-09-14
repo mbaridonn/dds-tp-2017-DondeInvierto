@@ -81,7 +81,7 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	
 	public boolean existeIndicador(String nombreIndicador){
 		List<Indicador> indicadoresConMismoNombre = this.entityManager().createQuery("FROM Indicador where nombre = '" + nombreIndicador + "'").getResultList();
-		return !indicadoresConMismoNombre.isEmpty();
+		return !indicadoresConMismoNombre.isEmpty() || this.indicadores.stream().anyMatch(ind -> ind.getNombre().equalsIgnoreCase(nombreIndicador));
 	}
 }
 

@@ -80,6 +80,7 @@ public class IndicadoresTest {
 	public void noSePuedeGuardarUnIndicadorConElMismoNombreQueOtro() {
 		try {
 			archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
+			archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
 			assertTrue(false);
 		} catch (IndicadorExistenteError e) {
 			assertTrue(true);

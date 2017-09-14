@@ -6,8 +6,7 @@ public enum OperacionAgregacion {
 	
 	Mediana{
 		public int aplicarA(IntStream valores) {
-			valores.sorted();
-			int[] vals = valores.toArray();
+			int[] vals = valores.sorted().toArray();
 			int middle = (int) (vals.length / 2);
 			if (vals.length%2 == 1) {
 				return vals[middle];
