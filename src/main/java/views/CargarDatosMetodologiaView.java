@@ -13,6 +13,7 @@ import dominio.indicadores.Indicador;
 import dominio.metodologias.OperacionAgregacion;
 import dominio.metodologias.OperacionRelacional;
 import viewmodels.CargarMetodologiasViewModel;
+import viewmodels.MensajeView;
 
 public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewModel> {
 	public CargarDatosMetodologiaView(WindowOwner owner) {
@@ -28,6 +29,8 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 
 		Panel condicionesPanel = new Panel(mainPanel);
 		condicionesPanel.setLayout(new HorizontalLayout());
+		
+		new Label(mainPanel).bindValueToProperty("resultadoOperacion");
 		
 		new Label(condicionesPanel).setText("Operacion Agregacion:");
 		Selector<OperacionAgregacion> selectorOperacionAgregacion = new Selector<OperacionAgregacion>(condicionesPanel);
@@ -53,18 +56,32 @@ public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewMod
 		Panel condicionesPrioritariasPanel = new Panel(botonesCondicionesPanel);
 		condicionesPrioritariasPanel.setLayout(new HorizontalLayout());
 		new Button(condicionesPrioritariasPanel).setCaption("Agregar condicion prioritaria")
-												.onClick(() -> this.getModelObject().agregarCondicionProritaria());
+												.onClick(() -> this.agregarCondicionPrioritariaYMostrarVentana());
 		
 		Panel condicionesTaxativasPanel = new Panel(botonesCondicionesPanel);
 		condicionesTaxativasPanel.setLayout(new HorizontalLayout());
 		
-		new Button(condicionesTaxativasPanel).setCaption("Agregar condicion taxativa")
-											 .onClick(() -> this.getModelObject().agregarCondicionTaxativa());
+		new Label(condicionesTaxativasPanel).setText("Valor:");
 		
-			new Label(condicionesTaxativasPanel).setText("Valor:");
-		new NumericField(condicionesTaxativasPanel).bindValueToProperty("valorSeleccionado");//VALOR
+		new NumericField(condicionesTaxativasPanel).bindValueToProperty("valorSeleccionado");
+		
+		new Button(condicionesTaxativasPanel).setCaption("Agregar condicion taxativa")
+											 .onClick(() -> this.agregarCondicionTaxativaYMostrarVentana());
 		
 		new Button(mainPanel).setCaption("Guardar metodologia")
 							 .onClick(() -> this.getModelObject().guardarMetodologia());
 	}
+	
+	private void agregarCondicionPrioritariaYMostrarVentana() {
+		this.getModelObject().agregarCondicionProritaria();
+		Dialog<?> dialog = new MensajeView(this,"Condicion Prioritaria Agregada!");
+		dialog.open();
+	}
+	
+	private void agregarCondicionTaxativaYMostrarVentana() {
+		this.getModelObject().agregarCondicionTaxativa();
+		Dialog<?> dialog = new MensajeView(this,"Condicion Taxativa Agregada!");
+		dialog.open();
+	}
+
 }

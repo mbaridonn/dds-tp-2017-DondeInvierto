@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.uqbar.arena.windows.Dialog;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -16,26 +17,29 @@ import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
 import excepciones.MetodologiaExistenteError;
 import excepciones.MetodologiaInvalidaError;
+import views.CargarDatosMetodologiaView;
 
 @Observable
 public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
 	private String nombreMetodologia = "";
 	private String resultadoOperacion;
 	private MetodologiaBuilder metodologiaBuilder;
+	
+	private boolean botonMetodologiaCargado = false;
 
-	private int aniosSeleccionados;
+	private int aniosSeleccionados = 0;
 
-	private int valorSeleccionado;
+	private int valorSeleccionado = 0;
 
-	private Indicador indicadorSeleccionado;
 	private static Set<Indicador> indicadores = RepositorioIndicadores.getInstance().getIndicadores();
-
-	private OperacionAgregacion operacionAgregacionSeleccionada;
+	private Indicador indicadorSeleccionado = indicadores.iterator().next();
+	
 	private static ArrayList<OperacionAgregacion> operacionesAgregacion = new ArrayList<OperacionAgregacion>(
 			Arrays.asList(OperacionAgregacion.Mediana, OperacionAgregacion.Promedio, OperacionAgregacion.Sumatoria,
 					OperacionAgregacion.Ultimo, OperacionAgregacion.Variacion));
+	private OperacionAgregacion operacionAgregacionSeleccionada = operacionesAgregacion.get(0);
 
-	private OperacionRelacional operacionRelacionalSeleccionada;
+	private OperacionRelacional operacionRelacionalSeleccionada = operacionesRelacionales.get(0);
 	private static ArrayList<OperacionRelacional> operacionesRelacionales = new ArrayList<OperacionRelacional>(
 			Arrays.asList(OperacionRelacional.Mayor, OperacionRelacional.Menor, OperacionRelacional.Igual));
 
@@ -104,18 +108,6 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
 	public void crearMetodologia() {
 		metodologiaBuilder = new MetodologiaBuilder();
 		metodologiaBuilder.crearMetodologia(nombreMetodologia);
-		if (metodologiaBuilder.contieneMetodologiaValida()) {
-			// Cargar la metodologÃ­a donde corresponda
-			resultadoOperacion = "MetodologÃ­a creada";
-			// ABRIR PANEL CONDICIONES. HAY QUE PASAR EL BUILDER DE UNA VISTA A
-			// OTRA PARA CONTINUAR CON LA CREACIÃ“N DE LA METODOLOGÃ�A (!!)
-		} else {
-			resultadoOperacion = "Ingrese un nombre para la MetodologÃ­a";
-			// Alternativamente, se podrÃ­a hacer que cada campo incorrecto
-			// lance una excepciÃ³n por separado (de tipo
-			// MetodologiaMalInicializadaError)
-			// y catchearlas acÃ¡ y mostrar el mensaje de c/u (!)
-		}
 	}
 
 	public String getNombreMetodologia() {
@@ -149,21 +141,26 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
 	}
 
 	public void guardarMetodologia() {
+		EntityManager entityManager = this.entityManager();
+		EntityTransaction tx = entityManager.getTransaction();
+		tx.begin();
 		try {
-			EntityManager entityManager = this.entityManager();
-			EntityTransaction tx = entityManager.getTransaction();
-			tx.begin();
 			new RepositorioMetodologias().agregarMetodologia(metodologiaBuilder.buildMetodologia());
 			tx.commit();
 			resultadoOperacion = "Metodologia guardada";
 		} catch (MetodologiaInvalidaError | MetodologiaExistenteError e) {
 			resultadoOperacion = e.getMessage();
+			tx.rollback();
 		}
 	}
 
 	@Dependencies({ "nombreMetodologia" })
 	public boolean getCargado() {
 		return nombreMetodologia.length() > 0;
+	}
+
+	public boolean getBotonMetodologiaCargado() {
+		return botonMetodologiaCargado;
 	}
 
 }

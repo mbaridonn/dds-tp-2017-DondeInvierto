@@ -9,6 +9,10 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+import org.hibernate.service.ServiceRegistryBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,6 +51,14 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 //		entityManager = this.entityManager();
 //		tx = entityManager.getTransaction();
 //		tx.begin();
+		
+	/*	SessionFactory sesFactory;
+	    ServiceRegistry sesRegistry;
+	    Configuration cfg;
+		cfg = new Configuration().configure("persistencia2.xml");
+		sesRegistry = new ServiceRegistryBuilder().applySettings(cfg.getProperties()).buildServiceRegistry();
+        sesFactory=cfg.buildSessionFactory(sesRegistry);*/
+		
 		repoEmpresas = new RepositorioEmpresas();
 		repoIndicadores = new RepositorioIndicadores();
 		repoMetodologias = new RepositorioMetodologias();
