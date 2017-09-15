@@ -75,7 +75,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 	
 	@Test
-	public void alAgregarDosEmpresasAlRepositorioEmpresasEstasSePersistenEsaCantidad(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)
+	public void alAgregarDosEmpresasAlRepositorioEmpresasEstasSePersistenEsaCantidad(){
 		Empresa empresa1 = new Empresa("empresa1Test0",listaCuentasEjemplo1);
 		Empresa empresa2 = new Empresa("empresa2Test0",listaCuentasEjemplo2);
 		List<Empresa> listaEmpresas = new ArrayList<Empresa>(Arrays.asList(empresa1,empresa2));
@@ -85,7 +85,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 	
 	@Test
-	public void alAgregarDosEmpresasAlRepositorioEmpresasEstasSePersistenCorrectamente(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)
+	public void alAgregarDosEmpresasAlRepositorioEmpresasEstasSePersistenCorrectamente(){
 		Empresa empresa1 = new Empresa("empresa1Test1",listaCuentasEjemplo1);
 		Empresa empresa2 = new Empresa("empresa2Test1",listaCuentasEjemplo2);
 		List<Empresa> listaEmpresas = new ArrayList<Empresa>(Arrays.asList(empresa1,empresa2));
@@ -94,7 +94,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 	
 	@Test
-	public void noSePersistenDosEmpresasConElMismoNombre(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)	
+	public void noSePersistenDosEmpresasConElMismoNombre(){
 		Empresa empresa = new Empresa("empresa1Test2",listaCuentasEjemplo1);
 		Empresa empresaCopia = new Empresa("empresa1Test2",listaCuentasEjemplo2);	
 		List<Empresa> listaEmpresas = new ArrayList<Empresa>(Arrays.asList(empresa,empresaCopia));		
@@ -103,7 +103,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 	
 	@Test
-	public void alAgregarDosIndicadoresAlRepositorioIndicadoresEstosSePersistenEsaCantidad(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)
+	public void alAgregarDosIndicadoresAlRepositorioIndicadoresEstosSePersistenEsaCantidad(){
 		List<String> listaIndicadores = new ArrayList<String>(Arrays.asList("INDICADORUNOTESTCERO = ebitda + fds - 2","INDICADORDOSTESTCERO = ebitda * 2 + fds - 2500"));
 		int cantidadAntesDeAgregar = repoIndicadores.getIndicadores().size();
 		repoIndicadores.guardarIndicadores(listaIndicadores);		
@@ -111,7 +111,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 	
 	@Test
-	public void alAgregarDosIndicadoresAlRepositorioIndicadoresEstosSePersistenCorrectamente(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)
+	public void alAgregarDosIndicadoresAlRepositorioIndicadoresEstosSePersistenCorrectamente(){
 		List<String> listaIndicadores = new ArrayList<String>(Arrays.asList("INDICADORUNOTESTUNO = ebitda + fds - 2","INDICADORDOSTESTUNO = ebitda * 2 + fds - 2500"));
 		List<Indicador> indicadores = crearIndicadoresAPartirDeSusExpresiones(listaIndicadores);
 		repoIndicadores.guardarIndicadores(listaIndicadores);		
@@ -119,7 +119,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 	
 	@Test
-	public void noSePersistenDosIndicadoresConElMismoNombre(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)	
+	public void noSePersistenDosIndicadoresConElMismoNombre(){
 		List<String> listaIndicadores = new ArrayList<String>(Arrays.asList("INDICADORUNOTESTDOS = ebitda + fds - 2","INDICADORUNOTESTDOS = ebitda * 2 + fds - 2500"));
 		try{
 			repoIndicadores.guardarIndicadores(listaIndicadores);
@@ -130,7 +130,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 	
 	@Test
-	public void alAgregarDosMetodologiasAlRepositorioMetodologiasEstosSePersistenEsaCantidad(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)
+	public void alAgregarDosMetodologiasAlRepositorioMetodologiasEstosSePersistenEsaCantidad(){
 		List<Metodologia> listaMetodologias = new ArrayList<Metodologia>(Arrays.asList(this.obtenerMetodologiaTipo1("MetodologiaTipo1TestCero"),obtenerMetodologiaTipo2("MetodologiaTipo2TestCero")));
 		int cantidadAntesDeAgregar = repoMetodologias.getMetodologias().size();
 		listaMetodologias.forEach(metodologia ->repoMetodologias.agregarMetodologia(metodologia));		
@@ -138,14 +138,14 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 	
 	@Test
-	public void alAgregarDosMetodologiasAlRepositorioMetodologiasEstosSePersistenCorrectamente(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)
+	public void alAgregarDosMetodologiasAlRepositorioMetodologiasEstosSePersistenCorrectamente(){
 		List<Metodologia> listaMetodologias = new ArrayList<Metodologia>(Arrays.asList(this.obtenerMetodologiaTipo1("MetodologiaTipo1TestUno"),obtenerMetodologiaTipo2("MetodologiaTipo2TestUno")));
 		listaMetodologias.forEach(metodologia ->repoMetodologias.agregarMetodologia(metodologia));		
 		assertTrue(repoMetodologias.getMetodologias().containsAll(listaMetodologias));	
 	}
 	
 	@Test
-	public void noSePersistenDosMetodologiasConElMismoNombre(){//PROBLEMA: EL TEST ESTA TENIENDO EFECTO EN LA BD? (!!!)	
+	public void noSePersistenDosMetodologiasConElMismoNombre(){
 		List<Metodologia> listaMetodologias = new ArrayList<Metodologia>(Arrays.asList(this.obtenerMetodologiaTipo1("MetodologiaTipo1TestDos"),obtenerMetodologiaTipo1("MetodologiaTipo1TestDos")));
 		try{
 			listaMetodologias.forEach(metodologia ->repoMetodologias.agregarMetodologia(metodologia));		
