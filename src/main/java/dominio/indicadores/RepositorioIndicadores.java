@@ -25,7 +25,7 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	
 	private Set<Indicador> indicadores = new HashSet<Indicador>();
 
-	private RepositorioIndicadores() {
+	public RepositorioIndicadores() {
 		this.cargarIndicadoresPredefinidos();
 		this.cargarIndicadoresEnBD();
 	}
@@ -77,6 +77,10 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	public Indicador buscarIndicador(String nombreIndicador) {
 		return indicadores.stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst()
 				.orElseThrow(() -> new NoExisteIndicadorError("No se pudo encontrar una indicador con ese nombre."));
+	}
+	
+	public void guardarIndicadores(List<String> indicadores){
+		indicadores.forEach(strIndicador -> this.guardarIndicador(strIndicador));
 	}
 	
 	public boolean existeIndicador(String nombreIndicador){
