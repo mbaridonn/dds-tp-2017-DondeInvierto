@@ -63,7 +63,7 @@ public class Metodologia {
 	}
 	
 	private List<Empresa> empresasConDatosFaltantesParaEstaCondicion(List<Empresa> empresas, Condicion condicion){
-		return empresas.stream().filter(emp -> !condicion.getOperandoCondicion().sePuedeEvaluarPara(emp)).collect(Collectors.toList());
+		return empresas.stream().filter(emp -> !condicion.getOperando().sePuedeEvaluarPara(emp)).collect(Collectors.toList());
 	}
 	
 	public List<Empresa> empresasQueNoCumplenTaxativas(List<Empresa> empresas){ //Devuelve sólo las que no cumplen (no las que faltan datos)

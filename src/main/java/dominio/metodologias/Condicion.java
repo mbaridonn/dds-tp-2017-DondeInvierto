@@ -15,11 +15,11 @@ public abstract class Condicion {
 	private Long id;
 	
 	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	protected OperandoCondicion operandoCondicion;
+	protected OperandoCondicion operando;
 	@Enumerated
 	protected OperacionRelacional operacionRelacional;
 	
-	public OperandoCondicion getOperandoCondicion() {
-		return operandoCondicion;
+	public OperandoCondicion getOperando() {
+		return operando;
 	}
 }

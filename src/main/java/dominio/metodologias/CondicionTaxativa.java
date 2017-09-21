@@ -11,14 +11,14 @@ public class CondicionTaxativa extends Condicion{
 	
 	private CondicionTaxativa() {} //Necesario para persistir la clase
 	
-	public CondicionTaxativa(OperandoCondicion operandoCondicion, OperacionRelacional operacionRelacional, int valor) {
-		this.operandoCondicion = operandoCondicion;
+	public CondicionTaxativa(OperandoCondicion operando, OperacionRelacional operacionRelacional, int valor) {
+		this.operando = operando;
 		this.operacionRelacional = operacionRelacional;
 		this.valor = valor;
 	}
 	
 	public boolean laCumple(Empresa empresa){
-		return operacionRelacional.aplicarA(operandoCondicion.valorPara(empresa), valor);
+		return operacionRelacional.aplicarA(operando.valorPara(empresa), valor);
 	}
 
 }
