@@ -1,5 +1,7 @@
 package dominio.indicadores;
 
+import java.time.Year;
+
 import javax.persistence.Entity;
 
 import dominio.empresas.Empresa;
@@ -15,7 +17,7 @@ public class ExpresionIndicador extends Expresion{
 		this.nombreIndicador=nombreIndicador;		
 	}
 	
-	public int evaluarEn(Empresa empresa, String anio){
+	public int evaluarEn(Empresa empresa, Year anio){
 		Indicador indicador = RepositorioIndicadores.getInstance().buscarIndicador(nombreIndicador);
 		return indicador.evaluarEn(empresa,anio);
 	}

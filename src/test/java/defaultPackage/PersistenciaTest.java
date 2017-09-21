@@ -3,6 +3,7 @@ package defaultPackage;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,9 +51,9 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		RepositorioIndicadores archivoIndicadores = RepositorioIndicadores.getInstance();
 		indicadores.addAll(archivoIndicadores.getIndicadores());
 		listaCuentasEjemplo1 = new ArrayList<Cuenta>(
-				Arrays.asList(new Cuenta("2015", "EBITDA", 2000), new Cuenta("2014", "FDS", 3000)));
-		listaCuentasEjemplo2 = new ArrayList<Cuenta>(Arrays.asList(new Cuenta("2013", "EBITDA", 6000),
-				new Cuenta("2010", "FDS", 8000), new Cuenta("2014", "EBITDA", 8000)));
+				Arrays.asList(new Cuenta(Year.of(2015), "EBITDA", 2000), new Cuenta(Year.of(2014), "FDS", 3000)));
+		listaCuentasEjemplo2 = new ArrayList<Cuenta>(Arrays.asList(new Cuenta(Year.of(2013), "EBITDA", 6000),
+				new Cuenta(Year.of(2010), "FDS", 8000), new Cuenta(Year.of(2014), "EBITDA", 8000)));
 	}
 
 	@Test
@@ -142,6 +143,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 
 	// ************************* METODOS AUXILIARES
 	// *************************************//
+	
 	private List<Indicador> crearIndicadoresAPartirDeSusExpresiones(List<String> expresiones) {
 		List<Indicador> indicadores = new ArrayList<Indicador>();
 		expresiones.forEach(exp -> indicadores.add(ParserIndicadores.parse(exp)));

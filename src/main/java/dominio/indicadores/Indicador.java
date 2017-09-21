@@ -1,5 +1,7 @@
 package dominio.indicadores;
 
+import java.time.Year;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,7 +22,7 @@ public class Indicador extends EvaluableEnCondicion{
 	//ES NECESARIO QUE SIGA ESTANDO?? YA NO VAMOS A TRABAJAR CON ARCHIVOS DE TEXTO
 	private String equivalencia; //Provisorio, estaria bueno que en realidad la clase Expresion la tenga.//Volar?
 	
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Expresion expresion;
 
 	private Indicador(){}
@@ -29,11 +31,11 @@ public class Indicador extends EvaluableEnCondicion{
 		this.nombre = nombre;
 	}
 	
-	public int evaluarEn(Empresa empresa, String anio){
+	public int evaluarEn(Empresa empresa, Year anio){
 		return expresion.evaluarEn(empresa,anio);
 	}
 	
-	public boolean esAplicableA(Empresa empresa, String anio){
+	public boolean esAplicableA(Empresa empresa, Year anio){
 		try{
 			this.evaluarEn(empresa, anio);
 			return true;

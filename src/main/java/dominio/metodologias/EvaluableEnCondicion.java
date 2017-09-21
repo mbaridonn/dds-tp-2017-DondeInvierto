@@ -1,5 +1,7 @@
 package dominio.metodologias;
 
+import java.time.Year;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,6 +18,6 @@ public abstract class EvaluableEnCondicion {
 	@GeneratedValue
 	private Long id;
 	
-	public abstract int evaluarEn(Empresa empresa, String anio);
+	public abstract int evaluarEn(Empresa empresa, Year anio);
 	
 }

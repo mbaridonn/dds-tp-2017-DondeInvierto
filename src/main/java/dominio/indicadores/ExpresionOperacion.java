@@ -1,5 +1,7 @@
 package dominio.indicadores;
 
+import java.time.Year;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
@@ -29,7 +31,7 @@ public class ExpresionOperacion extends Expresion{
 	}
 	
 	@Override
-	public int evaluarEn(Empresa empresa, String anio) {
+	public int evaluarEn(Empresa empresa, Year anio) {
 		return operadorAritmetico.applyAsInt(operandoIzq.evaluarEn(empresa, anio), operandoDer.evaluarEn(empresa, anio));
 	}
 }

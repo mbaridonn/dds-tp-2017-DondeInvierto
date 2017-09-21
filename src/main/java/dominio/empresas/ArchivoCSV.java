@@ -3,6 +3,8 @@ package dominio.empresas;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.ArrayList;
 import com.opencsv.CSVReader;
 
@@ -43,7 +45,7 @@ public class ArchivoCSV extends ArchivoEmpresas{
 	}
 	
 	private Cuenta leerCuenta(String linea[]){
-		return new Cuenta(linea[0],linea[1],Integer.parseInt(linea[2]));
+		return new Cuenta(this.obtenerAnio(linea[0]),linea[1],Integer.parseInt(linea[2]));
 	}
 	
 	private String nombreEmpresa(String linea[]){

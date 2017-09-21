@@ -2,6 +2,7 @@ package defaultPackage;
 
 import static org.junit.Assert.*;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,25 +58,25 @@ public class EmpresaTest {
 
 	@Test
 	public void elAnioDeLaUltimaCuentaEsDeLaPrimeraEmpresa2014() {
-		assertEquals(cuentas.get(cuentas.size() - 1).getAnio(), "2014");
+		assertEquals(cuentas.get(cuentas.size() - 1).getAnio(), Year.of(2014));
 	}
 
 	@Test
 	public void elValorDeLaCuentaFDSDel2017Es158960() {
-		assertEquals(empresa.getValorCuenta("FDS", "2017"), 158960);
+		assertEquals(empresa.getValorCuenta("FDS", Year.of(2017)), 158960);
 	}
 
 	@Test
 	public void cargaCuentasCorrectamente() {
 		ArrayList<Cuenta> cuentasEsperadas = new ArrayList<Cuenta>() {
 			{
-				add(new Cuenta("2017", "EBITDA", 35000));
-				add(new Cuenta("2017", "FDS", 158960));
-				add(new Cuenta("2016", "FDS", 144000));
-				add(new Cuenta("2015", "EBITDA", 120000));
-				add(new Cuenta("2015", "Free Clash Flow", 150000));
-				add(new Cuenta("2014", "EBITDA", 260000));
-				add(new Cuenta("2014", "FDS", 360000));
+				add(new Cuenta(Year.of(2017), "EBITDA", 35000));
+				add(new Cuenta(Year.of(2017), "FDS", 158960));
+				add(new Cuenta(Year.of(2016), "FDS", 144000));
+				add(new Cuenta(Year.of(2015), "EBITDA", 120000));
+				add(new Cuenta(Year.of(2015), "Free Clash Flow", 150000));
+				add(new Cuenta(Year.of(2014), "EBITDA", 260000));
+				add(new Cuenta(Year.of(2014), "FDS", 360000));
 			}
 		};
 		assertTrue(this.sonLasMismasCuentas(cuentasEsperadas, cuentas));

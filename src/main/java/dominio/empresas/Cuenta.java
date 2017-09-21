@@ -1,5 +1,7 @@
 package dominio.empresas;
 
+import java.time.Year;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -14,13 +16,13 @@ public class Cuenta {
 	@GeneratedValue
 	private Long id;
 	
-	private String anio;
+	private Year anio;
 	private String tipoCuenta;
 	private int valor;
 	
 	private Cuenta(){} //Necesario para persistir la clase
 	
-	public Cuenta(String anio, String tipoCuenta, int valor){
+	public Cuenta(Year anio, String tipoCuenta, int valor){
 		this.anio = anio;
 		this.tipoCuenta = tipoCuenta;
 		this.valor = valor;
@@ -30,11 +32,11 @@ public class Cuenta {
 		return this.tipoCuenta.equalsIgnoreCase(tipo);
 	}
 	
-	public boolean esDeAnio(String anio){
+	public boolean esDeAnio(Year anio){
 		return this.anio.equals(anio);
 	}
 
-	public String getAnio() {
+	public Year getAnio() {
 		return anio;
 	}
 

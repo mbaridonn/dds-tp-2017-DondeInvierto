@@ -1,6 +1,7 @@
 package dominio.metodologias;
 
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.stream.IntStream;
 
 import javax.persistence.CascadeType;
@@ -51,7 +52,7 @@ public class OperandoCondicion {
 	public int valorPara(Empresa empresa){
 		int anioActual = LocalDate.now().getYear();
 		IntStream periodoAEvaluar = IntStream.rangeClosed(anioActual - aniosAEvaluar, anioActual);
-		IntStream indicesEnPeriodo = periodoAEvaluar.map(anio -> indicadorOAntiguedad.evaluarEn(empresa, String.valueOf(anio)));
+		IntStream indicesEnPeriodo = periodoAEvaluar.map(anio -> indicadorOAntiguedad.evaluarEn(empresa, Year.of(anio)));
 		return operacionAgregacion.aplicarA(indicesEnPeriodo);
 	}
 }

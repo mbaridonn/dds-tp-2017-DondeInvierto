@@ -1,5 +1,7 @@
 package dominio.metodologias;
 
+import java.time.Year;
+
 import javax.persistence.Entity;
 
 import dominio.empresas.Empresa;
@@ -13,8 +15,8 @@ public class Antiguedad extends EvaluableEnCondicion {
 		// UNA SERÍA SUFICIENTE (!!!)
 
 	@Override
-	public int evaluarEn(Empresa empresa, String anio) {
-		int antiguedad = Integer.parseInt(anio) - empresa.getAnioDeCreacion();
+	public int evaluarEn(Empresa empresa, Year anio) {
+		int antiguedad = Integer.parseInt(anio.toString()) - empresa.getAnioDeCreacion();
 		if (antiguedad < 0) {
 			throw new AntiguedadMenorACeroError("La empresa " + empresa.getNombre() + " no existía en el año " + anio);
 		}

@@ -2,6 +2,7 @@ package defaultPackage;
 
 import static org.junit.Assert.*;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -91,13 +92,13 @@ public class IndicadoresTest {
 	public void elINDICADORDOSEsInaplicableAEmpresaLocaEn2016PorInexistenciaDeCuenta(){
 		Empresa EmpresaLoca = empresasParaIndicadores.get(1);
 		Indicador indicadorDos = this.getIndicadorLlamado("indicadorDos");
-		assertTrue(!indicadorDos.esAplicableA(EmpresaLoca, "2016"));
+		assertTrue(!indicadorDos.esAplicableA(EmpresaLoca, Year.of(2016)));
 	}
 	
 	@Test
 	public void soloDosIndicadoresSonAplicablesAEmpresaLoca2014(){
 		Empresa empresaLoca = empresasParaIndicadores.get(1);
-		assertEquals(4,archivoIndicadores.indicadoresAplicablesA(empresaLoca, "2014").size());
+		assertEquals(4,archivoIndicadores.indicadoresAplicablesA(empresaLoca, Year.of(2014)).size());
 	}
 	
 	/*@Test
@@ -118,7 +119,7 @@ public class IndicadoresTest {
 	public void laCantidadDeIndicadoresAplicablesAEmpresaReLocaEn2016SonCuatro(){
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
 		empresaReLoca.resultadosIndicadoresTotales(archivoIndicadores.todosLosIndicadoresAplicablesA(empresaReLoca)).size();
-		assertEquals(4,archivoIndicadores.indicadoresAplicablesA(empresaReLoca, "2016").size());
+		assertEquals(4,archivoIndicadores.indicadoresAplicablesA(empresaReLoca, Year.of(2016)).size());
 	}
 	
 	@Test
@@ -141,9 +142,9 @@ public class IndicadoresTest {
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Empresa EmpresaLoca = empresasParaIndicadores.get(1);
 		Empresa EmpresaReLoca = empresasParaIndicadores.get(2);
-		resultados[0] = ind.evaluarEn(miEmpresa, "2015");
-		resultados[1] = ind.evaluarEn(EmpresaLoca, "2014");
-		resultados[2] = ind.evaluarEn(EmpresaReLoca, "2016");
+		resultados[0] = ind.evaluarEn(miEmpresa, Year.of(2015));
+		resultados[1] = ind.evaluarEn(EmpresaLoca, Year.of(2014));
+		resultados[2] = ind.evaluarEn(EmpresaReLoca, Year.of(2016));
 		
 		return resultados;
 	}
