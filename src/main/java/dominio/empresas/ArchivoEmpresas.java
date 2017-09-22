@@ -1,5 +1,6 @@
 package dominio.empresas;
 
+import java.time.Year;
 import java.util.ArrayList;
 
 public abstract class ArchivoEmpresas{
@@ -34,6 +35,10 @@ public abstract class ArchivoEmpresas{
 	
 	public ArrayList<Empresa> getEmpresas() {
 		return empresas;
+	}
+	
+	protected Year obtenerAnio(String anio){
+		return Year.parse(anio);
 	}
 	
 	protected abstract void prepararLector();

@@ -1,5 +1,6 @@
 package dominio.indicadores;
 
+import java.time.Year;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -63,12 +64,12 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	
 	public Set<Indicador> todosLosIndicadoresAplicablesA(Empresa empresa){
 		Set<Indicador> indicadoresAplicables = new HashSet<Indicador>();
-		Set<String> aniosDeCuentas = empresa.aniosDeLosQueTieneCuentas();
+		Set<Year> aniosDeCuentas = empresa.aniosDeLosQueTieneCuentas();
 		aniosDeCuentas.forEach(anio -> indicadoresAplicables.addAll(this.indicadoresAplicablesA(empresa, anio)));
 		return indicadoresAplicables;
 	}
 	
-	public Set<Indicador> indicadoresAplicablesA(Empresa empresa, String anio){
+	public Set<Indicador> indicadoresAplicablesA(Empresa empresa, Year anio){
 		Set<Indicador> indicadoresAplicables = new HashSet<Indicador>();
 		indicadores.stream().filter(ind -> ind.esAplicableA(empresa, anio)).forEach(ind -> indicadoresAplicables.add(ind));
 		return indicadoresAplicables;

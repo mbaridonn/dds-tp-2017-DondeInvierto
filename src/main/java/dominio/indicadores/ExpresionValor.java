@@ -1,5 +1,7 @@
 package dominio.indicadores;
 
+import java.time.Year;
+
 import javax.persistence.Entity;
 
 import dominio.empresas.Empresa;
@@ -16,7 +18,7 @@ public class ExpresionValor extends Expresion{
 	}
 
 	@Override
-	public int evaluarEn(Empresa empresa, String anio) {
+	public int evaluarEn(Empresa empresa, Year anio) {
 		return valor;
 	}
 	

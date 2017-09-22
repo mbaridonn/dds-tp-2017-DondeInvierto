@@ -2,6 +2,7 @@ package dominio.empresas;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -60,12 +61,12 @@ public class ArchivoXLS extends ArchivoEmpresas{
 	}
 	
 	private Cuenta obtenerCuentaDeFila(Row row){
-		return new Cuenta(this.anioDeCuenta(row),this.tipoDeCuenta(row),this.valorDeCuenta(row)); 
+		return new Cuenta(this.anioDeCuenta(row),this.tipoDeCuenta(row),this.valorDeCuenta(row));
 	}
 	
-	private String anioDeCuenta(Row row){
+	private Year anioDeCuenta(Row row){
 		Cell cell = this.obtenerCeldaNumero(0,row);
-		return String.valueOf((int)cell.getNumericCellValue());
+		return Year.of((int)cell.getNumericCellValue());
 	}
 	
 	private String tipoDeCuenta(Row row){

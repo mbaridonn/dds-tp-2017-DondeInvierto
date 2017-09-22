@@ -1,5 +1,6 @@
 package dominio.empresas;
 
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Empresa {
 	
 	private String nombre;
 	
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="empresa_id")
 	private List<Cuenta> cuentas;//Hibernate requiere que las colecciones a persistir estén declarados como una interfaz (no una clase concreta).
 	
@@ -48,20 +49,20 @@ public class Empresa {
 		cuentas.add(cuenta);
 	}
 	
-	public Set<String> aniosDeLosQueTieneCuentas(){
-		Set<String> anios = new HashSet<String>();
+	public Set<Year> aniosDeLosQueTieneCuentas(){
+		Set<Year> anios = new HashSet<Year>();
 		cuentas.forEach(cuenta -> anios.add(cuenta.getAnio()));
 		return anios;
 	}
 	
 	public List<Cuenta> resultadosIndicadoresTotales(Set<Indicador> indicadores){
-		Set<String> anios = this.aniosDeLosQueTieneCuentas();
+		Set<Year> anios = this.aniosDeLosQueTieneCuentas();
 		List<Cuenta> resultadosTotales = new ArrayList<Cuenta>();
 		anios.forEach(anio -> resultadosTotales.addAll(this.resultadosIndicadoresSegunAnio(indicadores,anio)));
 		return resultadosTotales;
 	}
 	
-	public List<Cuenta> resultadosIndicadoresSegunAnio(Set<Indicador> indicadores, String anio){
+	public List<Cuenta> resultadosIndicadoresSegunAnio(Set<Indicador> indicadores, Year anio){
 		List<Cuenta> resultados = new ArrayList<Cuenta>();
 		List<Indicador> indicadoresAplicables = new ArrayList<Indicador>();
 		indicadores.stream().filter(ind -> ind.esAplicableA(this, anio)).forEach(ind -> indicadoresAplicables.add(ind));
@@ -70,7 +71,7 @@ public class Empresa {
 	}
 	
 	public int getAnioDeCreacion(){//El anio de creación se obtiene a partir de la cuenta más antigua
-		return cuentas.stream().mapToInt(cuenta-> Integer.parseInt(cuenta.getAnio())).min()
+		return cuentas.stream().mapToInt(cuenta-> Integer.parseInt(cuenta.getAnio().toString())).min()
 				.orElseThrow(() -> new NoExisteCuentaError("La empresa no tiene ninguna cuenta, por lo que no se puede calcular el año de creación."));
 	}
 	
@@ -82,7 +83,7 @@ public class Empresa {
 		return cuentas;
 	}
 	
-	public int getValorCuenta(String tipoCuenta, String anio){
+	public int getValorCuenta(String tipoCuenta, Year anio){
 		Cuenta cuentaBuscada = cuentas.stream().filter(cuenta -> cuenta.esDeTipo(tipoCuenta) && cuenta.esDeAnio(anio)).findFirst().orElseThrow(() -> new NoExisteCuentaError("No se pudo encontrar la cuenta " + tipoCuenta + " en el año " + anio + " para la empresa " + this.getNombre() + "."));
 		//El findFirst podría enmascarar el caso erróneo en el que haya dos cuentas del mismo tipo con valores distintos en el mismo año
 		return cuentaBuscada.getValor();

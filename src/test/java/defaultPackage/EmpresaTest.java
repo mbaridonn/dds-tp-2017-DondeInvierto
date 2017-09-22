@@ -1,25 +1,16 @@
 package defaultPackage;
 
 import static org.junit.Assert.*;
-
+import java.time.Year;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
-
-/*import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;*/
 import org.junit.Before;
 import org.junit.Test;
-
-import dominio.*;
 import dominio.empresas.ArchivoCSV;
+import dominio.empresas.ArchivoEmpresas;
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
-import dominio.indicadores.RepositorioIndicadores;
-import dominio.indicadores.Indicador;
 
 public class EmpresaTest {
 
@@ -38,11 +29,6 @@ public class EmpresaTest {
 		cuentas = empresa.getCuentas();
 	}
 
-	/*
-	 * @Test public void ejemploTest(){ assertEquals(expected, actual);
-	 * assertFalse(algoBool); assertTrue(algoBool); }
-	 */
-
 	@Test
 	public void elLectorXLSPuedeLeerUnArchivoConExtensionXLS() {
 		ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
@@ -57,25 +43,25 @@ public class EmpresaTest {
 
 	@Test
 	public void elAnioDeLaUltimaCuentaEsDeLaPrimeraEmpresa2014() {
-		assertEquals(cuentas.get(cuentas.size() - 1).getAnio(), "2014");
+		assertEquals(cuentas.get(cuentas.size() - 1).getAnio(), obtenerAnio(2014));
 	}
 
 	@Test
 	public void elValorDeLaCuentaFDSDel2017Es158960() {
-		assertEquals(empresa.getValorCuenta("FDS", "2017"), 158960);
+		assertEquals(empresa.getValorCuenta("FDS", obtenerAnio(2017)), 158960);
 	}
 
 	@Test
 	public void cargaCuentasCorrectamente() {
 		ArrayList<Cuenta> cuentasEsperadas = new ArrayList<Cuenta>() {
 			{
-				add(new Cuenta("2017", "EBITDA", 35000));
-				add(new Cuenta("2017", "FDS", 158960));
-				add(new Cuenta("2016", "FDS", 144000));
-				add(new Cuenta("2015", "EBITDA", 120000));
-				add(new Cuenta("2015", "Free Clash Flow", 150000));
-				add(new Cuenta("2014", "EBITDA", 260000));
-				add(new Cuenta("2014", "FDS", 360000));
+				add(new Cuenta(obtenerAnio(2017), "EBITDA", 35000));
+				add(new Cuenta(obtenerAnio(2017), "FDS", 158960));
+				add(new Cuenta(obtenerAnio(2016), "FDS", 144000));
+				add(new Cuenta(obtenerAnio(2015), "EBITDA", 120000));
+				add(new Cuenta(obtenerAnio(2015), "Free Clash Flow", 150000));
+				add(new Cuenta(obtenerAnio(2014), "EBITDA", 260000));
+				add(new Cuenta(obtenerAnio(2014), "FDS", 360000));
 			}
 		};
 		assertTrue(this.sonLasMismasCuentas(cuentasEsperadas, cuentas));
@@ -110,7 +96,7 @@ public class EmpresaTest {
 		ArchivoXLS archivo = new ArchivoXLS("src/test/resources/LibroPruebaEmpresas.xls");
 		archivo.leerEmpresas();
 		archivo.leerEmpresas();
-		assertEquals(3, archivo.getEmpresas().size());
+		assertEquals(3, cantidadEmpresasEn(archivo));
 	}
 
 	@Test
@@ -118,11 +104,15 @@ public class EmpresaTest {
 		ArchivoCSV archivo = new ArchivoCSV("src/test/resources/LibroPruebaEmpresas.csv");
 		archivo.leerEmpresas();
 		archivo.leerEmpresas();
-		assertEquals(3, archivo.getEmpresas().size());
+		assertEquals(3, cantidadEmpresasEn(archivo));
 	}
 
 
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
+	
+	private int cantidadEmpresasEn(ArchivoEmpresas archivo) {
+		return archivo.getEmpresas().size();
+	}
 
 	public boolean tienenLasMismasEmpresas(List<Empresa> primerListaEmpresas,
 			List<Empresa> segundaListaEmpresas) {
@@ -152,6 +142,9 @@ public class EmpresaTest {
 				&& cuenta.getTipoCuenta().equals(cuentaEsperada.getTipoCuenta())
 				&& cuenta.getValor() == cuentaEsperada.getValor();
 	}
-
+	
+	private Year obtenerAnio(int anio) {
+		return Year.of(anio);
+	}
 
 }

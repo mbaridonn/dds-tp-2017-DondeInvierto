@@ -1,8 +1,9 @@
 package dominio.indicadores;
 
+import java.time.Year;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 
 import org.uqbar.commons.utils.Observable;
@@ -17,10 +18,9 @@ public class Indicador extends EvaluableEnCondicion{
 	
 	private String nombre;
 	
-	//ES NECESARIO QUE SIGA ESTANDO?? YA NO VAMOS A TRABAJAR CON ARCHIVOS DE TEXTO
-	private String equivalencia; //Provisorio, estaria bueno que en realidad la clase Expresion la tenga.//Volar?
+	private String equivalencia;
 	
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToOne(cascade = CascadeType.PERSIST)
 	private Expresion expresion;
 
 	private Indicador(){}
@@ -29,11 +29,11 @@ public class Indicador extends EvaluableEnCondicion{
 		this.nombre = nombre;
 	}
 	
-	public int evaluarEn(Empresa empresa, String anio){
+	public int evaluarEn(Empresa empresa, Year anio){
 		return expresion.evaluarEn(empresa,anio);
 	}
 	
-	public boolean esAplicableA(Empresa empresa, String anio){
+	public boolean esAplicableA(Empresa empresa, Year anio){
 		try{
 			this.evaluarEn(empresa, anio);
 			return true;
@@ -43,23 +43,19 @@ public class Indicador extends EvaluableEnCondicion{
 	}
 	
 	public boolean seLlama(String nombre){
-		return this.nombre.equals/*IgnoreCase*/(nombre);
+		return this.nombre.equalsIgnoreCase(nombre);
 	}
 	
-	public String formulaIndicador(){//Volar?
+	public String formulaIndicador(){
 		return nombre + " = " + equivalencia;
 	}
 	
-	public void setEquivalencia(String equivalencia){//Volar?
+	public void setEquivalencia(String equivalencia){
 		this.equivalencia = equivalencia;
 	}
 	
 	public String getNombre() {
 		return nombre;
-	}
-	
-	public Expresion getExpresion() {
-		return expresion;
 	}
 	
 	public void setExpresion(Expresion expresion) {

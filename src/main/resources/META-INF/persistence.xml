@@ -6,27 +6,27 @@
     version="2.0"> 
   
     <persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
-    	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-    	
-    	<!-- CLASES A PERSISTIR-->
-    	<class>dominio.Empresa</class>
-    	<class>dominio.Cuenta</class>
-    	<class>dominio.indicadores.Indicador</class>
-    	<class>dominio.indicadores.Expresion</class>
-    	<class>dominio.indicadores.ExpresionCuenta</class>
-    	<class>dominio.indicadores.ExpresionIndicador</class>
-    	<class>dominio.indicadores.ExpresionOperacion</class>
-    	<class>dominio.indicadores.ExpresionValor</class>
-    	<class>dominio.metodologias.Metodologia</class>
-    	<class>dominio.metodologias.CondicionPrioritaria</class>
-    	<class>dominio.metodologias.CondicionTaxativa</class>
-    	<class>dominio.metodologias.Condicion</class>
-    	<class>dominio.metodologias.OperandoCondicion</class>
-    	<class>dominio.metodologias.EvaluableEnCondicion</class>
-    	<class>dominio.metodologias.Antiguedad</class>
-    	 
+     <provider>org.hibernate.ejb.HibernatePersistence</provider>
+     
+     <!-- CLASES A PERSISTIR-->
+     <class>dominio.Empresa</class>
+     <class>dominio.Cuenta</class>
+     <class>dominio.indicadores.Indicador</class>
+     <class>dominio.indicadores.Expresion</class>
+     <class>dominio.indicadores.ExpresionCuenta</class>
+     <class>dominio.indicadores.ExpresionIndicador</class>
+     <class>dominio.indicadores.ExpresionOperacion</class>
+     <class>dominio.indicadores.ExpresionValor</class>
+     <class>dominio.metodologias.Metodologia</class>
+     <class>dominio.metodologias.CondicionPrioritaria</class>
+     <class>dominio.metodologias.CondicionTaxativa</class>
+     <class>dominio.metodologias.Condicion</class>
+     <class>dominio.metodologias.OperandoCondicion</class>
+     <class>dominio.metodologias.EvaluableEnCondicion</class>
+     <class>dominio.metodologias.Antiguedad</class>
+      
         <properties> 
-	    <property name="hibernate.archive.autodetection" value="class"/>        
+     <property name="hibernate.archive.autodetection" value="class"/>        
          
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /> 
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/donde_invierto_bd" /> 
@@ -41,4 +41,4 @@
           
     </persistence-unit> 
   
-</persistence> 
+</persistence>

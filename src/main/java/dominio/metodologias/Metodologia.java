@@ -24,11 +24,11 @@ public class Metodologia {
 	
 	private String nombre = "";
 	
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="metodologia_id")
 	private List<CondicionTaxativa> condicionesTaxativas = new ArrayList<CondicionTaxativa>();
 	
-	@OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.PERSIST)
 	@JoinColumn(name="metodologia_id")
 	private List<CondicionPrioritaria> condicionesPrioritarias = new ArrayList<CondicionPrioritaria>();
 	
@@ -63,7 +63,7 @@ public class Metodologia {
 	}
 	
 	private List<Empresa> empresasConDatosFaltantesParaEstaCondicion(List<Empresa> empresas, Condicion condicion){
-		return empresas.stream().filter(emp -> !condicion.getOperandoCondicion().sePuedeEvaluarPara(emp)).collect(Collectors.toList());
+		return empresas.stream().filter(emp -> !condicion.getOperando().sePuedeEvaluarPara(emp)).collect(Collectors.toList());
 	}
 	
 	public List<Empresa> empresasQueNoCumplenTaxativas(List<Empresa> empresas){ //Devuelve sólo las que no cumplen (no las que faltan datos)
