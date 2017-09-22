@@ -11,12 +11,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import dominio.empresas.Empresa;
 import excepciones.AntiguedadMenorACeroError;
 import excepciones.NoExisteCuentaError;
 
 @Entity
+@Table(name = "operandos_condicion")
 public class OperandoCondicion {
 	
 	@Id 

@@ -2,9 +2,8 @@ package dominio.indicadores;
 
 import java.time.Year;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.uqbar.commons.utils.Observable;
 
@@ -20,7 +19,7 @@ public class Indicador extends EvaluableEnCondicion{
 	
 	private String equivalencia;
 	
-	@OneToOne(cascade = CascadeType.PERSIST)
+	@Transient
 	private Expresion expresion;
 
 	private Indicador(){}
@@ -46,12 +45,12 @@ public class Indicador extends EvaluableEnCondicion{
 		return this.nombre.equalsIgnoreCase(nombre);
 	}
 	
-	public String formulaIndicador(){
-		return nombre + " = " + equivalencia;
-	}
-	
 	public void setEquivalencia(String equivalencia){
 		this.equivalencia = equivalencia;
+	}
+	
+	public String getEquivalencia() {
+		return equivalencia;
 	}
 	
 	public String getNombre() {

@@ -2,24 +2,12 @@ package dominio.indicadores;
 
 import java.time.Year;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-
 import dominio.empresas.Empresa;
 
-@Entity
-public class ExpresionOperacion extends Expresion{
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)//Cuando necesite la expresión, quiero que me la traiga completa de una
+public class ExpresionOperacion implements Expresion{
 	private Expresion operandoIzq;
-	@OneToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
 	private Expresion operandoDer;
-	@Enumerated
 	private OperacionAritmetica operadorAritmetico;
-	
-	private ExpresionOperacion(){} //Necesario para persistir la clase
 	
 	public ExpresionOperacion(Expresion operandoIzq, Expresion operandoDer, String operadorBinario){
 		this.operandoIzq=operandoIzq;
@@ -30,7 +18,6 @@ public class ExpresionOperacion extends Expresion{
 		else if (operadorBinario.equals("/")) this.operadorAritmetico = OperacionAritmetica.Dividido;
 	}
 	
-	@Override
 	public int evaluarEn(Empresa empresa, Year anio) {
 		return operadorAritmetico.applyAsInt(operandoIzq.evaluarEn(empresa, anio), operandoDer.evaluarEn(empresa, anio));
 	}

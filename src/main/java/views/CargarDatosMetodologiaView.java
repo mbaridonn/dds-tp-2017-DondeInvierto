@@ -13,7 +13,6 @@ import dominio.indicadores.Indicador;
 import dominio.metodologias.OperacionAgregacion;
 import dominio.metodologias.OperacionRelacional;
 import viewmodels.CargarMetodologiasViewModel;
-import viewmodels.MensajeView;
 
 public class CargarDatosMetodologiaView extends Dialog<CargarMetodologiasViewModel> {
 	public CargarDatosMetodologiaView(WindowOwner owner) {

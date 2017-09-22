@@ -1,10 +1,12 @@
-package viewmodels;
+package views;
 
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
+
+import viewmodels.CargarMetodologiasViewModel;
 
 public class MensajeView extends Dialog<CargarMetodologiasViewModel> {
 	String mensaje;

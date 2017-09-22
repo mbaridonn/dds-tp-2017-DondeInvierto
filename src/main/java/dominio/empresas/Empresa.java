@@ -12,11 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import dominio.indicadores.Indicador;
 import excepciones.NoExisteCuentaError;
 
 @Entity
+@Table(name = "empresas")
 public class Empresa {
 	
 	@Id 

@@ -1,10 +1,12 @@
 package dominio.metodologias;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import dominio.empresas.Empresa;
 
 @Entity
+@Table(name = "condiciones_prioritarias")
 public class CondicionPrioritaria extends Condicion{
 	
 	private CondicionPrioritaria() {} //Necesario para persistir la clase

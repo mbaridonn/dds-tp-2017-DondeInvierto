@@ -1,14 +1,10 @@
 package viewmodels;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
 import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.indicadores.RepositorioIndicadores;
-import dominio.parser.ParserIndicadores;
 import excepciones.IndicadorExistenteError;
 import excepciones.ParserError;
 
@@ -29,9 +25,7 @@ public class CargarIndicadoresViewModel implements WithGlobalEntityManager, Tran
 
 	public void guardarIndicador() {
 		try {
-			ParserIndicadores.parse(indicador);// Se usa sólo para validar. Si lanza excepción, va al catch
 			withTransaction(() -> RepositorioIndicadores.getInstance().guardarIndicador(indicador));
-			
 			resultadoOperacion = "Indicador guardado";
 		} catch (ParserError | IndicadorExistenteError e) {
 			resultadoOperacion = e.getMessage();

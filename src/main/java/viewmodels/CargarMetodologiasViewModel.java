@@ -4,23 +4,19 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
-import org.uqbar.arena.windows.Dialog;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
 import excepciones.MetodologiaExistenteError;
 import excepciones.MetodologiaInvalidaError;
-import views.CargarDatosMetodologiaView;
 
 @Observable
-public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
+public class CargarMetodologiasViewModel implements WithGlobalEntityManager, TransactionalOps{
 	private String nombreMetodologia = "";
 	private String resultadoOperacion;
 	private MetodologiaBuilder metodologiaBuilder;
@@ -141,16 +137,11 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
 	}
 
 	public void guardarMetodologia() {
-		EntityManager entityManager = this.entityManager();
-		EntityTransaction tx = entityManager.getTransaction();
-		tx.begin();
 		try {
-			new RepositorioMetodologias().agregarMetodologia(metodologiaBuilder.buildMetodologia());
-			tx.commit();
+			withTransaction(() -> new RepositorioMetodologias().agregarMetodologia(metodologiaBuilder.buildMetodologia()));
 			resultadoOperacion = "Metodologia guardada";
 		} catch (MetodologiaInvalidaError | MetodologiaExistenteError e) {
 			resultadoOperacion = e.getMessage();
-			tx.rollback();
 		}
 	}
 

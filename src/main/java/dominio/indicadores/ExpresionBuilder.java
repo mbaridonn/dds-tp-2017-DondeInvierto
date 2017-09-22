@@ -13,7 +13,7 @@ public class ExpresionBuilder {
 		this.expresion = expresion;
 	}
 	
-	public void agregarOperacion(Expresion operandoDer, /*IntBinaryOperator*/String operadorBinario){//La expresion operandoDer habría que crearla con otro Builder
+	public void agregarOperacion(Expresion operandoDer, String operadorBinario){
 		expresion = new ExpresionOperacion(expresion, operandoDer, operadorBinario);
 	}
 	

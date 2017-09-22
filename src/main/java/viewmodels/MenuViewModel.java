@@ -2,12 +2,10 @@ package viewmodels;
 
 import java.util.ArrayList;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.empresas.ArchivoEmpresas;
 import dominio.empresas.Empresa;
@@ -16,7 +14,7 @@ import dominio.empresas.RepositorioEmpresas;
 import excepciones.NoSePudoLeerEseTipoDeArchivoError;
 
 @Observable
-public class MenuViewModel implements WithGlobalEntityManager{
+public class MenuViewModel implements WithGlobalEntityManager, TransactionalOps{
 	private String resultadoOperacion = "";
 	private String ruta = "";
 	
@@ -29,15 +27,10 @@ public class MenuViewModel implements WithGlobalEntityManager{
 	public void cargarArchivo(){
 		try{
 			ArrayList<Empresa> empresas;
-			LectorArchivos lectorArchivos = new LectorArchivos(ruta);
-			ArchivoEmpresas archivo = lectorArchivos.obtenerLectorApropiado();
+			ArchivoEmpresas archivo = new LectorArchivos(ruta).obtenerLectorApropiado();
 			archivo.leerEmpresas();
 			empresas = archivo.getEmpresas();
-			EntityManager entityManager = this.entityManager();
-			EntityTransaction tx = entityManager.getTransaction();
-			tx.begin();
-			new RepositorioEmpresas().agregarEmpresas(empresas);
-			tx.commit();
+			withTransaction(() -> new RepositorioEmpresas().agregarEmpresas(empresas));
 			resultadoOperacion = "Archivo cargado";
 		}
 		catch(NoSePudoLeerEseTipoDeArchivoError e){

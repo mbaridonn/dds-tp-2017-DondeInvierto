@@ -41,7 +41,8 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	
 	private void cargarIndicadoresEnBD(){
 		List<Indicador> indicadoresEnBD = (List<Indicador>) this.entityManager().createQuery("FROM Indicador").getResultList();
-		indicadores.addAll(indicadoresEnBD);
+		indicadoresEnBD.forEach(ind -> indicadores.add(ParserIndicadores.parse(ind.getEquivalencia())));
+		//En realidad estoy descartando el indicador que recupero y creando uno nuevo a partir de su representación como string
 	}
 	
 	public void agregarIndicador(String strIndicador) {//No se persiste (!)
@@ -51,6 +52,10 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	
 	public Set<Indicador> getIndicadores() {
 		return indicadores;
+	}
+	
+	public void setIndicadores(Set<Indicador> indicadores) {
+		this.indicadores = indicadores;
 	}
 	
 	public void guardarIndicador(String strIndicador){

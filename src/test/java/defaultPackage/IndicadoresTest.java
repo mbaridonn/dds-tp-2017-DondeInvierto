@@ -112,15 +112,6 @@ public class IndicadoresTest {
 		int cantidadIndicadores = cantidadIndicadoresAplicablesSegunAnio(empresaReLoca, obtenerAnio(2016));
 		assertEquals(4,cantidadIndicadores);
 	}
-	
-	@Test
-	public void seMuestranCuentasEIndicadoresParaEmpresaReLoca(){
-		Empresa empresaReLoca = empresasParaIndicadores.get(0);
-		Set<Indicador> indicadoresAplicables = archivoIndicadores.todosLosIndicadoresAplicablesA(empresaReLoca);
-		this.mostrarCuentas(empresaReLoca.getCuentas());
-		this.mostrarCuentas(empresaReLoca.resultadosIndicadoresTotales(indicadoresAplicables));
-		assertTrue(true);
-	}
 
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
 	
@@ -130,10 +121,6 @@ public class IndicadoresTest {
 	
 	private int cantidadIndicadoresAplicablesSegunAnio(Empresa empresa, Year anio) {
 		return archivoIndicadores.indicadoresAplicablesA(empresa, anio).size();
-	}
-	
-	private void mostrarCuentas(List<Cuenta> cuentas){
-		cuentas.forEach(cuenta -> cuenta.mostrarDatos());
 	}
 	
 	private int[] resultadosLuegoDeAplicarIndicadorAEmpresas(Indicador ind){
