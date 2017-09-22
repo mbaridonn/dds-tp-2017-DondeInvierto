@@ -21,6 +21,7 @@ import dominio.empresas.Empresa;
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 import excepciones.IndicadorExistenteError;
+import excepciones.MetodologiaExistenteError;
 
 public class IndicadoresTest {
 
@@ -30,8 +31,11 @@ public class IndicadoresTest {
 
 	@Before
 	public void setUp() {
-		RepositorioIndicadores.setIndicadoresPredefinidos(new HashSet(Arrays.asList(new String[] { "INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
-				"INDICADORDOS = cuentarara + fds", "INDICADORTRES = INGRESONETO * 10 + ebitda" , "A = 5 / 3", "PRUEBA = ebitda + 5" })));
+		RepositorioIndicadores.setIndicadoresPredefinidos(new HashSet(Arrays.asList(new String[] { 
+				"INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
+				"INDICADORDOS = cuentarara + fds",
+				"INDICADORTRES = INGRESONETO * 10 + ebitda",
+				"A = 5 / 3", "PRUEBA = ebitda + 5" })));
 		archivoIndicadores = RepositorioIndicadores.getInstance();
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
 		RepositorioIndicadores archivoIndicadores = RepositorioIndicadores.getInstance();
@@ -40,16 +44,16 @@ public class IndicadoresTest {
 		empresasParaIndicadores = archivoEjemploIndicadores.getEmpresas();
 	}
 	
-
 	@Test
 	public void elArchivoIndicadoresLeeCorrectamente() {
+		Set<Indicador> indicadoresActuales = new HashSet<Indicador>(indicadores);
 		Set<Indicador> indicadoresEsperados = new HashSet<Indicador>(Arrays.asList(new Indicador[] {
 			new Indicador("INDICADORDOS"),
 			new Indicador("A"),
 			new Indicador("INGRESONETO"),
 			new Indicador("PRUEBA"),
-			new Indicador("INDICADORTRES")}));
-		boolean todosLosIndicadoresSonLosEsperados = indicadores.stream().allMatch(ind -> indicadoresEsperados.stream().anyMatch(ind2 -> ind.getNombre().equalsIgnoreCase(ind2.getNombre())));
+			new Indicador("INDICADORTRES")}));		
+		boolean todosLosIndicadoresSonLosEsperados = indicadoresActuales.equals(indicadoresEsperados);
 		assertTrue(todosLosIndicadoresSonLosEsperados);
 	}
 
@@ -60,7 +64,7 @@ public class IndicadoresTest {
 
 	@Test
 	public void elIndicadorIngresoNetoSeAplicaCorrectamenteALasEmpresas() {
-		int resultadosEsperados[] = { 7000, 3000, 11000};
+		int resultadosEsperados[] = {7000, 3000, 11000};
 		Indicador ingresoNeto = this.getIndicadorLlamado("ingresoNeto");
 		int resultados[] = this.resultadosLuegoDeAplicarIndicadorAEmpresas(ingresoNeto);
 		assertTrue(Arrays.equals(resultadosEsperados, resultados));
@@ -71,55 +75,42 @@ public class IndicadoresTest {
 		Indicador indicadorTres = this.getIndicadorLlamado("indicadorTres");
 		int resultadosEsperados[] = {190000,330000,260000};
 		int resultados[] = this.resultadosLuegoDeAplicarIndicadorAEmpresas(indicadorTres);
-		System.out.println(resultados[0]);
-		System.out.println(resultados[1]);
 		assertTrue(Arrays.equals(resultadosEsperados, resultados));
 	}
 	
-	
-	@Test
-	public void noSePuedeGuardarUnIndicadorConElMismoNombreQueOtro() {
-		try {
-			archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
-			archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
-			assertTrue(false);
-		} catch (IndicadorExistenteError e) {
-			assertTrue(true);
-		}
+	@Test(expected = IndicadorExistenteError.class)
+	public void siGuardoDosVecesElMismoIndicadorFalla() {
+		archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
+		archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
 	}
 	
 	@Test
-	public void elINDICADORDOSEsInaplicableAEmpresaLocaEn2016PorInexistenciaDeCuenta(){
-		Empresa EmpresaLoca = empresasParaIndicadores.get(1);
-		Indicador indicadorDos = this.getIndicadorLlamado("indicadorDos");
-		assertTrue(!indicadorDos.esAplicableA(EmpresaLoca, Year.of(2016)));
-	}
-	
-	@Test
-	public void soloDosIndicadoresSonAplicablesAEmpresaLoca2014(){
+	public void elIndicadorDosEsInaplicableAEmpresaLocaEn2016PorInexistenciaDeCuenta(){
 		Empresa empresaLoca = empresasParaIndicadores.get(1);
-		assertEquals(4,archivoIndicadores.indicadoresAplicablesA(empresaLoca, Year.of(2014)).size());
+		Indicador indicadorDos = this.getIndicadorLlamado("indicadorDos");
+		assertFalse(indicadorDos.esAplicableA(empresaLoca, obtenerAnio(2016)));
 	}
 	
-	/*@Test
-	public void elArchivoIndicadoresNoDuplicaLaCantidadSiLeeDosVeces(){
-		archivoIndicadores.leerIndicadores();
-		int cantidadOriginal = archivoIndicadores.getIndicadores().size();
-		archivoIndicadores.leerIndicadores();
-		assertEquals(cantidadOriginal,archivoIndicadores.getIndicadores().size());
-	}*/
+	@Test
+	public void soloDosIndicadoresSonAplicablesAEmpresaLocaEn2014(){
+		Empresa empresaLoca = empresasParaIndicadores.get(1);
+		int cantidadIndicadores = cantidadIndicadoresAplicablesSegunAnio(empresaLoca, obtenerAnio(2014));
+		assertEquals(4,cantidadIndicadores);
+	}
 	
 	@Test
 	public void laCantidadDeIndicadoresAplicablesAEmpresaReLocaSonCinco(){
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		assertEquals(5,archivoIndicadores.todosLosIndicadoresAplicablesA(empresaReLoca).size());
+		int cantidadIndicadores = cantidadIndicadoresAplicablesA(empresaReLoca);
+		assertEquals(5,cantidadIndicadores);
 	}
 	
 	@Test
 	public void laCantidadDeIndicadoresAplicablesAEmpresaReLocaEn2016SonCuatro(){
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
 		empresaReLoca.resultadosIndicadoresTotales(archivoIndicadores.todosLosIndicadoresAplicablesA(empresaReLoca)).size();
-		assertEquals(4,archivoIndicadores.indicadoresAplicablesA(empresaReLoca, Year.of(2016)).size());
+		int cantidadIndicadores = cantidadIndicadoresAplicablesSegunAnio(empresaReLoca, obtenerAnio(2016));
+		assertEquals(4,cantidadIndicadores);
 	}
 	
 	@Test
@@ -132,6 +123,14 @@ public class IndicadoresTest {
 	}
 
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
+	
+	private int cantidadIndicadoresAplicablesA(Empresa empresa) {
+		return archivoIndicadores.todosLosIndicadoresAplicablesA(empresa).size();
+	}
+	
+	private int cantidadIndicadoresAplicablesSegunAnio(Empresa empresa, Year anio) {
+		return archivoIndicadores.indicadoresAplicablesA(empresa, anio).size();
+	}
 	
 	private void mostrarCuentas(List<Cuenta> cuentas){
 		cuentas.forEach(cuenta -> cuenta.mostrarDatos());
@@ -148,18 +147,13 @@ public class IndicadoresTest {
 		
 		return resultados;
 	}
-
-	/*private boolean sonLosMismosIndicadores(Set<Indicador> unosIndicadores, Set<Indicador> otrosIndicadores) {
-		for (int i = 0; i < otrosIndicadores.size(); i++) {
-			if (!this.sonLosMismosIndicadores(unosIndicadores.get(i), otrosIndicadores.get(i))) {
-				return false;
-			}
-		}
-		return true && unosIndicadores.size() == otrosIndicadores.size();
-	}*/
 	
 	private Indicador getIndicadorLlamado(String nombreIndicador){
 		return indicadores.stream().filter(ind -> ind.getNombre().equalsIgnoreCase(nombreIndicador)).findFirst().orElseThrow(() -> new NoSePudoObtenerIndicadorError("No se pudo obtener un indicador con ese nombre."));
+	}
+	
+	private Year obtenerAnio(int anio) {
+		return Year.of(anio);
 	}
 
 }
