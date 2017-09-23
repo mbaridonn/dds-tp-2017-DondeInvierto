@@ -2,6 +2,7 @@ package viewmodels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 import org.uqbar.commons.utils.Dependencies;
@@ -27,8 +28,8 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager, Tra
 
 	private int valorSeleccionado = 0;
 
-	private static Set<Indicador> indicadores = RepositorioIndicadores.getInstance().getIndicadores();
-	private Indicador indicadorSeleccionado = indicadores.iterator().next();
+	private static List<Indicador> indicadores = new RepositorioIndicadores().obtenerTodos();
+	private Indicador indicadorSeleccionado = indicadores.get(0);
 	
 	private static ArrayList<OperacionAgregacion> operacionesAgregacion = new ArrayList<OperacionAgregacion>(
 			Arrays.asList(OperacionAgregacion.Mediana, OperacionAgregacion.Promedio, OperacionAgregacion.Sumatoria,
@@ -81,11 +82,11 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager, Tra
 		this.indicadorSeleccionado = indicadorSeleccionado;
 	}
 
-	public Set<Indicador> getIndicadores() {
+	public List<Indicador> getIndicadores() {
 		return indicadores;
 	}
 
-	public void setIndicadores(Set<Indicador> indicadores) {
+	public void setIndicadores(List<Indicador> indicadores) {
 		this.indicadores = indicadores;
 	}
 

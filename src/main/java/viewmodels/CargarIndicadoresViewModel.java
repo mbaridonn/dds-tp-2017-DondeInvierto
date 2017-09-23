@@ -5,6 +5,7 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.indicadores.RepositorioIndicadores;
+import dominio.parser.ParserIndicadores;
 import excepciones.EntidadExistenteError;
 import excepciones.ParserError;
 
@@ -14,18 +15,9 @@ public class CargarIndicadoresViewModel implements WithGlobalEntityManager, Tran
 	private String indicador;
 	private String resultadoOperacion;
 
-	public void cargarIndicador() {
-		try {
-			RepositorioIndicadores.getInstance().agregarIndicador(indicador);
-			resultadoOperacion = "Indicador cargado";
-		} catch (ParserError e) {
-			resultadoOperacion = e.getMessage();
-		}
-	}
-
 	public void guardarIndicador() {
 		try {
-			withTransaction(() -> RepositorioIndicadores.getInstance().guardarIndicador(indicador));
+			withTransaction(() -> new RepositorioIndicadores().agregar(ParserIndicadores.parse(indicador)));
 			resultadoOperacion = "Indicador guardado";
 		} catch (ParserError | EntidadExistenteError e) {
 			resultadoOperacion = e.getMessage();

@@ -25,10 +25,6 @@ public class CargarIndicadoresView extends Dialog<CargarIndicadoresViewModel>{
 		new TextBox(mainPanel).bindValueToProperty("indicador");
 		
 		new Button(mainPanel)
-			.setCaption("Cargar")
-			.onClick(() -> this.getModelObject().cargarIndicador());
-		
-		new Button(mainPanel)
 			.setCaption("Guardar")
 			.onClick(() -> this.getModelObject().guardarIndicador());
 		

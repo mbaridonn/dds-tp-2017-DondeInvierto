@@ -9,19 +9,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/*import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;*/
 import org.junit.Before;
 import org.junit.Test;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Empresa;
 import dominio.indicadores.RepositorioIndicadores;
+import dominio.parser.ParserIndicadores;
 import dominio.indicadores.Indicador;
 import excepciones.EntidadExistenteError;
 
-public class IndicadoresTest {
+public class IndicadoresTest extends AbstractPersistenceTest implements WithGlobalEntityManager{
 
 	List<Indicador> indicadores = new ArrayList<Indicador>();
 	ArrayList<Empresa> empresasParaIndicadores;
@@ -29,16 +29,15 @@ public class IndicadoresTest {
 
 	@Before
 	public void setUp() {
-		RepositorioIndicadores.setIndicadoresPredefinidos(new HashSet(Arrays.asList(new String[] { 
+		RepositorioIndicadores.setIndicadoresPredefinidos(Arrays.asList(new String[] { 
 				"INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
 				"INDICADORDOS = cuentarara + fds",
 				"INDICADORTRES = INGRESONETO * 10 + ebitda",
-				"A = 5 / 3", "PRUEBA = ebitda + 5" })));
-		archivoIndicadores = RepositorioIndicadores.getInstance();
+				"A = 5 / 3", "PRUEBA = ebitda + 5" }));
+		archivoIndicadores = new RepositorioIndicadores();
+		indicadores.addAll(archivoIndicadores.obtenerTodos());
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
-		RepositorioIndicadores archivoIndicadores = RepositorioIndicadores.getInstance();
-		archivoEjemploIndicadores.leerEmpresas();
-		indicadores.addAll(archivoIndicadores.getIndicadores());
+		archivoEjemploIndicadores.leerEmpresas();		
 		empresasParaIndicadores = archivoEjemploIndicadores.getEmpresas();
 	}
 	
@@ -63,14 +62,14 @@ public class IndicadoresTest {
 	@Test
 	public void elIndicadorIngresoNetoSeAplicaCorrectamenteALasEmpresas() {
 		int resultadosEsperados[] = {7000, 3000, 11000};
-		Indicador ingresoNeto = this.getIndicadorLlamado("ingresoNeto");
+		Indicador ingresoNeto = archivoIndicadores.buscarIndicador("ingresoNeto");
 		int resultados[] = this.resultadosLuegoDeAplicarIndicadorAEmpresas(ingresoNeto);
 		assertTrue(Arrays.equals(resultadosEsperados, resultados));
 	}
 	
 	@Test
 	public void unIndicadorCompuestoPorIndicadorCuentaYNumeroSeAplicaCorrectamente(){
-		Indicador indicadorTres = this.getIndicadorLlamado("indicadorTres");
+		Indicador indicadorTres = archivoIndicadores.buscarIndicador("indicadorTres");
 		int resultadosEsperados[] = {190000,330000,260000};
 		int resultados[] = this.resultadosLuegoDeAplicarIndicadorAEmpresas(indicadorTres);
 		assertTrue(Arrays.equals(resultadosEsperados, resultados));
@@ -78,14 +77,15 @@ public class IndicadoresTest {
 	
 	@Test(expected = EntidadExistenteError.class)
 	public void siGuardoDosVecesElMismoIndicadorFalla() {
-		archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
-		archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
+		Indicador unIndicador = ParserIndicadores.parse("INGRESONETO = ebitda + 2");
+		archivoIndicadores.agregar(unIndicador);
+		archivoIndicadores.agregar(unIndicador);
 	}
 	
 	@Test
 	public void elIndicadorDosEsInaplicableAEmpresaLocaEn2016PorInexistenciaDeCuenta(){
 		Empresa empresaLoca = empresasParaIndicadores.get(1);
-		Indicador indicadorDos = this.getIndicadorLlamado("indicadorDos");
+		Indicador indicadorDos = archivoIndicadores.buscarIndicador("indicadorDos");
 		assertFalse(indicadorDos.esAplicableA(empresaLoca, obtenerAnio(2016)));
 	}
 	
@@ -133,15 +133,9 @@ public class IndicadoresTest {
 		return resultados;
 	}
 	
-	private Indicador getIndicadorLlamado(String nombreIndicador){
-		return indicadores.stream().filter(ind -> ind.getNombre().equalsIgnoreCase(nombreIndicador)).findFirst().orElseThrow(() -> new NoSePudoObtenerIndicadorError("No se pudo obtener un indicador con ese nombre."));
-	}
-	
 	private Year obtenerAnio(int anio) {
 		return Year.of(anio);
 	}
 
 }
-
-class NoSePudoObtenerIndicadorError extends RuntimeException{public NoSePudoObtenerIndicadorError(String e){super(e);}}
 

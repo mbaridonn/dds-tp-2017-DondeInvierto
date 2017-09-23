@@ -43,7 +43,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		repoIndicadores = new RepositorioIndicadores();
 		repoMetodologias = new RepositorioMetodologias();
 		indicadores = new ArrayList<Indicador>();
-		indicadores.addAll(repoIndicadores.getIndicadores());
+		indicadores.addAll(repoIndicadores.obtenerTodos());
 		listaCuentasEjemplo1 = Arrays.asList(new Cuenta(Year.of(2015), "EBITDA", 2000),
 				new Cuenta(Year.of(2014), "FDS", 3000));
 		listaCuentasEjemplo2 = Arrays.asList(new Cuenta(Year.of(2013), "EBITDA", 6000),
@@ -83,9 +83,9 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	public void alAgregarDosIndicadoresAlRepositorioIndicadoresEstosSePersistenEsaCantidad() {
 		List<String> listaIndicadores = Arrays.asList("INDICADORUNOTESTCERO = ebitda + fds - 2",
 				"INDICADORDOSTESTCERO = ebitda * 2 + fds - 2500");
-		int cantidadAntesDeAgregar = repoIndicadores.getIndicadores().size();
-		repoIndicadores.guardarIndicadores(listaIndicadores);
-		assertEquals(cantidadAntesDeAgregar + 2, repoIndicadores.getIndicadores().size());
+		int cantidadAntesDeAgregar = repoIndicadores.obtenerTodos().size();
+		repoIndicadores.agregarMultiplesIndicadores(listaIndicadores);
+		assertEquals(cantidadAntesDeAgregar + 2, repoIndicadores.obtenerTodos().size());
 	}
 
 	@Test
@@ -93,15 +93,15 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		List<String> listaIndicadores = Arrays.asList("INDICADORUNOTESTUNO = ebitda + fds - 2",
 				"INDICADORDOSTESTUNO = ebitda * 2 + fds - 2500");
 		List<Indicador> indicadores = crearIndicadoresAPartirDeSusExpresiones(listaIndicadores);
-		repoIndicadores.guardarIndicadores(listaIndicadores);
-		assertTrue(repoIndicadores.getIndicadores().containsAll(indicadores));
+		repoIndicadores.agregarMultiplesIndicadores(listaIndicadores);
+		assertTrue(repoIndicadores.obtenerTodos().containsAll(indicadores));
 	}
 
 	@Test(expected = EntidadExistenteError.class)
 	public void noSePersistenDosIndicadoresConElMismoNombre() {
 		List<String> listaIndicadores = Arrays.asList("INDICADORUNOTESTDOS = ebitda + fds - 2",
-				"INDICADORUNOTESTDOS = ebitda * 2 + fds - 2500");
-		repoIndicadores.guardarIndicadores(listaIndicadores);
+				"INDICADORUNOTESTDOS = ebitda * 2 + fds - 2500");// NO ROMPE PORQUE SE ESTÁN AGREGANDO LOS DOS EN LA MISMA TRANSACCIÓN ???
+		repoIndicadores.agregarMultiplesIndicadores(listaIndicadores);
 	}
 
 	@Test
@@ -136,8 +136,8 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 
 	private Metodologia obtenerMetodologiaTipo1(String nombreMetodologia) {
-		Indicador ingresoNeto = getIndicadorLlamado("ingresoNeto");
-		Indicador indicadorDos = getIndicadorLlamado("indicadorDos");
+		Indicador ingresoNeto = repoIndicadores.buscarIndicador("ingresoNeto");
+		Indicador indicadorDos = repoIndicadores.buscarIndicador("indicadorDos");
 		Metodologia metodologia = new Metodologia(nombreMetodologia);
 		CondicionTaxativa condTax = new CondicionTaxativa(
 				new OperandoCondicion(OperacionAgregacion.Promedio, ingresoNeto, 2), OperacionRelacional.Mayor, 10000);
@@ -149,7 +149,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 
 	private Metodologia obtenerMetodologiaTipo2(String nombreMetodologia) {
-		Indicador prueba = getIndicadorLlamado("prueba");
+		Indicador prueba = repoIndicadores.buscarIndicador("prueba");
 		Metodologia metodologia = new Metodologia(nombreMetodologia);
 		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, prueba, 1),
 				OperacionRelacional.Mayor, 0);
@@ -158,11 +158,5 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		metodologia.agregarCondicionTaxativa(condTax);
 		metodologia.agregarCondicionPrioritaria(condPrior);
 		return metodologia;
-	}
-
-	private Indicador getIndicadorLlamado(String nombreIndicador) {
-		return indicadores.stream().filter(ind -> ind.getNombre().equalsIgnoreCase(nombreIndicador)).findFirst()
-				.orElseThrow(
-						() -> new NoSePudoObtenerIndicadorError("No se pudo obtener un indicador con ese nombre."));
 	}
 }

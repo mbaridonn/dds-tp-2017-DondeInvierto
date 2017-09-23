@@ -13,7 +13,7 @@ public class ExpresionIndicador implements Expresion{
 	}
 	
 	public int evaluarEn(Empresa empresa, Year anio){
-		Indicador indicador = RepositorioIndicadores.getInstance().buscarIndicador(nombreIndicador);
+		Indicador indicador = new RepositorioIndicadores().buscarIndicador(nombreIndicador);
 		return indicador.evaluarEn(empresa,anio);
 	}
 }
