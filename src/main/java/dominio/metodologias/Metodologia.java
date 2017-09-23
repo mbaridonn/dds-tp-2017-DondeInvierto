@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import dominio.empresas.Empresa;
+import dominio.indicadores.Indicador;
 
 @Entity
 @Table(name = "metodologias")
@@ -122,6 +123,13 @@ public class Metodologia {
 		return !nombre.isEmpty() && !condicionesTaxativas.isEmpty() && !condicionesPrioritarias.isEmpty();
 	}
 	
+	public boolean equals(Object otroObjeto) {
+	    return (otroObjeto instanceof Metodologia) && this.nombre.equals(((Metodologia) otroObjeto).getNombre());
+	}
+	
+	public int hashCode() {
+		return nombre.hashCode();
+	}
 	@Override
 	public String toString(){
 		return nombre;

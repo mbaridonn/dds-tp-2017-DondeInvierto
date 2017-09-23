@@ -23,7 +23,7 @@ public class ConsultarCuentasViewModel {
 	}
 
 	public List<Empresa> getEmpresas() {
-		return new RepositorioEmpresas().getEmpresas();
+		return new RepositorioEmpresas().obtenerTodos();
 	}
 
 	public Empresa getEmpresaSeleccionada() {

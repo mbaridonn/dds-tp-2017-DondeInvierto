@@ -16,12 +16,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dominio.empresas.ArchivoXLS;
-import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
-import excepciones.IndicadorExistenteError;
-import excepciones.MetodologiaExistenteError;
+import excepciones.EntidadExistenteError;
 
 public class IndicadoresTest {
 
@@ -78,7 +76,7 @@ public class IndicadoresTest {
 		assertTrue(Arrays.equals(resultadosEsperados, resultados));
 	}
 	
-	@Test(expected = IndicadorExistenteError.class)
+	@Test(expected = EntidadExistenteError.class)
 	public void siGuardoDosVecesElMismoIndicadorFalla() {
 		archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");
 		archivoIndicadores.guardarIndicador("INGRESONETO = ebitda + 2");

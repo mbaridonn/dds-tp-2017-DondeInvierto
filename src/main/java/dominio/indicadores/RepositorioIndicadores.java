@@ -11,7 +11,7 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
 import dominio.empresas.Empresa;
 import dominio.parser.ParserIndicadores;
-import excepciones.IndicadorExistenteError;
+import excepciones.EntidadExistenteError;
 
 @Observable
 public class RepositorioIndicadores implements WithGlobalEntityManager{
@@ -61,7 +61,7 @@ public class RepositorioIndicadores implements WithGlobalEntityManager{
 	public void guardarIndicador(String strIndicador){
 		Indicador nuevoIndicador = ParserIndicadores.parse(strIndicador);
 		if(this.existeIndicador(nuevoIndicador.getNombre())){
-			throw new IndicadorExistenteError("Ya existe un indicador con el nombre " + strIndicador);
+			throw new EntidadExistenteError("Ya existe un indicador con el nombre " + strIndicador);
 		}
 		this.entityManager().persist(nuevoIndicador);//La transacción se tiene que agregar donde se envíe el mensaje (!)
 		agregarIndicador(strIndicador);//Cuando se guarda un indicador también se carga

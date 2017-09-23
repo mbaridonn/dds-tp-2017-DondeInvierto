@@ -15,7 +15,7 @@ public class ConsultarMetodologiasViewModel {
 	private Metodologia metodologiaSeleccionada; // Guarda la metodología seleccionada en el Selector
 	
 	public List<Metodologia> getMetodologias(){
-		return new RepositorioMetodologias().getMetodologias();
+		return new RepositorioMetodologias().obtenerTodos();
 	}
 	
 	public Metodologia getMetodologiaSeleccionada() {
@@ -45,7 +45,7 @@ public class ConsultarMetodologiasViewModel {
 	}
 	
 	private List<Empresa> getEmpresas(){
-		return new RepositorioEmpresas().getEmpresas();
+		return new RepositorioEmpresas().obtenerTodos();
 	}
 	
 }

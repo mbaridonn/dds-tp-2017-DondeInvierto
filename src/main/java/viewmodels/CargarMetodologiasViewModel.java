@@ -12,7 +12,7 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
-import excepciones.MetodologiaExistenteError;
+import excepciones.EntidadExistenteError;
 import excepciones.MetodologiaInvalidaError;
 
 @Observable
@@ -138,9 +138,9 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager, Tra
 
 	public void guardarMetodologia() {
 		try {
-			withTransaction(() -> new RepositorioMetodologias().agregarMetodologia(metodologiaBuilder.buildMetodologia()));
+			withTransaction(() -> new RepositorioMetodologias().agregar(metodologiaBuilder.buildMetodologia()));
 			resultadoOperacion = "Metodologia guardada";
-		} catch (MetodologiaInvalidaError | MetodologiaExistenteError e) {
+		} catch (MetodologiaInvalidaError | EntidadExistenteError e) {
 			resultadoOperacion = e.getMessage();
 		}
 	}

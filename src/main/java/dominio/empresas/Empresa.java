@@ -90,6 +90,14 @@ public class Empresa {
 		return cuentaBuscada.getValor();
 	}
 	
+	public boolean equals(Object otroObjeto) {
+	    return (otroObjeto instanceof Empresa) && this.seLlama(((Empresa) otroObjeto).getNombre());
+	}
+	
+	public int hashCode() {
+		return nombre.hashCode();
+	}
+	
 	@Override
 	public String toString(){ //Es necesario para que el Selector muestre solo el nombre de la empresa
 		return nombre;

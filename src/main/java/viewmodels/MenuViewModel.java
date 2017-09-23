@@ -30,7 +30,7 @@ public class MenuViewModel implements WithGlobalEntityManager, TransactionalOps{
 			ArchivoEmpresas archivo = new LectorArchivos(ruta).obtenerLectorApropiado();
 			archivo.leerEmpresas();
 			empresas = archivo.getEmpresas();
-			withTransaction(() -> new RepositorioEmpresas().agregarEmpresas(empresas));
+			withTransaction(() -> new RepositorioEmpresas().agregarMultiplesEmpresas(empresas));
 			resultadoOperacion = "Archivo cargado";
 		}
 		catch(NoSePudoLeerEseTipoDeArchivoError e){

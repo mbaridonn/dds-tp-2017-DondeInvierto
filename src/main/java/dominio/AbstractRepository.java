@@ -4,26 +4,30 @@ import java.util.List;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
+import excepciones.EntidadExistenteError;
+
 public abstract class AbstractRepository<T> implements WithGlobalEntityManager{
 	
-	public List<T> obtenerTodos() { //VER NOMBRE
-		return (List<T>) this.entityManager().createQuery("FROM " + this.tipoEntidad()).getResultList();
+	public List<T> obtenerTodos() {
+		return entityManager().createQuery("FROM " + this.nombreTipoEntidad(), tipoEntidad()).getResultList();
 	}
 	
 	public void agregar(T elemento){
 		if (existe(elemento)){
-			throw new EntidadExistenteError("Ya existe esa entidad en la base de datos");
+			throw new EntidadExistenteError(mensajeEntidadExistenteError(elemento));
 		}
-		this.entityManager().persist(elemento);//La transacción se tiene que agregar donde se envíe el mensaje (!)
+		entityManager().persist(elemento);//La transacción se tiene que agregar donde se envíe el mensaje
 	}
 	
-	private boolean existe(T elemento){
-		return this.obtenerTodos().contains(elemento);//Contains chequea con equals (!)
+	protected boolean existe(T elemento){
+		return this.obtenerTodos().contains(elemento);//Contains chequea con equals
 	}
 	
-	private String tipoEntidad(){
-		return this.getClass().toString();//HABRÍA QUE PARSEARLO PARA OBTENER SÓLO EL NOMBRE DE LA CLASE, ASUMIENDO QUE TODOS LOS REPOSITORIOS SE LLAMAN RespositorioXX
+	private String nombreTipoEntidad(){
+		return tipoEntidad().getSimpleName();
 	}
+	
+	protected abstract Class<T> tipoEntidad();
+	
+	protected abstract String mensajeEntidadExistenteError(T elemento);
 }
-
-class EntidadExistenteError extends RuntimeException{public EntidadExistenteError(String e){super(e);}}

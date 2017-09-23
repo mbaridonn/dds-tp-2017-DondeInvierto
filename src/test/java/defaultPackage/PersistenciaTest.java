@@ -26,8 +26,7 @@ import dominio.metodologias.OperacionRelacional;
 import dominio.metodologias.OperandoCondicion;
 import dominio.metodologias.RepositorioMetodologias;
 import dominio.parser.ParserIndicadores;
-import excepciones.IndicadorExistenteError;
-import excepciones.MetodologiaExistenteError;
+import excepciones.EntidadExistenteError;
 
 public class PersistenciaTest extends AbstractPersistenceTest implements WithGlobalEntityManager {
 
@@ -56,9 +55,9 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		Empresa empresa1 = new Empresa("empresa1Test0", listaCuentasEjemplo1);
 		Empresa empresa2 = new Empresa("empresa2Test0", listaCuentasEjemplo2);
 		List<Empresa> listaEmpresas = Arrays.asList(empresa1, empresa2);
-		int cantidadAntesDeAgregar = repoEmpresas.getEmpresas().size();
-		repoEmpresas.agregarEmpresas(listaEmpresas);
-		assertEquals(cantidadAntesDeAgregar + 2, repoEmpresas.getEmpresas().size());
+		int cantidadAntesDeAgregar = repoEmpresas.obtenerTodos().size();
+		repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
+		assertEquals(cantidadAntesDeAgregar + 2, repoEmpresas.obtenerTodos().size());
 	}
 
 	@Test
@@ -66,8 +65,8 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		Empresa empresa1 = new Empresa("empresa1Test1", listaCuentasEjemplo1);
 		Empresa empresa2 = new Empresa("empresa2Test1", listaCuentasEjemplo2);
 		List<Empresa> listaEmpresas = Arrays.asList(empresa1, empresa2);
-		repoEmpresas.agregarEmpresas(listaEmpresas);
-		assertTrue(repoEmpresas.getEmpresas().containsAll(listaEmpresas));
+		repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
+		assertTrue(repoEmpresas.obtenerTodos().containsAll(listaEmpresas));
 	}
 
 	@Test
@@ -75,7 +74,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		Empresa empresa = new Empresa("empresa1Test2", listaCuentasEjemplo1);
 		Empresa empresaCopia = new Empresa("empresa1Test2", listaCuentasEjemplo2);
 		List<Empresa> listaEmpresas = Arrays.asList(empresa, empresaCopia);
-		repoEmpresas.agregarEmpresas(listaEmpresas);
+		repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
 		assertEquals(1,
 				this.entityManager().createQuery("FROM Empresa where nombre = 'empresa1Test2'").getResultList().size());
 	}
@@ -98,7 +97,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		assertTrue(repoIndicadores.getIndicadores().containsAll(indicadores));
 	}
 
-	@Test(expected = IndicadorExistenteError.class)
+	@Test(expected = EntidadExistenteError.class)
 	public void noSePersistenDosIndicadoresConElMismoNombre() {
 		List<String> listaIndicadores = Arrays.asList("INDICADORUNOTESTDOS = ebitda + fds - 2",
 				"INDICADORUNOTESTDOS = ebitda * 2 + fds - 2500");
@@ -109,24 +108,24 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	public void alAgregarDosMetodologiasAlRepositorioMetodologiasEstosSePersistenEsaCantidad() {
 		List<Metodologia> listaMetodologias = Arrays.asList(obtenerMetodologiaTipo1("MetodologiaTipo1TestCero"),
 						obtenerMetodologiaTipo2("MetodologiaTipo2TestCero"));
-		int cantidadAntesDeAgregar = repoMetodologias.getMetodologias().size();
-		listaMetodologias.forEach(metodologia -> repoMetodologias.agregarMetodologia(metodologia));
-		assertEquals(cantidadAntesDeAgregar + 2, repoMetodologias.getMetodologias().size());
+		int cantidadAntesDeAgregar = repoMetodologias.obtenerTodos().size();
+		listaMetodologias.forEach(metodologia -> repoMetodologias.agregar(metodologia));
+		assertEquals(cantidadAntesDeAgregar + 2, repoMetodologias.obtenerTodos().size());
 	}
 
 	@Test
 	public void alAgregarDosMetodologiasAlRepositorioMetodologiasEstosSePersistenCorrectamente() {
 		List<Metodologia> listaMetodologias = Arrays.asList(obtenerMetodologiaTipo1("MetodologiaTipo1TestUno"),
 						obtenerMetodologiaTipo2("MetodologiaTipo2TestUno"));
-		listaMetodologias.forEach(metodologia -> repoMetodologias.agregarMetodologia(metodologia));
-		assertTrue(repoMetodologias.getMetodologias().containsAll(listaMetodologias));
+		listaMetodologias.forEach(metodologia -> repoMetodologias.agregar(metodologia));
+		assertTrue(repoMetodologias.obtenerTodos().containsAll(listaMetodologias));
 	}
 
-	@Test(expected = MetodologiaExistenteError.class)
+	@Test(expected = EntidadExistenteError.class)
 	public void siPersistoDosVecesLaMismaMetodologiaFalla() {
 		Metodologia metodologiaDeWarren = new Metodologia("Warren");
-		repoMetodologias.agregarMetodologia(metodologiaDeWarren);
-		repoMetodologias.agregarMetodologia(metodologiaDeWarren);
+		repoMetodologias.agregar(metodologiaDeWarren);
+		repoMetodologias.agregar(metodologiaDeWarren);
 	}
 
 	// ************ METODOS AUXILIARES************//
