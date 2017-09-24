@@ -60,8 +60,8 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 		listaCuentas2.add(new Cuenta(Year.of(2014), "EBITDA", 8000));
 		listaEmpresas.add(new Empresa("empresa1", listaCuentas1));
 		listaEmpresas.add(new Empresa("empresa2", listaCuentas2));
-		listaIndicadores.add("INDICADORUNOTESTCERO = ebitda + fds - 2");
-		listaIndicadores.add("INDICADORDOSTESTCERO = ebitda * 2 + fds - 2500");
+		listaIndicadores.add("UNINDICADOR = ebitda + fds - 2");
+		listaIndicadores.add("OTROINDICADOR = ebitda * 2 + fds - 2500");
 		listaMetodologias.add(obtenerMetodologia1("Metodologia1"));
 		listaMetodologias.add(obtenerMetodologia2("Metodologia2"));
 		
@@ -105,6 +105,7 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	@Test(expected = EntidadExistenteError.class)
 	public void noSePersistenDosIndicadoresConElMismoNombre() {
 		// NO ROMPE PORQUE SE ESTÃ�N AGREGANDO LOS DOS EN LA MISMA TRANSACCIÃ“N ???
+		listaIndicadores.add("UNINDICADOR = 2 * 3 * 6 * ebitda + fds");
 		repoIndicadores.agregarMultiplesIndicadores(listaIndicadores);
 	}
 

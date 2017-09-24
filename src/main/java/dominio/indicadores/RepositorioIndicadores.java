@@ -28,20 +28,19 @@ public class RepositorioIndicadores extends AbstractRepository<Indicador> {
 	}
 
 	public RepositorioIndicadores() {
-		agregarMultiplesIndicadores(indicadoresPredefinidos);// NO SIEMPRE FUNCIONA, PORQUE SE TENDRÍA QUE USAR UNA TRANSACCIÓN CADA VEZ QUE SE INSTANCIA (!!!)
+		agregarMultiplesIndicadores(indicadoresPredefinidos);// NO SIEMPRE FUNCIONA, PORQUE SE TENDRÃ�A QUE USAR UNA TRANSACCIÃ“N CADA VEZ QUE SE INSTANCIA (!!!)
 	}
 	
 	public void agregarMultiplesIndicadores(List<String> strIndicadores) {
-		Stream<Indicador> indicadoresNuevos = strIndicadores.stream()
-				.map(strInd -> ParserIndicadores.parse(strInd)).filter(ind -> !existe(ind));//NO ESTOY CATCHEANDO ParserError (!!!)
-		indicadoresNuevos.forEach(ind -> agregar(ind));//Sólo persisto los indicadores que no están ya en la BD
+		List<Indicador> indicadoresNuevos = obtenerIndicadoresParseados(strIndicadores);//NO ESTOY CATCHEANDO ParserError (!!!)
+		indicadoresNuevos.forEach(ind -> agregar(ind));
 	}
 	
 	@Override
 	public List<Indicador> obtenerTodos() {
 		return super.obtenerTodos().stream().map(protoInd -> ParserIndicadores.parse(protoInd.getEquivalencia()))
 				.collect(Collectors.toList());
-		//Estoy utilizando la equivalencia del indicador que guardo en la BD para generar un indicador que tenga la expresión
+		//Estoy utilizando la equivalencia del indicador que guardo en la BD para generar un indicador que tenga la expresiÃ³n
 	}
 	
 	@Override
@@ -71,6 +70,11 @@ public class RepositorioIndicadores extends AbstractRepository<Indicador> {
 	public Indicador buscarIndicador(String nombreIndicador) {
 		return obtenerTodos().stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst()
 				.orElseThrow(() -> new NoExisteIndicadorError("No se pudo encontrar un indicador con ese nombre."));
+	}
+	
+	private List<Indicador> obtenerIndicadoresParseados(List<String> strIndicadores){
+		Stream<Indicador> indicadores = strIndicadores.stream().map(strInd -> ParserIndicadores.parse(strInd)).filter(ind -> !existe(ind));
+		return indicadores.collect(Collectors.toList());
 	}
 
 }
