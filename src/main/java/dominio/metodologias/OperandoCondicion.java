@@ -28,12 +28,12 @@ public class OperandoCondicion {
 	@Enumerated
 	private OperacionAgregacion operacionAgregacion;
 	@ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
-	private EvaluableEnCondicion indicadorOAntiguedad;
+	private Cuantificador indicadorOAntiguedad;
 	private int aniosAEvaluar;
 	
 	private OperandoCondicion() {} //Necesario para persistir la clase
 	
-	public OperandoCondicion(OperacionAgregacion operacionAgregacion, EvaluableEnCondicion indicadorOAntiguedad, int aniosAEvaluar) {
+	public OperandoCondicion(OperacionAgregacion operacionAgregacion, Cuantificador indicadorOAntiguedad, int aniosAEvaluar) {
 		this.operacionAgregacion = operacionAgregacion;
 		this.indicadorOAntiguedad = indicadorOAntiguedad;
 		this.aniosAEvaluar = aniosAEvaluar - 1; //Si aniosAEvaluar es 1, el intervalo tiene que ser (X,X), no (X-1,X)

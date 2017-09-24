@@ -8,7 +8,7 @@ import dominio.empresas.Empresa;
 import excepciones.AntiguedadMenorACeroError;
 
 @Entity
-public class Antiguedad extends EvaluableEnCondicion {
+public class Antiguedad extends Cuantificador {
 
 	public Antiguedad() {
 	} // PROBLEMA: SE VAN A ESTAR CREANDO MÚLTIPLES INSTANCIAS DE ANTIGUEDAD, CUANDO

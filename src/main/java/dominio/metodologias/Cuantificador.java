@@ -12,7 +12,7 @@ import dominio.empresas.Empresa;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class EvaluableEnCondicion {
+public abstract class Cuantificador {
 
 	@Id 
 	@GeneratedValue

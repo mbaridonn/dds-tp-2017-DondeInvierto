@@ -8,12 +8,12 @@ import javax.persistence.Transient;
 import org.uqbar.commons.utils.Observable;
 
 import dominio.empresas.Empresa;
-import dominio.metodologias.EvaluableEnCondicion;
+import dominio.metodologias.Cuantificador;
 import excepciones.NoExisteCuentaError;
 
 @Observable
 @Entity
-public class Indicador extends EvaluableEnCondicion{
+public class Indicador extends Cuantificador{
 	
 	private String nombre;
 	

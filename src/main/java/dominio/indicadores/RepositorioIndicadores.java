@@ -28,7 +28,7 @@ public class RepositorioIndicadores extends AbstractRepository<Indicador> {
 	}
 
 	public RepositorioIndicadores() {
-		agregarMultiplesIndicadores(indicadoresPredefinidos);// NO SIEMPRE FUNCIONA, PORQUE SE TENDRÃ�A QUE USAR UNA TRANSACCIÃ“N CADA VEZ QUE SE INSTANCIA (!!!)
+		agregarMultiplesIndicadores(indicadoresPredefinidos);// NO SIEMPRE FUNCIONA, PORQUE SE TENDRIA QUE USAR UNA TRANSACCION CADA VEZ QUE SE INSTANCIA (!!!)
 	}
 	
 	public void agregarMultiplesIndicadores(List<String> strIndicadores) {
@@ -40,7 +40,7 @@ public class RepositorioIndicadores extends AbstractRepository<Indicador> {
 	public List<Indicador> obtenerTodos() {
 		return super.obtenerTodos().stream().map(protoInd -> ParserIndicadores.parse(protoInd.getEquivalencia()))
 				.collect(Collectors.toList());
-		//Estoy utilizando la equivalencia del indicador que guardo en la BD para generar un indicador que tenga la expresiÃ³n
+		//Estoy utilizando la equivalencia del indicador que guardo en la BD para generar un indicador que tenga la expresion
 	}
 	
 	@Override

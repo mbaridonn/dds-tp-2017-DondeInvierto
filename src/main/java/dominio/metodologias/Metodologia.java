@@ -16,7 +16,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import dominio.empresas.Empresa;
-import dominio.indicadores.Indicador;
 
 @Entity
 @Table(name = "metodologias")
