@@ -104,7 +104,6 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 
 	@Test(expected = EntidadExistenteError.class)
 	public void noSePersistenDosIndicadoresConElMismoNombre() {
-		// NO ROMPE PORQUE SE ESTÃ�N AGREGANDO LOS DOS EN LA MISMA TRANSACCIÃ“N ???
 		listaIndicadores.add("UNINDICADOR = 2 * 3 * 6 * ebitda + fds");
 		repoIndicadores.agregarMultiplesIndicadores(listaIndicadores);
 	}
