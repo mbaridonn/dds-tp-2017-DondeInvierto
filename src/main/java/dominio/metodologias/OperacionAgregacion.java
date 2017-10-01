@@ -7,12 +7,20 @@ public enum OperacionAgregacion {
 	Mediana{
 		public int aplicarA(IntStream valores) {
 			int[] vals = valores.sorted().toArray();
-			int middle = (int) (vals.length / 2);
-			if (vals.length%2 == 1) {
-				return vals[middle];
+			if (!esCantidadPar(vals)) {
+				return vals[middle(vals)];
 			} else {
-				return (vals[middle-1] + vals[middle]) / 2;
+				return promedioDeValoresQueEstanEnElMedio(vals);
 			}
+		}
+		private Boolean esCantidadPar(int[] vals) {		
+			return vals.length%2 == 0;
+		}
+		private int promedioDeValoresQueEstanEnElMedio(int[] vals) {
+			return (vals[middle(vals)-1] + vals[middle(vals)]) / 2;
+		}
+		private int middle(int[] vals) {
+			return (vals.length / 2);
 		}
 		public String toString(){
 			return "Mediana";
@@ -51,14 +59,20 @@ public enum OperacionAgregacion {
 		public int aplicarA(IntStream valores) {
 			int variacionAcumulada = 0, i=0;
 			int vals[] = valores.toArray();
-			while(i<vals.length-1){
-				variacionAcumulada += Math.abs(vals[i] - vals[i+1]);
+			while(quedanValoresAEvaluar(i, vals)){
+				variacionAcumulada += variacionEntre(vals[i], vals[i+1]);
 				i++;
 			}
 			return variacionAcumulada;
 		}
 		public String toString() {
 			return "Variacion";
+		}
+		private Boolean quedanValoresAEvaluar(int i, int[] vals) {
+			return i<vals.length-1;
+		}
+		private int variacionEntre(int valor1, int valor2) {
+			return Math.abs(valor1 - valor2);
 		}
 	};
 	

@@ -8,16 +8,17 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import dominio.indicadores.Indicador;
 import excepciones.NoExisteCuentaError;
 
 @Entity
+@Table(name = "empresas")
 public class Empresa {
 	
 	@Id 
@@ -87,6 +88,14 @@ public class Empresa {
 		Cuenta cuentaBuscada = cuentas.stream().filter(cuenta -> cuenta.esDeTipo(tipoCuenta) && cuenta.esDeAnio(anio)).findFirst().orElseThrow(() -> new NoExisteCuentaError("No se pudo encontrar la cuenta " + tipoCuenta + " en el año " + anio + " para la empresa " + this.getNombre() + "."));
 		//El findFirst podría enmascarar el caso erróneo en el que haya dos cuentas del mismo tipo con valores distintos en el mismo año
 		return cuentaBuscada.getValor();
+	}
+	
+	public boolean equals(Object otroObjeto) {
+	    return (otroObjeto instanceof Empresa) && this.seLlama(((Empresa) otroObjeto).getNombre());
+	}
+	
+	public int hashCode() {
+		return nombre.hashCode();
 	}
 	
 	@Override

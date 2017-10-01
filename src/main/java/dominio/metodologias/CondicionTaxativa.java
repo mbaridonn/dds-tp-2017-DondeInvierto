@@ -1,10 +1,12 @@
 package dominio.metodologias;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 import dominio.empresas.Empresa;
 
 @Entity
+@Table(name = "condiciones_taxativas")
 public class CondicionTaxativa extends Condicion{
 	
 	private int valor;

@@ -14,7 +14,7 @@ public class ParserIndicadores implements ParserIndicadoresConstants {
 		Indicador indicador = null;
 		try {
 			indicador = new ParserIndicadores(new java.io.StringReader(strExpresion)).Start();
-			indicador.setEquivalencia(equivalenciaAsString(strExpresion));
+			indicador.setEquivalencia(strExpresion);
 		} catch (Throwable e) {
 			throw new ParserError("Sintaxis incorrecta");
 		}
@@ -299,15 +299,6 @@ public class ParserIndicadores implements ParserIndicadoresConstants {
 
 	/** Disable tracing. */
 	final public void disable_tracing() {
-	}
-
-	private static String equivalenciaAsString(String strExpresion) {
-		String equivalencia = "";
-		int i = strExpresion.indexOf('=');
-		if (i > 0) {
-			equivalencia = strExpresion.substring(i + 1).trim();
-		}
-		return equivalencia;
 	}
 
 }

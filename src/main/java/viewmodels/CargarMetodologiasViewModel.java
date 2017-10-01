@@ -2,25 +2,22 @@ package viewmodels;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-
-import org.uqbar.arena.windows.Dialog;
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
-import excepciones.MetodologiaExistenteError;
+import excepciones.EntidadExistenteError;
 import excepciones.MetodologiaInvalidaError;
-import views.CargarDatosMetodologiaView;
 
 @Observable
-public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
+public class CargarMetodologiasViewModel implements WithGlobalEntityManager, TransactionalOps{
 	private String nombreMetodologia = "";
 	private String resultadoOperacion;
 	private MetodologiaBuilder metodologiaBuilder;
@@ -31,8 +28,8 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
 
 	private int valorSeleccionado = 0;
 
-	private static Set<Indicador> indicadores = RepositorioIndicadores.getInstance().getIndicadores();
-	private Indicador indicadorSeleccionado = indicadores.iterator().next();
+	private static List<Indicador> indicadores = new RepositorioIndicadores().obtenerTodos();
+	private Indicador indicadorSeleccionado = indicadores.get(0);
 	
 	private static ArrayList<OperacionAgregacion> operacionesAgregacion = new ArrayList<OperacionAgregacion>(
 			Arrays.asList(OperacionAgregacion.Mediana, OperacionAgregacion.Promedio, OperacionAgregacion.Sumatoria,
@@ -85,11 +82,11 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
 		this.indicadorSeleccionado = indicadorSeleccionado;
 	}
 
-	public Set<Indicador> getIndicadores() {
+	public List<Indicador> getIndicadores() {
 		return indicadores;
 	}
 
-	public void setIndicadores(Set<Indicador> indicadores) {
+	public void setIndicadores(List<Indicador> indicadores) {
 		this.indicadores = indicadores;
 	}
 
@@ -141,16 +138,11 @@ public class CargarMetodologiasViewModel implements WithGlobalEntityManager{
 	}
 
 	public void guardarMetodologia() {
-		EntityManager entityManager = this.entityManager();
-		EntityTransaction tx = entityManager.getTransaction();
-		tx.begin();
 		try {
-			new RepositorioMetodologias().agregarMetodologia(metodologiaBuilder.buildMetodologia());
-			tx.commit();
+			withTransaction(() -> new RepositorioMetodologias().agregar(metodologiaBuilder.buildMetodologia()));
 			resultadoOperacion = "Metodologia guardada";
-		} catch (MetodologiaInvalidaError | MetodologiaExistenteError e) {
+		} catch (MetodologiaInvalidaError | EntidadExistenteError e) {
 			resultadoOperacion = e.getMessage();
-			tx.rollback();
 		}
 	}
 

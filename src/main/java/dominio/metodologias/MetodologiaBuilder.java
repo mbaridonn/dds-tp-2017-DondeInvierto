@@ -17,21 +17,21 @@ public class MetodologiaBuilder {
 		return metodologia;
 	}
 	
-	public MetodologiaBuilder agregarCondicionTaxativa(OperacionAgregacion opAgregacion, EvaluableEnCondicion indicadorOAntiguedad, 
+	public MetodologiaBuilder agregarCondicionTaxativa(OperacionAgregacion opAgregacion, Cuantificador indicadorOAntiguedad, 
 			int aniosAEvaluar, OperacionRelacional opRelacional, int valor){
 		metodologia.agregarCondicionTaxativa(new CondicionTaxativa(this.crearOperandoCondicion(opAgregacion, indicadorOAntiguedad, aniosAEvaluar),
 				opRelacional, valor));
 		return this;
 	}
 	
-	public MetodologiaBuilder agregarCondicionPrioritaria(OperacionAgregacion opAgregacion, EvaluableEnCondicion indicadorOAntiguedad, 
+	public MetodologiaBuilder agregarCondicionPrioritaria(OperacionAgregacion opAgregacion, Cuantificador indicadorOAntiguedad, 
 			int aniosAEvaluar, OperacionRelacional opRelacional){
 		metodologia.agregarCondicionPrioritaria(new CondicionPrioritaria(this.crearOperandoCondicion(opAgregacion, indicadorOAntiguedad, aniosAEvaluar),
 				opRelacional));
 		return this;
 	}
 	
-	private OperandoCondicion crearOperandoCondicion(OperacionAgregacion opAgregacion, EvaluableEnCondicion indicadorOAntiguedad, int aniosAEvaluar){
+	private OperandoCondicion crearOperandoCondicion(OperacionAgregacion opAgregacion, Cuantificador indicadorOAntiguedad, int aniosAEvaluar){
 		return new OperandoCondicion(opAgregacion, indicadorOAntiguedad, aniosAEvaluar);
 	}
 	

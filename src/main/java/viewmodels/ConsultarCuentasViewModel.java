@@ -23,7 +23,7 @@ public class ConsultarCuentasViewModel {
 	}
 
 	public List<Empresa> getEmpresas() {
-		return new RepositorioEmpresas().getEmpresas();
+		return new RepositorioEmpresas().obtenerTodos();
 	}
 
 	public Empresa getEmpresaSeleccionada() {
@@ -55,7 +55,7 @@ public class ConsultarCuentasViewModel {
 			cuentasSeleccionadas = null;
 		} else {
 			cuentasSeleccionadas = this.empresaSeleccionada.getCuentas();
-			Set<Indicador> indicadoresAplicables = RepositorioIndicadores.getInstance().todosLosIndicadoresAplicablesA(empresaSeleccionada);
+			Set<Indicador> indicadoresAplicables = new RepositorioIndicadores().todosLosIndicadoresAplicablesA(empresaSeleccionada);
 			cuentasSeleccionadas.addAll(empresaSeleccionada.resultadosIndicadoresTotales(indicadoresAplicables));			
 			cuentasSeleccionadas = obtenerCuentasSinRepetidos(cuentasSeleccionadas);
 		}

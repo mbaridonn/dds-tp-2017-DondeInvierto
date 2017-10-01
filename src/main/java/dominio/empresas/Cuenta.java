@@ -5,11 +5,13 @@ import java.time.Year;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 import org.uqbar.commons.utils.Observable;
 
 @Observable
 @Entity
+@Table(name = "cuentas")
 public class Cuenta {
 	
 	@Id 
@@ -46,10 +48,6 @@ public class Cuenta {
 
 	public int getValor() {
 		return valor;
-	}
-
-	public void mostrarDatos() { //despues se borra
-		System.out.println(anio + "\t" + tipoCuenta + "\t" + valor);
 	}
 	
 }
