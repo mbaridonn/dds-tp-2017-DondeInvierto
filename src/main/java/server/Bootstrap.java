@@ -15,7 +15,8 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 
 	public void init() {
 		withTransaction(() -> {
-			Cuenta unaCuenta = new Cuenta(Year.parse("2017"), "EBITDA", 10000);
+			//Descomentar para usar Empresas de prueba y no usar la BD
+			/*Cuenta unaCuenta = new Cuenta(Year.parse("2017"), "EBITDA", 10000);
 			Cuenta otraCuenta = new Cuenta(Year.parse("2017"), "FDS ", 10000);
 			List<Cuenta> cuentas = new ArrayList<Cuenta>();
 			cuentas.add(unaCuenta);
@@ -28,7 +29,7 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 			persist(empresa2);
 
 			Empresa empresa3 = new Empresa("EmpresaPrueba3,", cuentas);
-			persist(empresa3);
+			persist(empresa3);*/
 		});
 	}
 }

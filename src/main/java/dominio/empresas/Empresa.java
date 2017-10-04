@@ -103,4 +103,8 @@ public class Empresa {
 		return nombre;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+	
 }

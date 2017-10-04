@@ -1,6 +1,5 @@
 package server;
 
-import controllers.CuentasController;
 import controllers.EmpresasController;
 import controllers.HomeController;
 import spark.Spark;
@@ -16,11 +15,7 @@ public class Router {
 
 		Spark.staticFiles.location("/public");
 
-		CuentasController cuentasController = new CuentasController();
-
 		Spark.get("/", HomeController::home, engine);
-		Spark.get("/cuentas", CuentasController::listar, engine);
-		Spark.get("/cuentas/:id", CuentasController::mostrar, engine);
 		Spark.get("/empresas", EmpresasController::listar, engine);
 		Spark.get("/empresas/:id", EmpresasController::mostrar, engine);
 	}

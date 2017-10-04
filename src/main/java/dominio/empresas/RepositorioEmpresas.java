@@ -31,4 +31,8 @@ public class RepositorioEmpresas extends AbstractRepository<Empresa> {
 	public List<Empresa> listar() {
 		return entityManager().createQuery("from Empresa", Empresa.class).getResultList();
 	}
+
+	public Empresa buscar(long id) {
+		return entityManager().find(Empresa.class, id);
+	}
 }
