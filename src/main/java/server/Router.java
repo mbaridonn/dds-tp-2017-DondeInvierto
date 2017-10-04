@@ -2,6 +2,7 @@ package server;
 
 import controllers.HomeController;
 import controllers.CuentasController;
+import controllers.EmpresasController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import spark.utils.BooleanHelper;
@@ -23,6 +24,7 @@ public class Router {
 		Spark.get("/", HomeController::home, engine);
 		Spark.get("/cuentas", CuentasController::listar, engine);
 		Spark.get("/cuentas/:id", CuentasController::mostrar, engine);
+		Spark.get("/empresas", EmpresasController::listar, engine);
 	}
 
 }
