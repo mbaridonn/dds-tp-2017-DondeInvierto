@@ -1,0 +1,19 @@
+{{#partial "contenido"}}
+<h1>Empresas</h1>
+
+<table class="table table-stripped">
+	<tr>
+		<th>Nombre</th>
+		<th></th>
+	</tr>
+	
+	{{#each empresas}}
+		<tr>
+			<td>{{nombre}}</td>
+			<td><a href="/empresas/{{id}}">Ver</a><td> <!-- quitar el 4 y poner {{id}} -->
+		</tr>
+	{{/each}}
+</table>
+{{/partial}}
+
+{{>layout.hbs}}
