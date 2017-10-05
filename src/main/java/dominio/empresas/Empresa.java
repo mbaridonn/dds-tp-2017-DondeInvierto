@@ -76,6 +76,10 @@ public class Empresa {
 				.orElseThrow(() -> new NoExisteCuentaError("La empresa no tiene ninguna cuenta, por lo que no se puede calcular el año de creación."));
 	}
 	
+	public Long getId() {
+		return id;
+	}
+	
 	public String getNombre(){
 		return nombre;
 	}
