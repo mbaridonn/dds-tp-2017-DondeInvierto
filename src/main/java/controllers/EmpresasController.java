@@ -1,6 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,7 @@ public class EmpresasController implements WithGlobalEntityManager, Transactiona
 	public static ModelAndView listar(Request req, Response res) {
 		Map<String, List<Empresa>> model = new HashMap<>();
 
-		List<Empresa> empresas = RepositorioEmpresas.instancia.listar();
+		List<Empresa> empresas = new RepositorioEmpresas().obtenerTodos();
 
 		model.put("empresas", empresas);
 		return new ModelAndView(model, "empresas/empresas.hbs");
@@ -30,7 +29,7 @@ public class EmpresasController implements WithGlobalEntityManager, Transactiona
 		Map<String, List<Cuenta>> model = new HashMap<>();
 		String id = req.params("id");
 		
-		Empresa empresa = RepositorioEmpresas.instancia.buscar(Long.parseLong(id));
+		Empresa empresa = new RepositorioEmpresas().obtenerPorId(Long.parseLong(id));
 		List<Cuenta> cuentas = empresa.getCuentas();
 		
 		model.put("cuentas",cuentas);

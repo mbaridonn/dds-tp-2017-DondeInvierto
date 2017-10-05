@@ -7,8 +7,6 @@ import dominio.AbstractRepository;
 
 public class RepositorioEmpresas extends AbstractRepository<Empresa> {
 
-	public static RepositorioEmpresas instancia = new RepositorioEmpresas();
-
 	public boolean hayEmpresas() {
 		return obtenerTodos().size() > 0;
 	}
@@ -27,12 +25,5 @@ public class RepositorioEmpresas extends AbstractRepository<Empresa> {
 	protected String mensajeEntidadExistenteError(Empresa elemento) {
 		return "Ya existe una empresa con el nombre " + elemento.getNombre();
 	}
-
-	public List<Empresa> listar() {
-		return entityManager().createQuery("from Empresa", Empresa.class).getResultList();
-	}
-
-	public Empresa buscar(long id) {
-		return entityManager().find(Empresa.class, id);
-	}
+	
 }

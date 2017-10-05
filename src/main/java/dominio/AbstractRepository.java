@@ -9,7 +9,11 @@ import excepciones.EntidadExistenteError;
 public abstract class AbstractRepository<T> implements WithGlobalEntityManager{
 	
 	public List<T> obtenerTodos() {
-		return entityManager().createQuery("FROM " + this.nombreTipoEntidad(), tipoEntidad()).getResultList();
+		return entityManager().createQuery("FROM " + nombreTipoEntidad(), tipoEntidad()).getResultList();
+	}
+	
+	public T obtenerPorId(Long id){
+		return entityManager().find(tipoEntidad(), id);
 	}
 	
 	public void agregar(T elemento){
@@ -30,4 +34,5 @@ public abstract class AbstractRepository<T> implements WithGlobalEntityManager{
 	protected abstract Class<T> tipoEntidad();
 	
 	protected abstract String mensajeEntidadExistenteError(T elemento);
+	
 }
