@@ -15,7 +15,9 @@ public class Router {
 
 		Spark.staticFiles.location("/public");
 
-		Spark.get("/", HomeController::home, engine);
+		Spark.get("/", LoginController::login, engine);
+		Spark.post("/", LoginController::validate);// falta ruta de post (logueo usuario)
+		Spark.get("/home", HomeController::home, engine);
 		Spark.get("/empresas", EmpresasController::listar, engine);
 		Spark.get("/empresas/:id", EmpresasController::mostrar, engine);
 	}
