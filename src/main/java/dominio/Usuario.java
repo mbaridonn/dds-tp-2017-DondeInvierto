@@ -1,9 +1,17 @@
 package dominio;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import dominio.indicadores.Indicador;
+import dominio.metodologias.Metodologia;
 
 @Entity
 @Table(name = "usuarios")
@@ -13,6 +21,16 @@ public class Usuario {
 	private Long id;
 	private String email;
 	private String password;
+	
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="usuario_id")
+	private List<Indicador> indicadoresCreados;
+	
+	@OneToMany(cascade = CascadeType.PERSIST)
+	@JoinColumn(name="usuario_id")
+	private List<Metodologia> metodologiasCreadas;
+	
+	
 	
 	private Usuario(){}; //Necesario para persistir la clase
 	
