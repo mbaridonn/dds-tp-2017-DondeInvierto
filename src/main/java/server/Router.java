@@ -2,6 +2,7 @@ package server;
 
 import controllers.EmpresasController;
 import controllers.HomeController;
+import controllers.IndicadoresController;
 import controllers.LoginController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
@@ -21,6 +22,8 @@ public class Router {
 		Spark.get("/home", HomeController::home, engine);
 		Spark.get("/empresas", EmpresasController::listar, engine);
 		Spark.get("/empresas/:id", EmpresasController::mostrar, engine);
+		Spark.get("/crear-indicador", IndicadoresController::show, engine);
+		Spark.post("/crear-indicador", IndicadoresController::createIndicador);
 	}
 
 }

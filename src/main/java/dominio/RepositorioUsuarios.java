@@ -1,5 +1,7 @@
 package dominio;
 
+import javax.persistence.EntityTransaction;
+
 import excepciones.NoExisteUsuarioError;
 
 public class RepositorioUsuarios extends AbstractRepository<Usuario>{
@@ -8,6 +10,13 @@ public class RepositorioUsuarios extends AbstractRepository<Usuario>{
 		Usuario usuarioBuscado = obtenerTodos().stream().filter(usuario -> usuario.validar(email, password)).findFirst()
 				.orElseThrow(() -> new NoExisteUsuarioError("No se pudo encontrar el usuario " + email + " o la password no es la correcta."));
 		return usuarioBuscado.getId();
+	}
+	
+	public void actualizarUsuario(Usuario usuario){
+		EntityTransaction tx = entityManager().getTransaction();
+		tx.begin();
+		entityManager().merge(usuario);
+		tx.commit();
 	}
 	
 	@Override

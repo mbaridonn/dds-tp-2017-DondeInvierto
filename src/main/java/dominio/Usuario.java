@@ -1,9 +1,11 @@
 package dominio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -11,29 +13,51 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import dominio.indicadores.Indicador;
+import dominio.indicadores.RepositorioIndicadores;
 import dominio.metodologias.Metodologia;
+import dominio.parser.ParserIndicadores;
+
+
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements WithGlobalEntityManager {
 	@Id 
 	@GeneratedValue
 	private Long id;
 	private String email;
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name="usuario_id")
 	private List<Indicador> indicadoresCreados;
 	
-	@OneToMany(cascade = CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name="usuario_id")
 	private List<Metodologia> metodologiasCreadas;
+	public static Usuario instance = new Usuario();
 	
 	
 	
-	private Usuario(){}; //Necesario para persistir la clase
+	private Usuario(){
+		indicadoresCreados = new ArrayList<Indicador>();
+		metodologiasCreadas = new ArrayList<Metodologia>();
+	}
 	
+	public static Usuario instance(){
+		return instance;
+	}
+	
+	public void setIndicadoresCreados(List<Indicador> indicadoresCreados) {
+		this.indicadoresCreados = indicadoresCreados;
+	}
+
+	public void setMetodologiasCreadas(List<Metodologia> metodologiasCreadas) {
+		this.metodologiasCreadas = metodologiasCreadas;
+	}
+
 	public Usuario(String email, String password){
 		this.email = email;
 		this.password = password;
@@ -57,6 +81,12 @@ public class Usuario {
 	
 	public int hashCode() {
 		return email.hashCode();
+	}
+	
+	public void crearIndicador(String formulaIndicador){
+		Indicador indicador = ParserIndicadores.parse(formulaIndicador);
+		indicadoresCreados.add(indicador);
+		new RepositorioUsuarios().actualizarUsuario(this);
 	}
 	
 	@Override
