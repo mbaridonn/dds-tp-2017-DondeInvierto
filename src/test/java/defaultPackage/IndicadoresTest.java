@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Empresa;
@@ -21,20 +22,21 @@ import dominio.parser.ParserIndicadores;
 import dominio.indicadores.Indicador;
 import excepciones.EntidadExistenteError;
 
-public class IndicadoresTest extends AbstractPersistenceTest implements WithGlobalEntityManager{
+public class IndicadoresTest extends AbstractPersistenceTest implements WithGlobalEntityManager, TransactionalOps{
 
 	List<Indicador> indicadores = new ArrayList<Indicador>();
 	ArrayList<Empresa> empresasParaIndicadores;
-	RepositorioIndicadores archivoIndicadores;
+	RepositorioIndicadores archivoIndicadores = new RepositorioIndicadores();
 
 	@Before
 	public void setUp() {
-		RepositorioIndicadores.setIndicadoresPredefinidos(Arrays.asList(new String[] { 
-				"INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
-				"INDICADORDOS = cuentarara + fds",
-				"INDICADORTRES = INGRESONETO * 10 + ebitda",
-				"A = 5 / 3", "PRUEBA = ebitda + 5" }));
-		archivoIndicadores = new RepositorioIndicadores();
+		withTransaction(() -> {
+			archivoIndicadores.agregarMultiplesIndicadores(Arrays.asList(new String[] { 
+					"INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
+					"INDICADORDOS = cuentarara + fds",
+					"INDICADORTRES = INGRESONETO * 10 + ebitda",
+					"A = 5 / 3", "PRUEBA = ebitda + 5" }));
+		});
 		indicadores.addAll(archivoIndicadores.obtenerTodos());
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
 		archivoEjemploIndicadores.leerEmpresas();		

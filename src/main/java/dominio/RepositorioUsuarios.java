@@ -1,10 +1,10 @@
 package dominio;
 
-import javax.persistence.EntityTransaction;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import excepciones.NoExisteUsuarioError;
 
-public class RepositorioUsuarios extends AbstractRepository<Usuario>{
+public class RepositorioUsuarios extends AbstractRepository<Usuario> implements TransactionalOps{
 
 	public Long obtenerId(String email, String password){
 		Usuario usuarioBuscado = obtenerTodos().stream().filter(usuario -> usuario.validar(email, password)).findFirst()
@@ -12,11 +12,8 @@ public class RepositorioUsuarios extends AbstractRepository<Usuario>{
 		return usuarioBuscado.getId();
 	}
 	
-	public void actualizarUsuario(Usuario usuario){
-		EntityTransaction tx = entityManager().getTransaction();
-		tx.begin();
-		entityManager().merge(usuario);
-		tx.commit();
+	public void actualizar(Usuario usuario){
+		withTransaction(() -> entityManager().merge(usuario));
 	}
 	
 	@Override

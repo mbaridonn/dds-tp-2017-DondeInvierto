@@ -3,6 +3,7 @@ package defaultPackage;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +32,13 @@ public class MetodologiaTest extends AbstractPersistenceTest implements WithGlob
 		archivoEjemploMetodologias.leerEmpresas();
 		empresasParaIndicadores = archivoEjemploIndicadores.getEmpresas();
 		empresasParaComparacionConMetodologias = archivoEjemploMetodologias.getEmpresas();
+		withTransaction(() -> {
+			repositorioIndicadores.agregarMultiplesIndicadores(Arrays.asList(new String[] { 
+					"INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
+					"INDICADORDOS = cuentarara + fds",
+					"INDICADORTRES = INGRESONETO * 10 + ebitda",
+					"A = 5 / 3", "PRUEBA = ebitda + 5" }));
+		});
 		indicadores.addAll(repositorioIndicadores.obtenerTodos());
 		//Ver formas de testear métodos que usan fecha actual (!!!)
 	}

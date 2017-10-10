@@ -1,7 +1,6 @@
 package dominio.indicadores;
 
 import java.time.Year;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,20 +15,6 @@ import dominio.parser.ParserIndicadores;
 
 @Observable
 public class RepositorioIndicadores extends AbstractRepository<Indicador> {
-
-	private static List<String> indicadoresPredefinidos = Arrays.asList(new String[] {
-			"INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas", "INDICADORDOS = cuentarara + fds",
-			"INDICADORTRES = INGRESONETO * 10 + ebitda", "A = 5 / 3", "PRUEBA = ebitda + 5" });
-	// POR AHORA VOY A DEJAR LOS INDICADORES PREDEFINIDOS HARDCODEADOS
-
-	public static void setIndicadoresPredefinidos(List<String> indicadoresPredefinidos) {
-		// NECESARIO PARA CAMBIAR LOS INDICADORES PREDEFINIDOS
-		RepositorioIndicadores.indicadoresPredefinidos = indicadoresPredefinidos;
-	}
-
-	public RepositorioIndicadores() {
-		agregarMultiplesIndicadores(indicadoresPredefinidos);// NO SIEMPRE FUNCIONA, PORQUE SE TENDRIA QUE USAR UNA TRANSACCION CADA VEZ QUE SE INSTANCIA (!!!)
-	}
 	
 	public void agregarMultiplesIndicadores(List<String> strIndicadores) {
 		List<Indicador> indicadoresNuevos = obtenerIndicadoresParseados(strIndicadores);//NO ESTOY CATCHEANDO ParserError (!!!)

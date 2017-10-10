@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.EntityTransaction;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -13,13 +12,11 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import dominio.indicadores.Indicador;
-import dominio.indicadores.RepositorioIndicadores;
 import dominio.metodologias.Metodologia;
 import dominio.parser.ParserIndicadores;
 
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-
 
 @Entity
 @Table(name = "usuarios")
@@ -37,9 +34,8 @@ public class Usuario implements WithGlobalEntityManager {
 	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name="usuario_id")
 	private List<Metodologia> metodologiasCreadas;
+	
 	public static Usuario instance = new Usuario();
-	
-	
 	
 	private Usuario(){
 		indicadoresCreados = new ArrayList<Indicador>();
@@ -86,7 +82,7 @@ public class Usuario implements WithGlobalEntityManager {
 	public void crearIndicador(String formulaIndicador){
 		Indicador indicador = ParserIndicadores.parse(formulaIndicador);
 		indicadoresCreados.add(indicador);
-		new RepositorioUsuarios().actualizarUsuario(this);
+		new RepositorioUsuarios().actualizar(this);
 	}
 	
 	@Override
