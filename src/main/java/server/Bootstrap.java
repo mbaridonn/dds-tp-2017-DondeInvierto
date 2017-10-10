@@ -2,7 +2,6 @@ package server;
 
 import java.time.Year;
 import java.util.Arrays;
-import java.util.List;
 
 import org.uqbarproject.jpa.java8.extras.EntityManagerOps;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
@@ -23,11 +22,12 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 	}
 
 	private void cargarEmpresasPredefinidas() {
-		List<Cuenta> cuentas = Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 10000),
-				new Cuenta(Year.parse("2017"), "FDS ", 10000));
-		Empresa empresa1 = new Empresa("Empresa1,", cuentas);
-		Empresa empresa2 = new Empresa("Empresa2,", cuentas);
-		Empresa empresa3 = new Empresa("Empresa3,", cuentas);
+		Empresa empresa1 = new Empresa("Empresa1", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 10000),
+				new Cuenta(Year.parse("2017"), "FDS ", 10000)));
+		Empresa empresa2 = new Empresa("Empresa2", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 12500),
+				new Cuenta(Year.parse("2017"), "FDS ", 25000)));
+		Empresa empresa3 = new Empresa("Empresa3", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 15500),
+				new Cuenta(Year.parse("2017"), "FDS ", 38000)));
 		new RepositorioEmpresas().agregarMultiplesEmpresas(Arrays.asList(empresa1, empresa2, empresa3));
 	}
 

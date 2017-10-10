@@ -29,22 +29,20 @@ public class Usuario implements WithGlobalEntityManager {
 	
 	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name="usuario_id")
-	private List<Indicador> indicadoresCreados;
+	private List<Indicador> indicadoresCreados = new ArrayList<Indicador>();
 	
 	@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name="usuario_id")
-	private List<Metodologia> metodologiasCreadas;
+	private List<Metodologia> metodologiasCreadas = new ArrayList<Metodologia>();
 	
-	public static Usuario instance = new Usuario();
-	
-	private Usuario(){
-		indicadoresCreados = new ArrayList<Indicador>();
-		metodologiasCreadas = new ArrayList<Metodologia>();
-	}
-	
+	public static Usuario instance;
 	public static Usuario instance(){
 		return instance;
 	}
+	public static void instance(Usuario instance) {
+		Usuario.instance = instance;
+	}
+	private Usuario(){}//Necesario para persistir la clase
 	
 	public void setIndicadoresCreados(List<Indicador> indicadoresCreados) {
 		this.indicadoresCreados = indicadoresCreados;

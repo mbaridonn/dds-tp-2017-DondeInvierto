@@ -2,6 +2,7 @@ package controllers;
 
 import dominio.RepositorioUsuarios;
 import dominio.Usuario;
+import excepciones.NoExisteUsuarioError;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -14,11 +15,15 @@ public class LoginController {
 	public static Void validate(Request req, Response res) {
 		String email = req.queryParams("email");
 		String password = req.queryParams("password");
-		Long idUsuario = new RepositorioUsuarios().obtenerId(email, password);//NO SE ESTA CATCHEANDO NoExisteUsuarioError (!!!)
-		Usuario.instance = new RepositorioUsuarios().obtenerPorId(idUsuario);
-		res.cookie("email", email);
-		res.cookie("idUsuario", Long.toString(idUsuario));
-		res.redirect("/home");
+		try{
+			Long idUsuario = new RepositorioUsuarios().obtenerId(email, password);
+			Usuario.instance(new RepositorioUsuarios().obtenerPorId(idUsuario));
+			res.cookie("email", email);
+			res.cookie("idUsuario", Long.toString(idUsuario));
+			res.redirect("/home");
+		} catch (NoExisteUsuarioError e){
+			res.redirect("/");//CÓMO INDICO QUE EL USUARIO NO EXISTE, SI NO PUEDO DEVOLVER NADA AL CLIENTE ???
+		}
 		return null;
 	}
 }
