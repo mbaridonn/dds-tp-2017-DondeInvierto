@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.Metodologia;
 import dominio.parser.ParserIndicadores;
-
+import excepciones.IndicadorExistenteError;
 
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 
@@ -44,21 +44,41 @@ public class Usuario implements WithGlobalEntityManager {
 	}
 	private Usuario(){}//Necesario para persistir la clase
 	
+	public Usuario(String email, String password){
+		this.email = email;
+		this.password = password;
+	}
+	
+	public void crearIndicador(String formulaIndicador){
+		Indicador indicador = ParserIndicadores.parse(formulaIndicador);
+		if(this.yaCreeEsteIndicador(indicador)){
+			throw new IndicadorExistenteError("El indicador que se intento guardar ya existe!");
+		}
+		indicadoresCreados.add(indicador);
+		new RepositorioUsuarios().actualizar(this);
+	}
+	
+	private boolean yaCreeEsteIndicador(Indicador indicador){
+		return indicadoresCreados.contains(indicador);
+	}
+	
+	public Indicador obtenerIndicadorLlamado(String nombreIndicador){
+		return indicadoresCreados.stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst()
+				.orElseThrow(() -> new NoExisteIndicadorError("No se pudo encontrar un indicador con ese nombre."));
+	}
+	
+	
+	public boolean validar(String email, String password){
+		return email.equals(this.email) && password.equals(this.password);
+	}
+	
+	
 	public void setIndicadoresCreados(List<Indicador> indicadoresCreados) {
 		this.indicadoresCreados = indicadoresCreados;
 	}
 
 	public void setMetodologiasCreadas(List<Metodologia> metodologiasCreadas) {
 		this.metodologiasCreadas = metodologiasCreadas;
-	}
-
-	public Usuario(String email, String password){
-		this.email = email;
-		this.password = password;
-	}
-	
-	public boolean validar(String email, String password){
-		return email.equals(this.email) && password.equals(this.password);
 	}
 	
 	public Long getId() {
@@ -76,15 +96,13 @@ public class Usuario implements WithGlobalEntityManager {
 	public int hashCode() {
 		return email.hashCode();
 	}
-	
-	public void crearIndicador(String formulaIndicador){
-		Indicador indicador = ParserIndicadores.parse(formulaIndicador);
-		indicadoresCreados.add(indicador);
-		new RepositorioUsuarios().actualizar(this);
-	}
-	
 	@Override
 	public String toString(){//CAPAZ CONVENGA GUARDAR UN NOMBRE DE USUARIO (!!!)
 		return email;
 	}
+	public List<Indicador> getIndicadoresCreados() {
+		return indicadoresCreados;
+	}
 }
+
+class NoExisteIndicadorError extends RuntimeException {NoExisteIndicadorError(String e) {super(e);}}

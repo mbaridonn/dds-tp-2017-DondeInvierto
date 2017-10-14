@@ -5,12 +5,14 @@ import static org.junit.Assert.assertTrue;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
@@ -27,7 +29,7 @@ import dominio.metodologias.RepositorioMetodologias;
 import dominio.parser.ParserIndicadores;
 import excepciones.EntidadExistenteError;
 
-public class PersistenciaTest extends AbstractPersistenceTest implements WithGlobalEntityManager {
+public class PersistenciaTest extends AbstractPersistenceTest implements WithGlobalEntityManager,TransactionalOps {
 
 	private ArrayList<Indicador> indicadores;
 	private RepositorioEmpresas repoEmpresas;
@@ -41,8 +43,16 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 
 	@Before
 	public void setUp() {
-		repoEmpresas = new RepositorioEmpresas();
 		repoIndicadores = new RepositorioIndicadores();
+		withTransaction(() -> {
+			repoIndicadores.agregarMultiplesIndicadores(Arrays.asList(new String[] { 
+					"INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
+					"INDICADORDOS = cuentarara + fds",
+					"INDICADORTRES = INGRESONETO * 10 + ebitda",
+					"A = 5 / 3", 
+					"PRUEBA = ebitda + 5" }));
+		});
+		repoEmpresas = new RepositorioEmpresas();
 		repoMetodologias = new RepositorioMetodologias();
 		indicadores = new ArrayList<Indicador>();
 		listaEmpresas = new ArrayList<Empresa>();
@@ -69,7 +79,10 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	@Test
 	public void alAgregarDosEmpresasAlRepositorioEmpresasEstasSePersistenEsaCantidad() {
 		int cantidadAntesDeAgregar = repoEmpresas.obtenerTodos().size();
-		repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
+		withTransaction(() -> {
+			System.out.println(listaEmpresas.size());
+			repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
+		});	
 		assertEquals(cantidadAntesDeAgregar + 2, repoEmpresas.obtenerTodos().size());
 	}
 
@@ -82,15 +95,19 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	@Test
 	public void noSePersistenDosEmpresasConElMismoNombre() {
 		Empresa empresaCopia = new Empresa("empresa1", listaCuentas2);
-		listaEmpresas.add(empresaCopia);
-		repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
+		withTransaction(() -> {
+			listaEmpresas.add(empresaCopia);
+			repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
+		});
 		assertEquals(1, this.entityManager().createQuery("FROM Empresa where nombre = 'empresa1'").getResultList().size());
 	}
 
 	@Test
 	public void alAgregarDosIndicadoresAlRepositorioIndicadoresEstosSePersistenEsaCantidad() {
 		int cantidadAntesDeAgregar = repoIndicadores.obtenerTodos().size();
-		repoIndicadores.agregarMultiplesIndicadores(listaIndicadores);
+		withTransaction(() -> {
+			repoIndicadores.agregarMultiplesIndicadores(listaIndicadores);
+		});	
 		assertEquals(cantidadAntesDeAgregar + 2, repoIndicadores.obtenerTodos().size());
 	}
 
@@ -110,13 +127,17 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	@Test
 	public void alAgregarDosMetodologiasAlRepositorioMetodologiasEstosSePersistenEsaCantidad() {
 		int cantidadAntesDeAgregar = repoMetodologias.obtenerTodos().size();
-		listaMetodologias.forEach(metodologia -> repoMetodologias.agregar(metodologia));
+		withTransaction(() -> {
+			listaMetodologias.forEach(metodologia -> repoMetodologias.agregar(metodologia));
+		});	
 		assertEquals(cantidadAntesDeAgregar + 2, repoMetodologias.obtenerTodos().size());
 	}
 
 	@Test
 	public void alAgregarDosMetodologiasAlRepositorioMetodologiasEstosSePersistenCorrectamente() {
-		listaMetodologias.forEach(metodologia -> repoMetodologias.agregar(metodologia));
+		withTransaction(() -> {
+			listaMetodologias.forEach(metodologia -> repoMetodologias.agregar(metodologia));
+		});	
 		assertTrue(repoMetodologias.obtenerTodos().containsAll(listaMetodologias));
 	}
 

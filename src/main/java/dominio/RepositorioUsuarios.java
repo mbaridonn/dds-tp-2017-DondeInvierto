@@ -1,7 +1,13 @@
 package dominio;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
+import dominio.indicadores.Indicador;
+import dominio.parser.ParserIndicadores;
 import excepciones.NoExisteUsuarioError;
 
 public class RepositorioUsuarios extends AbstractRepository<Usuario> implements TransactionalOps{
@@ -14,6 +20,21 @@ public class RepositorioUsuarios extends AbstractRepository<Usuario> implements 
 	
 	public void actualizar(Usuario usuario){
 		withTransaction(() -> entityManager().merge(usuario));
+	}
+	
+	@Override
+	public Usuario obtenerPorId(Long id){
+		Usuario usuario = super.obtenerPorId(id);
+		this.inicializarIndicadoresPara(usuario);
+		return usuario;
+	}
+	
+	private void inicializarIndicadoresPara(Usuario usuario){
+		System.out.println("Obtuve los indicadores");
+		List<Indicador> indicadores = usuario.getIndicadoresCreados();
+		System.out.println("Obtuve los indicadores");
+		Stream<Indicador> indicsInicializados =  indicadores.stream().map(protoInd -> ParserIndicadores.parse(protoInd.getEquivalencia()));
+		usuario.setIndicadoresCreados(indicsInicializados.collect(Collectors.toList()));
 	}
 	
 	@Override

@@ -55,8 +55,8 @@ public class ConsultarCuentasViewModel {
 			cuentasSeleccionadas = null;
 		} else {
 			cuentasSeleccionadas = this.empresaSeleccionada.getCuentas();
-			Set<Indicador> indicadoresAplicables = new RepositorioIndicadores().todosLosIndicadoresAplicablesA(empresaSeleccionada);
-			cuentasSeleccionadas.addAll(empresaSeleccionada.resultadosIndicadoresTotales(indicadoresAplicables));			
+			Set<Indicador> indicadoresAplicables = (Set<Indicador>) new RepositorioIndicadores().todosLosIndicadoresAplicablesA(empresaSeleccionada);
+			cuentasSeleccionadas.addAll(empresaSeleccionada.resultadosParaEstosIndicadores((List<Indicador>) indicadoresAplicables));			
 			cuentasSeleccionadas = obtenerCuentasSinRepetidos(cuentasSeleccionadas);
 		}
 		return cuentasSeleccionadas;

@@ -1,6 +1,7 @@
 package dominio.indicadores;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,8 +39,8 @@ public class RepositorioIndicadores extends AbstractRepository<Indicador> {
 		return "Ya existe un indicador con el nombre " + elemento.getNombre();
 	}
 
-	public Set<Indicador> todosLosIndicadoresAplicablesA(Empresa empresa) {
-		Set<Indicador> indicadoresAplicables = new HashSet<Indicador>();
+	public List<Indicador> todosLosIndicadoresAplicablesA(Empresa empresa) {
+		List<Indicador> indicadoresAplicables = new ArrayList<Indicador>();
 		Set<Year> aniosDeCuentas = empresa.aniosDeLosQueTieneCuentas();
 		aniosDeCuentas.forEach(anio -> indicadoresAplicables.addAll(this.indicadoresAplicablesA(empresa, anio)));
 		return indicadoresAplicables;
@@ -53,6 +54,7 @@ public class RepositorioIndicadores extends AbstractRepository<Indicador> {
 	}
 
 	public Indicador buscarIndicador(String nombreIndicador) {
+		System.out.println(obtenerTodos());
 		return obtenerTodos().stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst()
 				.orElseThrow(() -> new NoExisteIndicadorError("No se pudo encontrar un indicador con ese nombre."));
 	}

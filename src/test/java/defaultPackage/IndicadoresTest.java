@@ -15,19 +15,22 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
+import dominio.RepositorioUsuarios;
+import dominio.Usuario;
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Empresa;
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.parser.ParserIndicadores;
 import dominio.indicadores.Indicador;
 import excepciones.EntidadExistenteError;
+import excepciones.IndicadorExistenteError;
 
 public class IndicadoresTest extends AbstractPersistenceTest implements WithGlobalEntityManager, TransactionalOps{
 
 	List<Indicador> indicadores = new ArrayList<Indicador>();
 	ArrayList<Empresa> empresasParaIndicadores;
 	RepositorioIndicadores archivoIndicadores = new RepositorioIndicadores();
-
+	Usuario usuario = new Usuario("admin","admin");
 	@Before
 	public void setUp() {
 		withTransaction(() -> {
@@ -38,6 +41,10 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 					"A = 5 / 3", "PRUEBA = ebitda + 5" }));
 		});
 		indicadores.addAll(archivoIndicadores.obtenerTodos());
+		usuario.setIndicadoresCreados(indicadores);
+		Usuario.instance = usuario;
+		System.out.println("HOLAA");
+		System.out.println("HOLAA");
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
 		archivoEjemploIndicadores.leerEmpresas();		
 		empresasParaIndicadores = archivoEjemploIndicadores.getEmpresas();
@@ -77,11 +84,10 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 		assertTrue(Arrays.equals(resultadosEsperados, resultados));
 	}
 	
-	@Test(expected = EntidadExistenteError.class)
+	@Test(expected = IndicadorExistenteError.class)
 	public void siGuardoDosVecesElMismoIndicadorFalla() {
-		Indicador unIndicador = ParserIndicadores.parse("INGRESONETO = ebitda + 2");
-		archivoIndicadores.agregar(unIndicador);
-		archivoIndicadores.agregar(unIndicador);
+		usuario.crearIndicador("INGRESONETO = ebitda + 2");
+		usuario.crearIndicador("INGRESONETO = ebitda + 2");
 	}
 	
 	@Test
@@ -108,7 +114,7 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 	@Test
 	public void laCantidadDeIndicadoresAplicablesAEmpresaReLocaEn2016SonCuatro(){
 		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		empresaReLoca.resultadosIndicadoresTotales(archivoIndicadores.todosLosIndicadoresAplicablesA(empresaReLoca)).size();
+		empresaReLoca.resultadosParaEstosIndicadores(archivoIndicadores.todosLosIndicadoresAplicablesA(empresaReLoca)).size();
 		int cantidadIndicadores = cantidadIndicadoresAplicablesSegunAnio(empresaReLoca, obtenerAnio(2016));
 		assertEquals(4,cantidadIndicadores);
 	}
@@ -116,7 +122,9 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
 	
 	private int cantidadIndicadoresAplicablesA(Empresa empresa) {
-		return archivoIndicadores.todosLosIndicadoresAplicablesA(empresa).size();
+		System.out.println(archivoIndicadores.todosLosIndicadoresAplicablesA(empresa));
+		Set<Indicador> indicadAplicables = new HashSet<Indicador>(archivoIndicadores.todosLosIndicadoresAplicablesA(empresa));
+		return indicadAplicables.size();
 	}
 	
 	private int cantidadIndicadoresAplicablesSegunAnio(Empresa empresa, Year anio) {
@@ -128,6 +136,9 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Empresa EmpresaLoca = empresasParaIndicadores.get(1);
 		Empresa EmpresaReLoca = empresasParaIndicadores.get(2);
+		System.out.println(ind);
+		System.out.println(miEmpresa);
+		System.out.println(Year.of(2015));
 		resultados[0] = ind.evaluarEn(miEmpresa, Year.of(2015));
 		resultados[1] = ind.evaluarEn(EmpresaLoca, Year.of(2014));
 		resultados[2] = ind.evaluarEn(EmpresaReLoca, Year.of(2016));

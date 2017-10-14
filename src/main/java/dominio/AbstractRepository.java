@@ -17,10 +17,13 @@ public abstract class AbstractRepository<T> implements WithGlobalEntityManager{
 	}
 	
 	public void agregar(T elemento){
+		System.out.println("Hasta aca llegue");
 		if (existe(elemento)){
 			throw new EntidadExistenteError(mensajeEntidadExistenteError(elemento));
 		}
+		System.out.println("Aca no");
 		entityManager().persist(elemento);//La transacción se tiene que agregar donde se envíe el mensaje
+		System.out.println("Aca si!!");
 	}
 	
 	protected boolean existe(T elemento){

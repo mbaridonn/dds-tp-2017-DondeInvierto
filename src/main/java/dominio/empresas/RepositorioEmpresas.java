@@ -1,6 +1,7 @@
 package dominio.empresas;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import dominio.AbstractRepository;
@@ -12,7 +13,7 @@ public class RepositorioEmpresas extends AbstractRepository<Empresa> {
 	}
 
 	public void agregarMultiplesEmpresas(List<Empresa> empresas) {
-		Stream<Empresa> empresasNuevas = empresas.stream().filter(emp -> !existe(emp));
+		List<Empresa> empresasNuevas = empresas.stream().filter(emp -> !existe(emp)).collect(Collectors.toList());
 		empresasNuevas.forEach(empresa -> agregar(empresa));
 	}
 

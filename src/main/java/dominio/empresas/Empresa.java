@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,7 +20,7 @@ import dominio.indicadores.Indicador;
 import excepciones.NoExisteCuentaError;
 
 @Entity
-@Table(name = "empresas")
+//@Table(name = "empresas")
 public class Empresa {
 	
 	@Id 
@@ -56,17 +58,17 @@ public class Empresa {
 		return anios;
 	}
 	
-	public List<Cuenta> resultadosIndicadoresTotales(Set<Indicador> indicadores){
+	public List<Cuenta> resultadosParaEstosIndicadores(List<Indicador> indicadores){
 		Set<Year> anios = this.aniosDeLosQueTieneCuentas();
 		List<Cuenta> resultadosTotales = new ArrayList<Cuenta>();
-		anios.forEach(anio -> resultadosTotales.addAll(this.resultadosIndicadoresSegunAnio(indicadores,anio)));
+		anios.forEach(anio -> resultadosTotales.addAll(this.resultadosParaEstosIndicadoresSegunAnio(indicadores,anio)));
 		return resultadosTotales;
 	}
 	
-	public List<Cuenta> resultadosIndicadoresSegunAnio(Set<Indicador> indicadores, Year anio){
+	private List<Cuenta> resultadosParaEstosIndicadoresSegunAnio(List<Indicador> indicadores, Year anio){
 		List<Cuenta> resultados = new ArrayList<Cuenta>();
 		List<Indicador> indicadoresAplicables = new ArrayList<Indicador>();
-		indicadores.stream().filter(ind -> ind.esAplicableA(this, anio)).forEach(ind -> indicadoresAplicables.add(ind));
+		indicadoresAplicables = indicadores.stream().filter(ind -> ind.esAplicableA(this, anio)).collect(Collectors.toList());
 		indicadoresAplicables.forEach(ind -> resultados.add(new Cuenta(anio,ind.getNombre(),ind.evaluarEn(this, anio))));
 		return resultados;
 	}

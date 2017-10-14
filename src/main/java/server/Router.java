@@ -30,8 +30,8 @@ public class Router {
 		Spark.get("/home", HomeController::home, engine);
 		Spark.get("/empresas", EmpresasController::listar, engine);
 		Spark.get("/empresas/:id", EmpresasController::mostrar, engine);
-		Spark.get("/crear-indicador", IndicadoresController::show, engine);
-		Spark.post("/crear-indicador", IndicadoresController::createIndicador);
+		Spark.get("/indicadores/new", IndicadoresController::show, engine);
+		Spark.post("/indicadores/new", IndicadoresController::createIndicador);
 	}
 
 }

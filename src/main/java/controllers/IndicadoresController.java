@@ -13,7 +13,7 @@ public class IndicadoresController {
 	public static Void createIndicador(Request req, Response res) {
 		String formulaIndicador = req.queryParams("indicador");
 		Usuario.instance().crearIndicador(formulaIndicador);
-		res.redirect("/crear-indicador");
+		res.redirect("/indicadores/new");
 		return null;
 	}
 }
