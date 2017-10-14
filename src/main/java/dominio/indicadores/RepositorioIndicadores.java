@@ -8,30 +8,21 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import org.uqbar.commons.utils.Observable;
 
-import dominio.AbstractRepository;
+import dominio.AbstractLocalRepository;
 import dominio.empresas.Empresa;
 import dominio.parser.ParserIndicadores;
 
 @Observable
-public class RepositorioIndicadores extends AbstractRepository<Indicador> {
+public class RepositorioIndicadores extends AbstractLocalRepository<Indicador> {
 	
 	public void agregarMultiplesIndicadores(List<String> strIndicadores) {
 		List<Indicador> indicadoresNuevos = obtenerIndicadoresParseados(strIndicadores);//NO ESTOY CATCHEANDO ParserError (!!!)
 		indicadoresNuevos.forEach(ind -> agregar(ind));
-	}
-	
-	@Override
-	public List<Indicador> obtenerTodos() {
-		return super.obtenerTodos().stream().map(protoInd -> ParserIndicadores.parse(protoInd.getEquivalencia()))
-				.collect(Collectors.toList());
-		//Estoy utilizando la equivalencia del indicador que guardo en la BD para generar un indicador que tenga la expresion
-	}
-	
-	@Override
-	protected Class<Indicador> tipoEntidad() {
-		return Indicador.class;
 	}
 
 	@Override
@@ -54,7 +45,6 @@ public class RepositorioIndicadores extends AbstractRepository<Indicador> {
 	}
 
 	public Indicador buscarIndicador(String nombreIndicador) {
-		System.out.println(obtenerTodos());
 		return obtenerTodos().stream().filter(ind -> ind.seLlama(nombreIndicador)).findFirst()
 				.orElseThrow(() -> new NoExisteIndicadorError("No se pudo encontrar un indicador con ese nombre."));
 	}

@@ -14,7 +14,7 @@ public class ExpresionIndicador implements Expresion{
 	}
 	
 	public int evaluarEn(Empresa empresa, Year anio){
-		Indicador indicador = Usuario.instance().obtenerIndicadorLlamado(nombreIndicador); //new RepositorioIndicadores().buscarIndicador(nombreIndicador);
+		Indicador indicador = Usuario.instance().buscarIndicador(nombreIndicador);
 		return indicador.evaluarEn(empresa,anio);
 	}
 }
