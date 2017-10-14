@@ -2,8 +2,8 @@ package dominio.indicadores;
 
 import java.time.Year;
 
-import dominio.Usuario;
 import dominio.empresas.Empresa;
+import dominio.usuarios.Usuario;
 
 public class ExpresionIndicador implements Expresion{
 	

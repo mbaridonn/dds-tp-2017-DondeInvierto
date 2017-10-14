@@ -4,8 +4,6 @@ import controllers.EmpresasController;
 import controllers.HomeController;
 import controllers.IndicadoresController;
 import controllers.LoginController;
-import spark.Request;
-import spark.Response;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import spark.utils.BooleanHelper;
@@ -19,12 +17,7 @@ public class Router {
 
 		Spark.staticFiles.location("/public");
 
-		Spark.before("/*", (Request req, Response res) -> {
-			if(req.cookie("idUsuario") == null){
-				//Spark.halt(401, "Error de autenticacion"); OPCION 1
-				//res.redirect("/"); OPCION 2
-			}
-		});
+		Spark.before(FiltroAutenticacion::validarLogueo);
 		Spark.get("/", LoginController::login, engine);
 		Spark.post("/", LoginController::validate);
 		Spark.get("/home", HomeController::home, engine);

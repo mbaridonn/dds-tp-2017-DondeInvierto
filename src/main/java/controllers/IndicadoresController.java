@@ -1,6 +1,6 @@
 package controllers;
 
-import dominio.Usuario;
+import dominio.usuarios.Usuario;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;

@@ -1,4 +1,4 @@
-package dominio;
+package dominio.usuarios;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
+import dominio.AbstractRepository;
 import dominio.indicadores.Indicador;
 import dominio.parser.ParserIndicadores;
 import excepciones.NoExisteUsuarioError;

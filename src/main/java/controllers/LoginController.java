@@ -1,7 +1,7 @@
 package controllers;
 
-import dominio.RepositorioUsuarios;
-import dominio.Usuario;
+import dominio.usuarios.RepositorioUsuarios;
+import dominio.usuarios.Usuario;
 import excepciones.NoExisteUsuarioError;
 import spark.ModelAndView;
 import spark.Request;

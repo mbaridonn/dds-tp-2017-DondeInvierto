@@ -15,12 +15,12 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
-import dominio.RepositorioUsuarios;
-import dominio.Usuario;
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Empresa;
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.parser.ParserIndicadores;
+import dominio.usuarios.RepositorioUsuarios;
+import dominio.usuarios.Usuario;
 import dominio.indicadores.Indicador;
 import excepciones.EntidadExistenteError;
 import excepciones.IndicadorExistenteError;
