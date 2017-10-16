@@ -29,6 +29,7 @@ public class RepositorioUsuarios extends AbstractRepository<Usuario> implements 
 	
 	private void inicializarIndicadoresPara(Usuario usuario){ // VER DE VOLAR (!!!)
 		List<String> equivalenciaIndicadores = usuario.getIndicadores().stream().map(protoInd -> protoInd.getEquivalencia()).collect(Collectors.toList());
+		usuario.eliminarIndicadores();
 		usuario.agregarIndicadores(equivalenciaIndicadores);
 	}
 	

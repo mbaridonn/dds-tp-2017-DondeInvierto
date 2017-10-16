@@ -8,8 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import dominio.empresas.Empresa;
@@ -26,9 +25,8 @@ public class Usuario {
 	private String email;
 	private String password;
 	
-	@OneToMany(cascade = CascadeType.MERGE)
-	@JoinColumn(name="usuario_id")
-	private RepositorioIndicadores repositorioIndicadores = new RepositorioIndicadores();
+	@OneToOne(cascade = CascadeType.MERGE)
+	private RepositorioIndicadores repositorioIndicadores;
 	
 	/*@OneToMany(cascade = CascadeType.MERGE)
 	@JoinColumn(name="usuario_id")
@@ -60,29 +58,40 @@ public class Usuario {
 		return email;
 	}
 	
+	public RepositorioIndicadores getRepositorioIndicadores() {
+		if (repositorioIndicadores == null){
+			repositorioIndicadores = new RepositorioIndicadores();
+		}
+		return repositorioIndicadores;
+	}
+	
 	public void crearIndicador(String formulaIndicador){
-		repositorioIndicadores.agregar(ParserIndicadores.parse(formulaIndicador));
+		getRepositorioIndicadores().agregar(ParserIndicadores.parse(formulaIndicador));
 		new RepositorioUsuarios().actualizar(this);
 	}
 	
 	public List<Indicador> getIndicadores() {
-		return repositorioIndicadores.obtenerTodos();
+		return getRepositorioIndicadores().obtenerTodos();
 	}
 	
 	public Indicador buscarIndicador(String nombreIndicador) {
-		return repositorioIndicadores.buscarIndicador(nombreIndicador);
+		return getRepositorioIndicadores().buscarIndicador(nombreIndicador);
 	}
 	
 	public void agregarIndicadores(List<String> indicadoresCreados) {
-		this.repositorioIndicadores.agregarMultiplesIndicadores(indicadoresCreados);
+		getRepositorioIndicadores().agregarMultiplesIndicadores(indicadoresCreados);
 	}
 	
 	public List<Indicador> todosLosIndicadoresAplicablesA(Empresa empresa) {
-		return repositorioIndicadores.todosLosIndicadoresAplicablesA(empresa);
+		return getRepositorioIndicadores().todosLosIndicadoresAplicablesA(empresa);
 	}
 	
 	public Set<Indicador> indicadoresAplicablesA(Empresa empresa, Year anio) {
-		return repositorioIndicadores.indicadoresAplicablesA(empresa, anio);
+		return getRepositorioIndicadores().indicadoresAplicablesA(empresa, anio);
+	}
+	
+	public void eliminarIndicadores(){
+		getRepositorioIndicadores().eliminarIndicadores();
 	}
 
 	/*public void setMetodologias(List<Metodologia> metodologiasCreadas) {

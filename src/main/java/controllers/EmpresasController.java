@@ -10,6 +10,7 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
+import dominio.indicadores.Indicador;
 import dominio.usuarios.Usuario;
 import spark.ModelAndView;
 import spark.Request;
@@ -30,9 +31,31 @@ public class EmpresasController implements WithGlobalEntityManager, Transactiona
 		String id = req.params("id");
 		
 		Empresa empresa = new RepositorioEmpresas().obtenerPorId(Long.parseLong(id));
-		List<Cuenta> cuentas = empresa.getCuentas();
+		List<Cuenta> cuentas = getCuentasEmpresa(empresa);
 		
 		model.put("cuentas",cuentas);
 		return new ModelAndView(model, "cuentas/cuentas.hbs");
+	}
+	
+	private static List<Cuenta> getCuentasEmpresa(Empresa empresa) {
+		List<Cuenta> cuentasSeleccionadas = empresa.getCuentas();
+		List<Indicador> indicadoresAplicables = Usuario.instance().todosLosIndicadoresAplicablesA(empresa);
+		cuentasSeleccionadas.addAll(empresa.resultadosParaEstosIndicadores((List<Indicador>) indicadoresAplicables));			
+		cuentasSeleccionadas = obtenerCuentasSinRepetidos(cuentasSeleccionadas);
+		return cuentasSeleccionadas;
+	}
+	
+	private static List<Cuenta> obtenerCuentasSinRepetidos(List<Cuenta> cuentasSinRepetidos){
+		for (int i = 0; i < cuentasSinRepetidos.size(); i++) {
+			for (int j = i + 1; j < cuentasSinRepetidos.size(); j++) {
+				if(cuentasSinRepetidos.get(i).getAnio().equals(cuentasSinRepetidos.get(j).getAnio())
+						&& cuentasSinRepetidos.get(i).getTipoCuenta().equals(cuentasSinRepetidos.get(j).getTipoCuenta())
+						&& cuentasSinRepetidos.get(i).getValor() == cuentasSinRepetidos.get(j).getValor()) {
+					cuentasSinRepetidos.remove(cuentasSinRepetidos.get(i));
+					j--;
+				}
+			}
+		}
+		return cuentasSinRepetidos;
 	}
 }

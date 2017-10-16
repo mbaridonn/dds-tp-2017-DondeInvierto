@@ -3,11 +3,25 @@ package dominio;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+
 import excepciones.EntidadExistenteError;
 
+@MappedSuperclass
 public abstract class AbstractLocalRepository<T>{
 	
-	List<T> elementos = new ArrayList<T>();
+	@Id 
+	@GeneratedValue
+	private Long id;
+	
+	@OneToMany(cascade = CascadeType.MERGE)
+	@JoinColumn(name="usuario_id")
+	protected List<T> elementos = new ArrayList<T>();
 	
 	public List<T> obtenerTodos() {
 		return elementos;

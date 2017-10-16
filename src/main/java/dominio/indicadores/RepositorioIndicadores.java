@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.persistence.Entity;
-import javax.persistence.Table;
 
 import org.uqbar.commons.utils.Observable;
 
@@ -18,11 +17,16 @@ import dominio.empresas.Empresa;
 import dominio.parser.ParserIndicadores;
 
 @Observable
+@Entity
 public class RepositorioIndicadores extends AbstractLocalRepository<Indicador> {
 	
 	public void agregarMultiplesIndicadores(List<String> strIndicadores) {
 		List<Indicador> indicadoresNuevos = obtenerIndicadoresParseados(strIndicadores);//NO ESTOY CATCHEANDO ParserError (!!!)
 		indicadoresNuevos.forEach(ind -> agregar(ind));
+	}
+	
+	public void eliminarIndicadores(){
+		elementos.clear();
 	}
 
 	@Override

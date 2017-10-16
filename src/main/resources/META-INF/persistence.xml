@@ -17,6 +17,7 @@
      <class>dominio.indicadores.ExpresionIndicador</class>
      <class>dominio.indicadores.ExpresionOperacion</class>
      <class>dominio.indicadores.ExpresionValor</class>
+     <class>dominio.indicadores.RepositorioIndicadores</class>
      <class>dominio.metodologias.Metodologia</class>
      <class>dominio.metodologias.CondicionPrioritaria</class>
      <class>dominio.metodologias.CondicionTaxativa</class>
@@ -24,6 +25,7 @@
      <class>dominio.metodologias.OperandoCondicion</class>
      <class>dominio.metodologias.EvaluableEnCondicion</class>
      <class>dominio.metodologias.Antiguedad</class>
+     <class>dominio.usuarios.Usuario</class>
       
         <properties> 
      <property name="hibernate.archive.autodetection" value="class"/>        
