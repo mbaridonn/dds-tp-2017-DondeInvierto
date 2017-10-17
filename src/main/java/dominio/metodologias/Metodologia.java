@@ -118,6 +118,10 @@ public class Metodologia {
 		return nombre;
 	}
 	
+	public Long getId() {
+		return id;
+	}
+	
 	public boolean esMetodologiaValida(){
 		return !nombre.isEmpty() && !condicionesTaxativas.isEmpty() && !condicionesPrioritarias.isEmpty();
 	}

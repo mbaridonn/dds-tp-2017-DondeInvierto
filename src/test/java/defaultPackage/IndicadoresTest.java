@@ -20,7 +20,6 @@ import dominio.empresas.Empresa;
 import dominio.usuarios.Usuario;
 import dominio.indicadores.Indicador;
 import excepciones.EntidadExistenteError;
-import excepciones.IndicadorExistenteError;
 
 public class IndicadoresTest extends AbstractPersistenceTest implements WithGlobalEntityManager, TransactionalOps{
 
@@ -37,7 +36,7 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 					"INDICADORTRES = INGRESONETO * 10 + ebitda",
 					"A = 5 / 3", "PRUEBA = ebitda + 5" }));
 		});
-		Usuario.instance = usuario;
+		Usuario.instance(usuario);
 		indicadores = usuario.getIndicadores();
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
 		archivoEjemploIndicadores.leerEmpresas();		

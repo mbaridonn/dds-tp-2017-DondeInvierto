@@ -25,31 +25,12 @@
 <div class="dropdown">
   <span>Elegir metodologia</span>
   <div class="dropdown-content">
-    <p>Metodologia1</p>
-    <p>Metodologia2</p>
-    <p>Metodologia3</p>
+    {{#each metodologias}}
+    	<p><a href="/metodologias/{{id}}">{{nombre}}</a></p>
+    {{/each}}
   </div>
 </div>
 
-<table class="table table-stripped">
-	<tr>
-		<th>Detalle</th>
-		<th></th>
-		<th></th>
-	</tr>
-		<tr>
-			<td>Empresas ordenadas</td>
-			<td>Ver</a><td>
-		</tr>
-		<tr>
-			<td>Empresas que no cumplen condiciones taxativas</td>
-			<td>Ver</a><td>
-		</tr>
-		<tr>
-			<td>Empresas con datos faltantes</td>
-			<td>Ver</a><td>
-		</tr>
-</table>
 {{/partial}}
 
 {{>layout.hbs}}

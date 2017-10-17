@@ -33,7 +33,7 @@ public class Usuario {
 	@OneToOne(cascade = CascadeType.MERGE)
 	private RepositorioMetodologias repositorioMetodologias;
 	
-	public static Usuario instance;
+	private static Usuario instance;
 	public static Usuario instance(){
 		return instance;
 	}
@@ -108,6 +108,10 @@ public class Usuario {
 	
 	public List<Metodologia> getMetodologias() {
 		return getRepositorioMetodologias().obtenerTodos();
+	}
+	
+	public Metodologia obtenerMetodologiaPorId(Long id) {
+		return repositorioMetodologias.obtenerPorId(id);
 	}
 	
 	public boolean equals(Object otroObjeto) {

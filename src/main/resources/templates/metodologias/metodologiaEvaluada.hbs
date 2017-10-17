@@ -1,0 +1,42 @@
+{{#partial "contenido"}}
+<h1>Metodologia</h1>
+
+<table class="table table-stripped">
+	<tr>
+		<th>Empresas ordenadas</th>
+	</tr>
+	
+	{{#each empresasOrdenadas}}
+		<tr>
+			<td>{{nombre}}</td>
+		</tr>
+	{{/each}}
+</table>
+
+<table class="table table-stripped">
+	<tr>
+		<th>Empresas que no cumplen condiciones taxativas</th>
+	</tr>
+	
+	{{#each empresasQueNoCumplen}}
+		<tr>
+			<td>{{nombre}}</td>
+		</tr>
+	{{/each}}
+</table>
+
+<table class="table table-stripped">
+	<tr>
+		<th>Empresas con datos faltantes</th>
+	</tr>
+	
+	{{#each empresasSinDatos}}
+		<tr>
+			<td>{{nombre}}</td>
+		</tr>
+	{{/each}}
+</table>
+
+{{/partial}}
+
+{{>layout.hbs}}
