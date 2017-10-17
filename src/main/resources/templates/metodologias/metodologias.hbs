@@ -1,0 +1,55 @@
+{{#partial "contenido"}}
+<h2>Metodologias</h2>
+
+<style>
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+</style>
+
+<div class="dropdown">
+  <span>Elegir metodologia</span>
+  <div class="dropdown-content">
+    <p>Metodologia1</p>
+    <p>Metodologia2</p>
+    <p>Metodologia3</p>
+  </div>
+</div>
+
+<table class="table table-stripped">
+	<tr>
+		<th>Detalle</th>
+		<th></th>
+		<th></th>
+	</tr>
+		<tr>
+			<td>Empresas ordenadas</td>
+			<td>Ver</a><td>
+		</tr>
+		<tr>
+			<td>Empresas que no cumplen condiciones taxativas</td>
+			<td>Ver</a><td>
+		</tr>
+		<tr>
+			<td>Empresas con datos faltantes</td>
+			<td>Ver</a><td>
+		</tr>
+</table>
+{{/partial}}
+
+{{>layout.hbs}}

@@ -4,6 +4,7 @@ import controllers.EmpresasController;
 import controllers.HomeController;
 import controllers.IndicadoresController;
 import controllers.LoginController;
+import controllers.MetodologiasController;
 import spark.Spark;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 import spark.utils.BooleanHelper;
@@ -25,6 +26,7 @@ public class Router {
 		Spark.get("/empresas/:id", EmpresasController::mostrar, engine);
 		Spark.get("/indicadores/new", IndicadoresController::show, engine);
 		Spark.post("/indicadores/new", IndicadoresController::createIndicador);
+		Spark.get("/metodologias", MetodologiasController::show, engine);
 	}
 
 }
