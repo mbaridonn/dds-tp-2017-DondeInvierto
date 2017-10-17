@@ -31,7 +31,7 @@ public abstract class AbstractLocalRepository<T>{
 		if (existe(elemento)){
 			throw new EntidadExistenteError(mensajeEntidadExistenteError(elemento));
 		}
-		elementos.add(elemento);//La transacción se tiene que agregar donde se envíe el mensaje
+		elementos.add(elemento);
 	}
 	
 	protected boolean existe(T elemento){

@@ -1,13 +1,11 @@
 package dominio.metodologias;
 
-import dominio.AbstractRepository;
+import javax.persistence.Entity;
 
-public class RepositorioMetodologias extends AbstractRepository<Metodologia>{
+import dominio.AbstractLocalRepository;
 
-	@Override
-	protected Class<Metodologia> tipoEntidad() {
-		return Metodologia.class;
-	}
+@Entity
+public class RepositorioMetodologias extends AbstractLocalRepository<Metodologia>{
 
 	@Override
 	protected String mensajeEntidadExistenteError(Metodologia elemento) {

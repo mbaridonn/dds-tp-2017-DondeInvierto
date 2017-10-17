@@ -21,13 +21,13 @@ public class RepositorioUsuarios extends AbstractRepository<Usuario> implements 
 	}
 	
 	@Override
-	public Usuario obtenerPorId(Long id){ // VER DE VOLAR (!!!)
+	public Usuario obtenerPorId(Long id){
 		Usuario usuario = super.obtenerPorId(id);
 		this.inicializarIndicadoresPara(usuario);
 		return usuario;
 	}
 	
-	private void inicializarIndicadoresPara(Usuario usuario){ // VER DE VOLAR (!!!)
+	private void inicializarIndicadoresPara(Usuario usuario){
 		List<String> equivalenciaIndicadores = usuario.getIndicadores().stream().map(protoInd -> protoInd.getEquivalencia()).collect(Collectors.toList());
 		usuario.eliminarIndicadores();
 		usuario.agregarIndicadores(equivalenciaIndicadores);

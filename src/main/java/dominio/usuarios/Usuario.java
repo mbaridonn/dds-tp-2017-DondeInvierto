@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import dominio.empresas.Empresa;
 import dominio.indicadores.Indicador;
 import dominio.indicadores.RepositorioIndicadores;
+import dominio.metodologias.Metodologia;
+import dominio.metodologias.RepositorioMetodologias;
 import dominio.parser.ParserIndicadores;
 
 @Entity
@@ -28,9 +30,8 @@ public class Usuario {
 	@OneToOne(cascade = CascadeType.MERGE)
 	private RepositorioIndicadores repositorioIndicadores;
 	
-	/*@OneToMany(cascade = CascadeType.MERGE)
-	@JoinColumn(name="usuario_id")
-	private List<Metodologia> metodologias = new ArrayList<Metodologia>();*/
+	@OneToOne(cascade = CascadeType.MERGE)
+	private RepositorioMetodologias repositorioMetodologias;
 	
 	public static Usuario instance;
 	public static Usuario instance(){
@@ -65,6 +66,13 @@ public class Usuario {
 		return repositorioIndicadores;
 	}
 	
+	public RepositorioMetodologias getRepositorioMetodologias() {
+		if (repositorioMetodologias == null){
+			repositorioMetodologias = new RepositorioMetodologias();
+		}
+		return repositorioMetodologias;
+	}
+	
 	public void crearIndicador(String formulaIndicador){
 		getRepositorioIndicadores().agregar(ParserIndicadores.parse(formulaIndicador));
 		new RepositorioUsuarios().actualizar(this);
@@ -94,9 +102,13 @@ public class Usuario {
 		getRepositorioIndicadores().eliminarIndicadores();
 	}
 
-	/*public void setMetodologias(List<Metodologia> metodologiasCreadas) {
-		this.metodologias = metodologiasCreadas;
-	}*/
+	public void agregarMetodologia(Metodologia metodologia) {
+		getRepositorioMetodologias().agregar(metodologia);
+	}
+	
+	public List<Metodologia> getMetodologias() {
+		return getRepositorioMetodologias().obtenerTodos();
+	}
 	
 	public boolean equals(Object otroObjeto) {
 	    return (otroObjeto instanceof Usuario) && this.email.equals(((Usuario) otroObjeto).getEmail());

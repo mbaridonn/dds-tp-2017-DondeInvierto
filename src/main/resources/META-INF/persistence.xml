@@ -25,6 +25,7 @@
      <class>dominio.metodologias.OperandoCondicion</class>
      <class>dominio.metodologias.EvaluableEnCondicion</class>
      <class>dominio.metodologias.Antiguedad</class>
+     <class>dominio.metodologias.RepositorioMetodologias</class>
      <class>dominio.usuarios.Usuario</class>
       
         <properties> 
