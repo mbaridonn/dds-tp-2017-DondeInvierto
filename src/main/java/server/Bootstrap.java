@@ -11,14 +11,27 @@ import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
 import dominio.indicadores.RepositorioIndicadores;
+import dominio.usuarios.RepositorioUsuarios;
+import dominio.usuarios.Usuario;
+import excepciones.EntidadExistenteError;
 
 public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, TransactionalOps {
 
 	public void init() {
 		withTransaction(() -> {
+			cargarUsuarioAdministrador();
 			cargarEmpresasPredefinidas();
 			cargarIndicadoresPredefinidos();
 		});
+	}
+	
+	private void cargarUsuarioAdministrador() {
+		try{
+			new RepositorioUsuarios().agregar(new Usuario("admin", "admin"));
+		}
+		catch (EntidadExistenteError e){
+			//Si ya existe el administrador, no hago nada
+		}
 	}
 
 	private void cargarEmpresasPredefinidas() {

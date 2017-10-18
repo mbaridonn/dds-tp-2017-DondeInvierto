@@ -27,10 +27,10 @@ public class Usuario {
 	private String email;
 	private String password;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade = CascadeType.ALL)
 	private RepositorioIndicadores repositorioIndicadores;
 	
-	@OneToOne(cascade = CascadeType.MERGE)
+	@OneToOne(cascade = CascadeType.ALL)
 	private RepositorioMetodologias repositorioMetodologias;
 	
 	private static Usuario instance;
@@ -75,7 +75,6 @@ public class Usuario {
 	
 	public void crearIndicador(String formulaIndicador){
 		getRepositorioIndicadores().agregar(ParserIndicadores.parse(formulaIndicador));
-		new RepositorioUsuarios().actualizar(this);
 	}
 	
 	public List<Indicador> getIndicadores() {

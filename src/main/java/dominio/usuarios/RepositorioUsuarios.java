@@ -3,21 +3,15 @@ package dominio.usuarios;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
-
 import dominio.AbstractRepository;
 import excepciones.NoExisteUsuarioError;
 
-public class RepositorioUsuarios extends AbstractRepository<Usuario> implements TransactionalOps{
+public class RepositorioUsuarios extends AbstractRepository<Usuario>{
 
 	public Long obtenerId(String email, String password){
 		Usuario usuarioBuscado = obtenerTodos().stream().filter(usuario -> usuario.validar(email, password)).findFirst()
 				.orElseThrow(() -> new NoExisteUsuarioError("No se pudo encontrar el usuario " + email + " o la password no es la correcta."));
 		return usuarioBuscado.getId();
-	}
-	
-	public void actualizar(Usuario usuario){ // SE DEBERIA USAR PERSIST, NO MERGE (!!!)
-		withTransaction(() -> entityManager().merge(usuario));
 	}
 	
 	@Override
