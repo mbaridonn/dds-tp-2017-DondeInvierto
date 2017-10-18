@@ -11,3 +11,12 @@ body {
   width: 100%;
   height: 60px;
 }
+.login-button{
+  margin-left:295%;
+}
+.log-in-icon{
+  pointer-events:none;
+}
+.log-in-body{
+ background-color:#eee;
+}
