@@ -1,16 +1,23 @@
 {{#partial "contenido"}}
-<h1>Empresas</h1>
+
+<h1 style="font-family:verdana;">Empresas</h1>
+<br>
 
 <table class="table table-stripped">
+ <thead class="thead-default">
 	<tr>
+		<th></th>
+		<th></th>
 		<th>Nombre</th>
 		<th></th>
 		<th></th>
 	</tr>
+ </thead>
 	
 	{{#each empresas}}
 		<tr>
-			<td>{{nombre}}</td>
+			<td width="10%"><td>
+			<td width="60%">{{nombre}}</td>
 			<td><a href="/empresas/{{id}}">Ver</a><td>
 		</tr>
 	{{/each}}

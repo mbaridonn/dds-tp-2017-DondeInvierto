@@ -1,14 +1,18 @@
 {{#partial "contenido"}}
-<h1>Cuentas</h1>
+
+<h3 style="font-family:verdana;">Cuentas</h3>
+<br>
 
 <table class="table table-stripped">
-	<tr>
-		<th>Anio</th>
-		<th>Nombre</th>
-		<th>Valor</th>
-		<th></th>
-	</tr>
-	
+	<thead class="thead-default">
+		<tr>
+			<th>Anio</th>
+			<th>Nombre</th>
+			<th>Valor</th>
+			<th></th>
+		</tr>
+ </thead>
+
 	{{#each cuentas}}
 		<tr>
 			<td>{{anio}}</td>
@@ -17,6 +21,8 @@
 		</tr>
 	{{/each}}
 </table>
+<br>
+
 {{/partial}}
 
 {{>layout.hbs}}
