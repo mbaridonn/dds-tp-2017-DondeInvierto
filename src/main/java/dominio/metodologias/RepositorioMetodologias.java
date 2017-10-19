@@ -1,5 +1,7 @@
 package dominio.metodologias;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 
 import dominio.AbstractLocalRepository;
@@ -7,6 +9,14 @@ import dominio.AbstractLocalRepository;
 @Entity
 public class RepositorioMetodologias extends AbstractLocalRepository<Metodologia> {
 
+	public void agregarMetodologias(List<Metodologia> metodologias) {
+		metodologias.forEach(metodologia -> agregarMetodologia(metodologia));
+	}
+	
+	public void agregarMetodologia(Metodologia metodologia) {
+		agregar(metodologia);
+	}
+	
 	@Override
 	protected String mensajeEntidadExistenteError(Metodologia elemento) {
 		return "Ya existe una metodología con el nombre " + elemento.getNombre();

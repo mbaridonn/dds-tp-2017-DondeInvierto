@@ -11,6 +11,14 @@ import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
 import dominio.indicadores.RepositorioIndicadores;
+import dominio.metodologias.Antiguedad;
+import dominio.metodologias.CondicionPrioritaria;
+import dominio.metodologias.CondicionTaxativa;
+import dominio.metodologias.Metodologia;
+import dominio.metodologias.OperacionAgregacion;
+import dominio.metodologias.OperacionRelacional;
+import dominio.metodologias.OperandoCondicion;
+import dominio.metodologias.RepositorioMetodologias;
 import dominio.usuarios.RepositorioUsuarios;
 import dominio.usuarios.Usuario;
 import excepciones.EntidadExistenteError;
@@ -22,9 +30,10 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 			cargarUsuarioAdministrador();
 			cargarEmpresasPredefinidas();
 			cargarIndicadoresPredefinidos();
+			cargarMetodologiasPredefinidas();
 		});
 	}
-	
+
 	private void cargarUsuarioAdministrador() {
 		try{
 			new RepositorioUsuarios().agregar(new Usuario("admin", "admin"));
@@ -49,5 +58,16 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 				Arrays.asList(new String[] { "INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
 						"INDICADORDOS = cuentarara + fds", "INDICADORTRES = INGRESONETO * 10 + ebitda", "A = 5 / 3",
 						"PRUEBA = ebitda + 5" }));
+	}
+	
+	private void cargarMetodologiasPredefinidas() {
+		Metodologia metodologia = new Metodologia("Metodologia");
+		metodologia.agregarCondicionPrioritaria(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor));
+		metodologia.agregarCondicionTaxativa(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10));
+		Metodologia metodologia2 = new Metodologia("Metodologia2");
+		metodologia2.agregarCondicionPrioritaria(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor));
+		metodologia2.agregarCondicionTaxativa(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10));
+		
+		new RepositorioMetodologias().agregarMetodologias(Arrays.asList(metodologia,metodologia2));
 	}
 }
