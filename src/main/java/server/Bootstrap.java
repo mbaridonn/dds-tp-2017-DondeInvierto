@@ -18,7 +18,6 @@ import dominio.metodologias.Metodologia;
 import dominio.metodologias.OperacionAgregacion;
 import dominio.metodologias.OperacionRelacional;
 import dominio.metodologias.OperandoCondicion;
-import dominio.metodologias.RepositorioMetodologias;
 import dominio.usuarios.RepositorioUsuarios;
 import dominio.usuarios.Usuario;
 import excepciones.EntidadExistenteError;
@@ -70,7 +69,12 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 		
 		Long id = new RepositorioUsuarios().obtenerId("admin", "admin");
 		Usuario usuario = new RepositorioUsuarios().obtenerPorId(id);
-		usuario.agregarMetodologia(metodologia);
-		usuario.agregarMetodologia(metodologia2);
+		
+		try{
+			usuario.agregarMetodologia(metodologia);
+			usuario.agregarMetodologia(metodologia2);
+		} catch(EntidadExistenteError e) {
+			//Si ya existen las metodologías, no hago nada
+		}
 	}
 }

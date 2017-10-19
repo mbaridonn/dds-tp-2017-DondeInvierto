@@ -103,12 +103,7 @@ public class Usuario {
 	}
 
 	public void agregarMetodologia(Metodologia metodologia) {
-		try {
-			getRepositorioMetodologias().agregar(metodologia);
-		}
-		catch(EntidadExistenteError e) {
-			
-		}
+		getRepositorioMetodologias().agregar(metodologia);
 	}
 	
 	public List<Metodologia> getMetodologias() {
