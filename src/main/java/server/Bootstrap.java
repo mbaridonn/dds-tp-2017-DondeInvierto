@@ -44,11 +44,11 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 	}
 
 	private void cargarEmpresasPredefinidas() {
-		Empresa empresa1 = new Empresa("Empresa1", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 10000),
+		Empresa empresa1 = new Empresa("Sony", Arrays.asList(new Cuenta(Year.parse("2017"), "Free Cash Flow", 10000),
 				new Cuenta(Year.parse("2017"), "FDS ", 10000)));
-		Empresa empresa2 = new Empresa("Empresa2", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 12500),
-				new Cuenta(Year.parse("2017"), "FDS ", 25000)));
-		Empresa empresa3 = new Empresa("Empresa3", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 15500),
+		Empresa empresa2 = new Empresa("Google", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 12500),
+				new Cuenta(Year.parse("2017"), "Free Cash Flow ", 25000)));
+		Empresa empresa3 = new Empresa("Apple", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 15500),
 				new Cuenta(Year.parse("2017"), "FDS ", 38000)));
 		new RepositorioEmpresas().agregarMultiplesEmpresas(Arrays.asList(empresa1, empresa2, empresa3));
 	}
@@ -61,10 +61,10 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 	}
 	
 	private void cargarMetodologiasPredefinidas() {
-		Metodologia metodologia = new Metodologia("Metodologia");
+		Metodologia metodologia = new Metodologia("Pay-back");
 		metodologia.agregarCondicionPrioritaria(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor));
 		metodologia.agregarCondicionTaxativa(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10));
-		Metodologia metodologia2 = new Metodologia("Metodologia2");
+		Metodologia metodologia2 = new Metodologia("VAN");
 		metodologia2.agregarCondicionPrioritaria(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor));
 		metodologia2.agregarCondicionTaxativa(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10));
 		

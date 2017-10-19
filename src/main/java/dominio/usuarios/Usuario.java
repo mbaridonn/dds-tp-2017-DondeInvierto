@@ -17,6 +17,7 @@ import dominio.indicadores.RepositorioIndicadores;
 import dominio.metodologias.Metodologia;
 import dominio.metodologias.RepositorioMetodologias;
 import dominio.parser.ParserIndicadores;
+import excepciones.EntidadExistenteError;
 
 @Entity
 @Table(name = "usuarios")
@@ -102,7 +103,12 @@ public class Usuario {
 	}
 
 	public void agregarMetodologia(Metodologia metodologia) {
-		getRepositorioMetodologias().agregar(metodologia);
+		try {
+			getRepositorioMetodologias().agregar(metodologia);
+		}
+		catch(EntidadExistenteError e) {
+			
+		}
 	}
 	
 	public List<Metodologia> getMetodologias() {
