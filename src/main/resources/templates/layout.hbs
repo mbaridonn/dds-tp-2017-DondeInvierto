@@ -1,30 +1,47 @@
 <html>
 <head>
-	<link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	<link rel="stylesheet"  href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
   	<link rel="stylesheet"  href="main.css">
 </head>
 <body>
 
+<nav class="navbar navbar-expand-lg navbar-light bg-info">
+	<div class="container">
+	  <a class="navbar-brand" href="/home">Donde-Invierto.com</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarText">
+	    <ul class="navbar-nav mr-auto">
+	      <li class="nav-item">
+	        <a class="nav-link" href="/empresas"> &nbsp;&nbsp; Empresas</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/indicadores/new"> &nbsp;&nbsp; Crear Indicador</a>
+	      </li>
+	      <li class="nav-item">
+	        <a class="nav-link" href="/metodologias"> &nbsp;&nbsp; Metodologias</a>
+	      </li>
+	    </ul>
+	    </div>
+ 	</div>
+	 <span class="navbar-text">
+	    <a class="navbar-brand"href="/">Salir</a>
+	 </span>
+</nav>
 
-<nav class="navbar navbar-default">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand"href="/">Donde-Invierto.com</a>
-      </div>
-      <div>
-        <ul class="nav navbar-nav">
-          <li><a href="/empresas">Empresas</a></li>
-          <li><a href="/indicadores/new">Crear Indicador</a></li>
-          <li><a href="/metodologias">Metodologias</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+
+
 
 <div class="container">
+	<br> </br>
+	<br> </br>
 	{{#block "contenido"}}
 	{{/block}}
 </div>
+
+
+
 
 <footer class="footer">
     <p class="text-center">
