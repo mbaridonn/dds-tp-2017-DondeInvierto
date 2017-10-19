@@ -68,6 +68,9 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 		metodologia2.agregarCondicionPrioritaria(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor));
 		metodologia2.agregarCondicionTaxativa(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10));
 		
-		new RepositorioMetodologias().agregarMetodologias(Arrays.asList(metodologia,metodologia2));
+		Long id = new RepositorioUsuarios().obtenerId("admin", "admin");
+		Usuario usuario = new RepositorioUsuarios().obtenerPorId(id);
+		usuario.agregarMetodologia(metodologia);
+		usuario.agregarMetodologia(metodologia2);
 	}
 }
