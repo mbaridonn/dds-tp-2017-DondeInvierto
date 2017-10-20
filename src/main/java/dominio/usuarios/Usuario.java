@@ -27,10 +27,10 @@ public class Usuario {
 	private String email;
 	private String password;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
 	private RepositorioIndicadores repositorioIndicadores;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
 	private RepositorioMetodologias repositorioMetodologias;
 	
 	private static Usuario instance;
