@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -19,7 +20,7 @@ public abstract class AbstractLocalRepository<T>{
 	@GeneratedValue
 	private Long id;
 	
-	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="usuario_id")
 	protected List<T> elementos = new ArrayList<T>();
 	

@@ -3,9 +3,6 @@ package controllers;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
-import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
-
 import dominio.usuarios.RepositorioUsuarios;
 import dominio.usuarios.Usuario;
 import excepciones.NoExisteUsuarioError;
@@ -13,7 +10,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class LoginController implements WithGlobalEntityManager, TransactionalOps{
+public class LoginController{
 	public ModelAndView login(Request req, Response res) {
 		String mensajeOperacion = "";
 		String codigoOperacion = req.queryParams("err");
@@ -28,7 +25,7 @@ public class LoginController implements WithGlobalEntityManager, TransactionalOp
 		String password = req.queryParams("password");
 		try{
 			Long idUsuario = new RepositorioUsuarios().obtenerId(email, password);
-			withTransaction(()->Usuario.instance(new RepositorioUsuarios().obtenerPorId(idUsuario)));
+			Usuario.instance(new RepositorioUsuarios().obtenerPorId(idUsuario));
 			res.cookie("email", email);
 			res.cookie("idUsuario", Long.toString(idUsuario));
 			res.redirect("/home");
