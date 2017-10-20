@@ -17,7 +17,6 @@ import dominio.indicadores.RepositorioIndicadores;
 import dominio.metodologias.Metodologia;
 import dominio.metodologias.RepositorioMetodologias;
 import dominio.parser.ParserIndicadores;
-import excepciones.EntidadExistenteError;
 
 @Entity
 @Table(name = "usuarios")

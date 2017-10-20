@@ -43,12 +43,12 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 	}
 
 	private void cargarEmpresasPredefinidas() {
-		Empresa empresa1 = new Empresa("Sony", Arrays.asList(new Cuenta(Year.parse("2017"), "Free Cash Flow", 10000),
-				new Cuenta(Year.parse("2017"), "FDS ", 10000)));
-		Empresa empresa2 = new Empresa("Google", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 12500),
-				new Cuenta(Year.parse("2017"), "Free Cash Flow ", 25000)));
-		Empresa empresa3 = new Empresa("Apple", Arrays.asList(new Cuenta(Year.parse("2017"), "EBITDA", 15500),
-				new Cuenta(Year.parse("2017"), "FDS ", 38000)));
+		Empresa empresa1 = new Empresa("Sony", Arrays.asList(new Cuenta(Year.parse("2017"), "freecashflow", 10000),
+				new Cuenta(Year.parse("2017"), "fds", 10000)));
+		Empresa empresa2 = new Empresa("Google", Arrays.asList(new Cuenta(Year.parse("2017"), "ebitda", 12500),
+				new Cuenta(Year.parse("2017"), "freecashflow", 25000)));
+		Empresa empresa3 = new Empresa("Apple", Arrays.asList(new Cuenta(Year.parse("2017"), "ebitda", 15500),
+				new Cuenta(Year.parse("2017"), "fds", 38000)));
 		new RepositorioEmpresas().agregarMultiplesEmpresas(Arrays.asList(empresa1, empresa2, empresa3));
 	}
 

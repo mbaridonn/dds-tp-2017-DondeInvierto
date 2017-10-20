@@ -19,7 +19,7 @@ public abstract class AbstractLocalRepository<T>{
 	@GeneratedValue
 	private Long id;
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="usuario_id")
 	protected List<T> elementos = new ArrayList<T>();
 	
