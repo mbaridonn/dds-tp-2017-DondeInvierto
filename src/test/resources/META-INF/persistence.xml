@@ -9,8 +9,8 @@
      <provider>org.hibernate.ejb.HibernatePersistence</provider>
      
      <!-- CLASES A PERSISTIR-->
-     <class>dominio.Empresa</class>
-     <class>dominio.Cuenta</class>
+     <class>dominio.empresas.Empresa</class>
+     <class>dominio.empresas.Cuenta</class>
      <class>dominio.indicadores.Indicador</class>
      <class>dominio.indicadores.Expresion</class>
      <class>dominio.indicadores.ExpresionCuenta</class>

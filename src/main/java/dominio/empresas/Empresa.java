@@ -20,7 +20,7 @@ import dominio.indicadores.Indicador;
 import excepciones.NoExisteCuentaError;
 
 @Entity
-//@Table(name = "empresas")
+@Table(name = "empresas")
 public class Empresa {
 	
 	@Id 
