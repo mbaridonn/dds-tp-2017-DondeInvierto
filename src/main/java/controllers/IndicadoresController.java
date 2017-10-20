@@ -8,6 +8,7 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.usuarios.Usuario;
 import excepciones.EntidadExistenteError;
+import excepciones.ParserError;
 import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
@@ -18,6 +19,7 @@ public class IndicadoresController implements WithGlobalEntityManager, Transacti
 		String codigoOperacion = req.queryParams("codOp");
 		if (codigoOperacion!= null && codigoOperacion.equals("1")) mensajeOperacion = "Ya existe un indicador con ese nombre";
 		else if (codigoOperacion!= null && codigoOperacion.equals("2")) mensajeOperacion = "Indicador cargado!";
+		else if (codigoOperacion!= null && codigoOperacion.equals("3")) mensajeOperacion = "Sintaxis incorrecta";
 		Map<String, String> model = new HashMap<>();
 		model.put("mensajeOperacion", mensajeOperacion);
 		return new ModelAndView(model, "indicadores/indicadores.hbs");
@@ -33,6 +35,8 @@ public class IndicadoresController implements WithGlobalEntityManager, Transacti
 			res.redirect("/indicadores/new?codOp=2");
 		} catch (EntidadExistenteError e){
 			res.redirect("/indicadores/new?codOp=1");
+		} catch (ParserError e){
+			res.redirect("/indicadores/new?codOp=3");
 		}
 		return null;
 	}
