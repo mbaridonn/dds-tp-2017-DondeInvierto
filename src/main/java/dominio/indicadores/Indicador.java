@@ -9,6 +9,7 @@ import org.uqbar.commons.utils.Observable;
 
 import dominio.empresas.Empresa;
 import dominio.metodologias.Cuantificador;
+import dominio.parser.ParserIndicadores;
 import excepciones.NoExisteCuentaError;
 
 @Observable
@@ -29,6 +30,9 @@ public class Indicador extends Cuantificador{
 	}
 	
 	public int evaluarEn(Empresa empresa, Year anio){
+		if(expresion == null){
+			this.inicializarExpresion();
+		}
 		return expresion.evaluarEn(empresa,anio);
 	}
 	
@@ -45,6 +49,15 @@ public class Indicador extends Cuantificador{
 		return this.nombre.equalsIgnoreCase(nombre);
 	}
 	
+	private void inicializarExpresion(){
+		Indicador indicador = ParserIndicadores.parse(this.getEquivalencia());
+		expresion = indicador.getExpresion();
+	}
+	
+	private Expresion getExpresion() {
+		return expresion;
+	}
+
 	public void setEquivalencia(String equivalencia){
 		this.equivalencia = equivalencia;
 	}
