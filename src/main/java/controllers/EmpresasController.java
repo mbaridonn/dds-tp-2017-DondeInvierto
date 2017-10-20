@@ -35,23 +35,8 @@ public class EmpresasController implements WithGlobalEntityManager, Transactiona
 	
 	private static List<Cuenta> getCuentasEmpresa(Empresa empresa) {
 		List<Cuenta> cuentasSeleccionadas = empresa.getCuentas();
-		List<Indicador> indicadoresAplicables = Usuario.instance().todosLosIndicadoresAplicablesA(empresa);
-		cuentasSeleccionadas.addAll(empresa.resultadosParaEstosIndicadores((List<Indicador>) indicadoresAplicables));			
-		cuentasSeleccionadas = obtenerCuentasSinRepetidos(cuentasSeleccionadas);
+		cuentasSeleccionadas.addAll(empresa.resultadosParaEstosIndicadores(Usuario.instance().getIndicadores()));			
+		cuentasSeleccionadas.sort((unaCuenta, otraCuenta) -> otraCuenta.getAnio().compareTo(unaCuenta.getAnio()));
 		return cuentasSeleccionadas;
-	}
-	
-	private static List<Cuenta> obtenerCuentasSinRepetidos(List<Cuenta> cuentasSinRepetidos){
-		for (int i = 0; i < cuentasSinRepetidos.size(); i++) {
-			for (int j = i + 1; j < cuentasSinRepetidos.size(); j++) {
-				if(cuentasSinRepetidos.get(i).getAnio().equals(cuentasSinRepetidos.get(j).getAnio())
-						&& cuentasSinRepetidos.get(i).getTipoCuenta().equals(cuentasSinRepetidos.get(j).getTipoCuenta())
-						&& cuentasSinRepetidos.get(i).getValor() == cuentasSinRepetidos.get(j).getValor()) {
-					cuentasSinRepetidos.remove(cuentasSinRepetidos.get(i));
-					j--;
-				}
-			}
-		}
-		return cuentasSinRepetidos;
 	}
 }
