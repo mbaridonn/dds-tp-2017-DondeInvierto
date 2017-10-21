@@ -43,13 +43,49 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 	}
 
 	private void cargarEmpresasPredefinidas() {
-		Empresa empresa1 = new Empresa("Sony", Arrays.asList(new Cuenta(Year.parse("2017"), "freecashflow", 10000),
-				new Cuenta(Year.parse("2017"), "fds", 10000)));
-		Empresa empresa2 = new Empresa("Google", Arrays.asList(new Cuenta(Year.parse("2017"), "ebitda", 12500),
-				new Cuenta(Year.parse("2017"), "freecashflow", 25000)));
-		Empresa empresa3 = new Empresa("Apple", Arrays.asList(new Cuenta(Year.parse("2017"), "ebitda", 15500),
-				new Cuenta(Year.parse("2017"), "fds", 38000)));
-		new RepositorioEmpresas().agregarMultiplesEmpresas(Arrays.asList(empresa1, empresa2, empresa3));
+		Empresa sony = new Empresa("Sony", Arrays.asList(new Cuenta(Year.parse("2017"), "freecashflow", 10000),
+				new Cuenta(Year.parse("2017"), "cashflow", 13550),
+				new Cuenta(Year.parse("2016"), "netooperacionescontinuas", 9500),
+				new Cuenta(Year.parse("2016"), "netooperacionesdiscontinuas", 6500),
+				new Cuenta(Year.parse("2015"), "ebitda", 4800),
+				new Cuenta(Year.parse("2014"), "cashflow", 3520),
+				new Cuenta(Year.parse("2013"), "ebitda", 17500)));
+		Empresa google = new Empresa("Google", Arrays.asList(new Cuenta(Year.parse("2017"), "freecashflow", 12500),
+				new Cuenta(Year.parse("2017"), "oitdba", 13550),
+				new Cuenta(Year.parse("2016"), "netooperacionescontinuas", 9500),
+				new Cuenta(Year.parse("2016"), "netooperacionesdiscontinuas", 6500),
+				new Cuenta(Year.parse("2015"), "ingresoneto", 4800),
+				new Cuenta(Year.parse("2014"), "cashflow", 3520),
+				new Cuenta(Year.parse("2013"), "ebitda", 17500)));
+		Empresa apple = new Empresa("Apple", Arrays.asList(new Cuenta(Year.parse("2017"), "ebitda", 15500),
+				new Cuenta(Year.parse("2017"), "cashflow", 13550),
+				new Cuenta(Year.parse("2016"), "netooperacionescontinuas", 9500),
+				new Cuenta(Year.parse("2016"), "netooperacionesdiscontinuas", 6500),
+				new Cuenta(Year.parse("2015"), "ingresoneto", 4800),
+				new Cuenta(Year.parse("2014"), "cashflow", 3520),
+				new Cuenta(Year.parse("2013"), "ingresoneto", 17500)));
+		Empresa amazon = new Empresa("Amazon", Arrays.asList(new Cuenta(Year.parse("2017"), "ebitda", 10200),
+				new Cuenta(Year.parse("2017"), "ebitda", 13550),
+				new Cuenta(Year.parse("2016"), "netooperacionescontinuas", 9500),
+				new Cuenta(Year.parse("2016"), "netooperacionesdiscontinuas", 6500),
+				new Cuenta(Year.parse("2015"), "ingresoneto", 4800),
+				new Cuenta(Year.parse("2014"), "cashflow", 3520),
+				new Cuenta(Year.parse("2013"), "ebitda", 17500)));
+		Empresa accenture = new Empresa("Accenture", Arrays.asList(new Cuenta(Year.parse("2017"), "ebitda", 13350),
+				new Cuenta(Year.parse("2017"), "oitdba", 15100),
+				new Cuenta(Year.parse("2016"), "ebitda", 25500),
+				new Cuenta(Year.parse("2015"), "freecashflow", 13500),
+				new Cuenta(Year.parse("2014"), "fds", 8500),
+				new Cuenta(Year.parse("2013"), "netooperacionescontinuas", 7500),
+				new Cuenta(Year.parse("2013"), "netooperacionesdiscontinuas", 4500)));
+		Empresa microsoft = new Empresa("Microsoft", Arrays.asList(new Cuenta(Year.parse("2017"), "ebitda", 11500),
+				new Cuenta(Year.parse("2016"), "oix", 15400),
+				new Cuenta(Year.parse("2015"), "fds", 13500),
+				new Cuenta(Year.parse("2014"), "cashflow", 5500),
+				new Cuenta(Year.parse("2013"), "freecashflow", 10500),
+				new Cuenta(Year.parse("2012"), "ebitda", 4500),
+				new Cuenta(Year.parse("2011"), "cashflow", 3500)));
+		new RepositorioEmpresas().agregarMultiplesEmpresas(Arrays.asList(sony, google, apple, amazon, accenture, microsoft));
 	}
 
 	private void cargarIndicadoresPredefinidos() {
@@ -64,8 +100,8 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 		metodologia.agregarCondicionPrioritaria(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor));
 		metodologia.agregarCondicionTaxativa(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10));
 		Metodologia metodologia2 = new Metodologia("VAN");
-		metodologia2.agregarCondicionPrioritaria(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor));
-		metodologia2.agregarCondicionTaxativa(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10));
+		metodologia2.agregarCondicionPrioritaria(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 6), OperacionRelacional.Mayor));
+		metodologia2.agregarCondicionTaxativa(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 6), OperacionRelacional.Menor, 6));
 		
 		Long id = new RepositorioUsuarios().obtenerId("admin", "admin");
 		Usuario usuario = new RepositorioUsuarios().obtenerPorId(id);
