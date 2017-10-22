@@ -12,11 +12,11 @@ import spark.Response;
 
 public class LoginController{
 	public ModelAndView login(Request req, Response res) {
-		String mensajeOperacion = "";
-		String codigoOperacion = req.queryParams("err");
-		if (codigoOperacion!= null && codigoOperacion.equals("1")) mensajeOperacion = "Email o password incorrecta";
+		String mensajeError = req.cookie("mensajeError");
+		if (mensajeError == null) mensajeError = "";
+		res.cookie("mensajeError", "");
 		Map<String, String> model = new HashMap<>();
-		model.put("mensajeOperacion", mensajeOperacion);
+		model.put("mensajeError", mensajeError);
 		return new ModelAndView(model, "login/login.hbs");
 	}
 
@@ -30,7 +30,8 @@ public class LoginController{
 			res.cookie("idUsuario", Long.toString(idUsuario));
 			res.redirect("/home");
 		} catch (NoExisteUsuarioError e){
-			res.redirect("/?err=1");
+			res.cookie("mensajeError", e.getMessage());
+			res.redirect("/");
 		}
 		return null;
 	}
