@@ -1,30 +1,28 @@
 {{#partial "contenido"}}
-<h2 style="font-family:verdana;">Crear Indicador</h2>
+
+<h3 style="font-family:verdana;">Indicadores</h3>
 <br>
 
-<div class="jumbotron">
-  
-  <form action="" method="post">
-  <div>
-  <label>
-  	Ingrese la Formula:
-  </label>
-  <input name="indicador"/>
-  </div>
-  
-  <div>
-  	<br>
-	<small><i>*Ejemplo: MIINDICADOR = ebitda + fds * 2 - INGRESONETO</i></small>
-  </div>
-  
-  	<label> {{mensajeError}} </label>
-  
-    <button name="crearIndicador" value="crearIndicador" class="btn btn-primary btn-lg" style="float: right;">Crear</button>
-  
-  </form>
-  
-</div>
+<table class="table table-stripped">
+	<thead class="thead-default">
+		<tr>
+			<th>Indicador</th>
+			<th></th>
+		</tr>
+ </thead>
 
+	{{#each indicadores}}
+		<tr>
+			<td>{{equivalencia}}</td>
+		</tr>
+	{{/each}}
+</table>
+
+<form method="get" action="/indicadores/new">
+    <button name="crearIndicador" value="crearIndicador" type="submit" class="btn btn-primary btn-lg" style="float: right;">Crear indicador</button>
+</form>
+
+<br>
 
 {{/partial}}
 

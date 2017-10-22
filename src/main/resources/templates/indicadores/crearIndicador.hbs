@@ -1,0 +1,31 @@
+{{#partial "contenido"}}
+<h2 style="font-family:verdana;">Crear Indicador</h2>
+<br>
+
+<div class="jumbotron">
+  
+  <form action="" method="post">
+  <div>
+  <label>
+  	Ingrese la Formula:
+  </label>
+  <input name="indicador"/>
+  </div>
+  
+  <div>
+  	<br>
+	<small><i>*Ejemplo: MIINDICADOR = ebitda + fds * 2 - INGRESONETO</i></small>
+  </div>
+  
+  	<label> {{mensajeError}} </label>
+  
+    <button name="crearIndicador" value="crearIndicador" class="btn btn-primary btn-lg" style="float: right;">Crear</button>
+  
+  </form>
+  
+</div>
+
+
+{{/partial}}
+
+{{>layout.hbs}}

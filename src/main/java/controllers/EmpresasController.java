@@ -10,7 +10,6 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
-import dominio.indicadores.Indicador;
 import dominio.usuarios.Usuario;
 import spark.ModelAndView;
 import spark.Request;
