@@ -1,37 +1,24 @@
 {{#partial "contenido"}}
-<h2 style="font-family:verdana;">Metodologias</h2>
+
+<h1 style="font-family:verdana;">Metodologias</h1>
 <br>
 
-<style>
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    padding: 12px 16px;
-    z-index: 1;
-}
-
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-</style>
-
-<div class="dropdown">
-  <span style="color:blue">Elegir metodologia</span>
-  <div class="dropdown-content">
-    {{#each metodologias}}
-    	<p><a href="/metodologias/{{id}}">{{nombre}}</a></p>
-    {{/each}}
-  </div>
-</div>
-
+<table class="table table-stripped">
+ <thead class="thead-default">
+	<tr>
+		<th>Elegir metodologia</th>
+		<th></th>
+		<th></th>
+	</tr>
+ </thead>
+	
+	{{#each metodologias}}
+		<tr>
+			<td>{{nombre}}</td>
+			<td><a href="/metodologias/{{id}}">Evaluar</a><td>
+		</tr>
+	{{/each}}
+</table>
 {{/partial}}
 
 {{>layout.hbs}}

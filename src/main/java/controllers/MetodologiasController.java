@@ -28,7 +28,18 @@ public class MetodologiasController{
 		model.put("empresasOrdenadas",metodologiaAEvaluar.evaluarPara(empresas));
 		model.put("empresasQueNoCumplen",metodologiaAEvaluar.empresasQueNoCumplenTaxativas(empresas));
 		model.put("empresasSinDatos",metodologiaAEvaluar.empresasConDatosFaltantes(empresas));
+		explicitarListasVacias(model);
 		return new ModelAndView(model, "metodologias/metodologiaEvaluada.hbs");
+	}
+
+	private static void explicitarListasVacias(Map<String, List<Empresa>> model) {
+		for (Map.Entry<String, List<Empresa>> entry : model.entrySet()){
+			List<Empresa> listaEmpresas = entry.getValue();
+			if (listaEmpresas.isEmpty()){
+				listaEmpresas.add(new Empresa("No hay empresas en esta categoria", null));
+				entry.setValue(listaEmpresas);
+			}
+		}
 	}
 
 }
