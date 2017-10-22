@@ -28,6 +28,10 @@ public class Router {
 		Spark.post("/indicadores/new", new IndicadoresController()::create);
 		Spark.get("/metodologias", MetodologiasController::listar, engine);
 		Spark.get("/metodologias/:id", MetodologiasController::mostrar, engine);
+		Spark.get("/*", (req, res) -> {
+			Spark.halt(400, "Bad Request");
+			return null;
+		});
 	}
 
 }
