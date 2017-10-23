@@ -33,12 +33,12 @@ public class Usuario {
 	@OneToOne(cascade = CascadeType.ALL,orphanRemoval = true)
 	private RepositorioMetodologias repositorioMetodologias;
 	
-	private static Usuario instance;
-	public static Usuario instance(){
-		return instance;
+	private static Usuario activo;
+	public static Usuario activo(){
+		return activo;
 	}
-	public static void instance(Usuario instance) {
-		Usuario.instance = instance;
+	public static void activo(Usuario activo) {
+		Usuario.activo = activo;
 	}
 	private Usuario(){}//Necesario para persistir la clase
 	

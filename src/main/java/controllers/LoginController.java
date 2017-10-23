@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import dominio.usuarios.RepositorioUsuarios;
-import dominio.usuarios.Usuario;
 import excepciones.NoExisteUsuarioError;
 import spark.ModelAndView;
 import spark.Request;
@@ -25,7 +24,6 @@ public class LoginController{
 		String password = req.queryParams("password");
 		try{
 			Long idUsuario = new RepositorioUsuarios().obtenerId(email, password);
-			Usuario.instance(new RepositorioUsuarios().obtenerPorId(idUsuario));
 			res.cookie("email", email);
 			res.cookie("idUsuario", Long.toString(idUsuario));
 			res.redirect("/home");

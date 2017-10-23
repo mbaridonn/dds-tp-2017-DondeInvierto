@@ -10,11 +10,7 @@ import dominio.AbstractLocalRepository;
 public class RepositorioMetodologias extends AbstractLocalRepository<Metodologia> {
 
 	public void agregarMetodologias(List<Metodologia> metodologias) {
-		metodologias.forEach(metodologia -> agregarMetodologia(metodologia));
-	}
-	
-	public void agregarMetodologia(Metodologia metodologia) {
-		agregar(metodologia);
+		metodologias.forEach(metodologia -> agregar(metodologia));
 	}
 	
 	@Override

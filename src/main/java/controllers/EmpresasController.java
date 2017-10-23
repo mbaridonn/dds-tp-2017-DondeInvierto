@@ -10,6 +10,7 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
+import dominio.usuarios.RepositorioUsuarios;
 import dominio.usuarios.Usuario;
 import spark.ModelAndView;
 import spark.Request;
@@ -25,16 +26,18 @@ public class EmpresasController implements WithGlobalEntityManager, Transactiona
 
 	public static ModelAndView mostrar(Request req, Response res) {
 		Map<String, List<Cuenta>> model = new HashMap<>();
+		Usuario usuarioActivo = new RepositorioUsuarios().obtenerPorId(Long.parseLong(req.cookie("idUsuario")));
 		String id = req.params("id");
 		Empresa empresa = new RepositorioEmpresas().obtenerPorId(Long.parseLong(id));
-		List<Cuenta> cuentas = getCuentasEmpresa(empresa);
+		List<Cuenta> cuentas = getCuentasEmpresa(empresa, usuarioActivo);
 		model.put("cuentas",cuentas);
 		return new ModelAndView(model, "cuentas/cuentas.hbs");
 	}
 	
-	private static List<Cuenta> getCuentasEmpresa(Empresa empresa) {
+	private static List<Cuenta> getCuentasEmpresa(Empresa empresa, Usuario usuario) {
 		List<Cuenta> cuentasSeleccionadas = empresa.getCuentas();
-		cuentasSeleccionadas.addAll(empresa.resultadosParaEstosIndicadores(Usuario.instance().getIndicadores()));			
+		Usuario.activo(usuario);//Necesario para que los indicadores se evaluen en el contexto de este usuario
+		cuentasSeleccionadas.addAll(empresa.resultadosParaEstosIndicadores(usuario.getIndicadores()));			
 		cuentasSeleccionadas.sort((unaCuenta, otraCuenta) -> otraCuenta.getAnio().compareTo(unaCuenta.getAnio()));
 		return cuentasSeleccionadas;
 	}

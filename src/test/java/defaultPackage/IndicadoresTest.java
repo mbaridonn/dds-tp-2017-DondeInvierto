@@ -36,7 +36,7 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 					"INDICADORTRES = INGRESONETO * 10 + ebitda",
 					"A = 5 / 3", "PRUEBA = ebitda + 5" }));
 		});
-		Usuario.instance(usuario);
+		Usuario.activo(usuario);
 		indicadores = usuario.getIndicadores();
 		ArchivoXLS archivoEjemploIndicadores = new ArchivoXLS("src/test/resources/EjemploIndicadores.xls");
 		archivoEjemploIndicadores.leerEmpresas();		

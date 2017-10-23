@@ -10,7 +10,6 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
-import dominio.indicadores.RepositorioIndicadores;
 import dominio.metodologias.Antiguedad;
 import dominio.metodologias.CondicionPrioritaria;
 import dominio.metodologias.CondicionTaxativa;
@@ -89,10 +88,16 @@ public class Bootstrap implements WithGlobalEntityManager, EntityManagerOps, Tra
 	}
 
 	private void cargarIndicadoresPredefinidos() {
-		new RepositorioIndicadores().agregarMultiplesIndicadores(
+		Long id = new RepositorioUsuarios().obtenerId("admin", "admin");
+		Usuario usuario = new RepositorioUsuarios().obtenerPorId(id);
+		try{
+		usuario.agregarIndicadores(
 				Arrays.asList(new String[] { "INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
 						"INDICADORDOS = cuentarara + fds", "INDICADORTRES = INGRESONETO * 10 + ebitda", "A = 5 / 3",
 						"PRUEBA = ebitda + 5" }));
+		} catch(EntidadExistenteError e) {
+			//Si ya existen los indicadores, no hago nada
+		}
 	}
 	
 	private void cargarMetodologiasPredefinidas() {

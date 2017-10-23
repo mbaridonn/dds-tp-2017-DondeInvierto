@@ -8,6 +8,7 @@ import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.indicadores.Indicador;
+import dominio.usuarios.RepositorioUsuarios;
 import dominio.usuarios.Usuario;
 import excepciones.EntidadExistenteError;
 import excepciones.ParserError;
@@ -18,7 +19,8 @@ import spark.Response;
 public class IndicadoresController implements WithGlobalEntityManager, TransactionalOps{
 	public ModelAndView listar(Request req, Response res) {
 		Map<String, List<Indicador>> model = new HashMap<>();
-		List<Indicador> indicadores = Usuario.instance().getIndicadores();
+		Usuario usuarioActivo = new RepositorioUsuarios().obtenerPorId(Long.parseLong(req.cookie("idUsuario")));
+		List<Indicador> indicadores = usuarioActivo.getIndicadores();
 		model.put("indicadores", indicadores);
 		return new ModelAndView(model, "indicadores/indicadores.hbs");
 	}
@@ -33,11 +35,11 @@ public class IndicadoresController implements WithGlobalEntityManager, Transacti
 	}
 
 	public Void create(Request req, Response res) {
+		Usuario usuarioActivo = new RepositorioUsuarios().obtenerPorId(Long.parseLong(req.cookie("idUsuario")));
 		String formulaIndicador = req.queryParams("indicador");
 		try {
 			withTransaction(()-> {
-				Usuario.instance().crearIndicador(formulaIndicador);
-				entityManager().merge(Usuario.instance());
+				usuarioActivo.crearIndicador(formulaIndicador);
 			});
 			res.redirect("/indicadores");
 		} catch (EntidadExistenteError | ParserError e){
