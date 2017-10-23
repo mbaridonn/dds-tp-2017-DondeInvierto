@@ -1,5 +1,6 @@
 package controllers;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,9 +29,11 @@ public class MetodologiasController{
 		String id = req.params("id");
 		Metodologia metodologiaAEvaluar = usuarioActivo.obtenerMetodologiaPorId(Long.parseLong(id));
 		List<Empresa> empresas = new RepositorioEmpresas().obtenerTodos();
+		List<Empresa> metodologia = Arrays.asList(new Empresa(metodologiaAEvaluar.getNombre(),  null));
 		model.put("empresasOrdenadas",metodologiaAEvaluar.evaluarPara(empresas));
 		model.put("empresasQueNoCumplen",metodologiaAEvaluar.empresasQueNoCumplenTaxativas(empresas));
 		model.put("empresasSinDatos",metodologiaAEvaluar.empresasConDatosFaltantes(empresas));
+		model.put("nombreMetodologia", metodologia);
 		explicitarListasVacias(model);
 		return new ModelAndView(model, "metodologias/metodologiaEvaluada.hbs");
 	}
