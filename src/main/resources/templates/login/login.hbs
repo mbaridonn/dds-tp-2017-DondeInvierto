@@ -41,8 +41,11 @@
                     </div>
                 </div>
                 
-                <!-- Error Label -->
-                <label> {{mensajeError}} </label>
+                <!-- Error Message -->
+                 <div class="error-msg">
+					{{#block "error-msg"}}
+					{{/block}}
+				</div>
                 
                 <!-- Login Button -->
                 <div class="row">

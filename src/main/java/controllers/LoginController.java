@@ -12,11 +12,11 @@ import spark.Response;
 public class LoginController{
 	public ModelAndView login(Request req, Response res) {
 		String mensajeError = req.cookie("mensajeError");
-		if (mensajeError == null) mensajeError = "";
-		res.cookie("mensajeError", "");
+		if (mensajeError == null) return new ModelAndView(null, "login/login.hbs");
 		Map<String, String> model = new HashMap<>();
 		model.put("mensajeError", mensajeError);
-		return new ModelAndView(model, "login/login.hbs");
+		res.removeCookie("mensajeError");
+		return new ModelAndView(model, "login/loginError.hbs");
 	}
 
 	public Void validate(Request req, Response res) {

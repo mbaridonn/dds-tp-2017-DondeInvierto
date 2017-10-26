@@ -10,7 +10,7 @@ public class RepositorioUsuarios extends AbstractRepository<Usuario>{
 
 	public Long obtenerId(String email, String password){
 		Usuario usuarioBuscado = obtenerTodos().stream().filter(usuario -> usuario.validar(email, password)).findFirst()
-				.orElseThrow(() -> new NoExisteUsuarioError("No se pudo encontrar el usuario " + email + " o la password no es la correcta."));
+				.orElseThrow(() -> new NoExisteUsuarioError("Usuario o contrasena incorrectos."));
 		return usuarioBuscado.getId();
 	}
 	

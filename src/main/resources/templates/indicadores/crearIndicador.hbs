@@ -17,7 +17,10 @@
 	<small><i>*Ejemplo: MIINDICADOR = ebitda + fds * 2 - INGRESONETO</i></small>
   </div>
   
-	<label> {{mensajeError}} </label>
+	<div class="error-msg">
+		{{#block "error-msg"}}
+		{{/block}}
+	</div>
   
     <button name="crearIndicador" value="crearIndicador" class="btn btn-primary btn-lg" style="float: right;">Crear</button>
   

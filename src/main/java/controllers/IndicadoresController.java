@@ -27,11 +27,16 @@ public class IndicadoresController implements WithGlobalEntityManager, Transacti
 	
 	public ModelAndView newForm(Request req, Response res) {
 		String mensajeError = req.cookie("mensajeError");
-		if (mensajeError == null) mensajeError = "";
-		res.cookie("mensajeError", "");
+		String formulaIndicador = req.cookie("formulaIndicador");
+		if (mensajeError == null){
+			return new ModelAndView(null, "indicadores/crearIndicador.hbs");
+		}
 		Map<String, String> model = new HashMap<>();
 		model.put("mensajeError", mensajeError);
-		return new ModelAndView(model, "indicadores/crearIndicador.hbs");
+		model.put("formulaIndicador", formulaIndicador);
+		res.removeCookie("mensajeError");
+		res.removeCookie("formulaIndicador");
+		return new ModelAndView(model,"indicadores/crearIndicadorError.hbs");
 	}
 
 	public Void create(Request req, Response res) {
@@ -44,6 +49,7 @@ public class IndicadoresController implements WithGlobalEntityManager, Transacti
 			res.redirect("/indicadores");
 		} catch (EntidadExistenteError | ParserError e){
 			res.cookie("mensajeError", e.getMessage());
+			res.cookie("formulaIndicador", formulaIndicador);
 			res.redirect("/indicadores/new");
 		}
 		return null;
