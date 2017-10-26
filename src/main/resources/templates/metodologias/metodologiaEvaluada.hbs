@@ -1,14 +1,17 @@
 {{#partial "contenido"}}
 
 {{#each nombreMetodologia}}
-	<h1>Metodologia {{nombre}}</h1>
+	<h2 style="font-family:verdana;">Metodologia {{nombre}}</h2>
 {{/each}}
 
 <table class="table table-hover">
-	<tr>
-		<th>Empresas ordenadas</th>
-	</tr>
 	
+	<thead class="thead-default">
+		<tr>
+			<th>Empresas ordenadas</th>
+		</tr>
+ 	</thead>
+ 	
 	{{#each empresasOrdenadas}}
 		<tr>
 			<td>{{nombre}}</td>
@@ -17,9 +20,12 @@
 </table>
 
 <table class="table table-hover">
-	<tr>
-		<th>Empresas que no cumplen condiciones taxativas</th>
-	</tr>
+	
+	<thead class="thead-default">	
+		<tr>
+			<th>Empresas que no cumplen condiciones taxativas</th>
+		</tr>
+	</thead>
 	
 	{{#each empresasQueNoCumplen}}
 		<tr>
@@ -29,9 +35,12 @@
 </table>
 
 <table class="table table-hover">
-	<tr>
-		<th>Empresas con datos faltantes</th>
-	</tr>
+
+	<thead class="thead-default">
+		<tr>
+			<th>Empresas con datos faltantes</th>
+		</tr>
+	</thead>
 	
 	{{#each empresasSinDatos}}
 		<tr>
