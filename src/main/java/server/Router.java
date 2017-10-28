@@ -19,6 +19,7 @@ public class Router {
 		Spark.staticFiles.location("/public");
 
 		Spark.before(FiltroAutenticacion::validarLogueo);
+		Spark.after(new GestorEntityManager()::cerrarEntityManager);
 		Spark.get("/", new LoginController()::login, engine);
 		Spark.post("/", new LoginController()::validate);
 		Spark.get("/home", HomeController::home, engine);
