@@ -1,8 +1,6 @@
 {{#partial "contenido"}}
 
-{{#each nombreMetodologia}}
-	<h2 style="font-family:verdana;">Metodologia {{nombre}}</h2>
-{{/each}}
+<h2 style="font-family:verdana;">{{nombreMetodologia}}</h2>
 
 <table class="table table-hover">
 	
@@ -14,7 +12,7 @@
  	
 	{{#each empresasOrdenadas}}
 		<tr>
-			<td>{{nombre}}</td>
+			<td>{{this}}</td>
 		</tr>
 	{{/each}}
 </table>
@@ -29,7 +27,7 @@
 	
 	{{#each empresasQueNoCumplen}}
 		<tr>
-			<td>{{nombre}}</td>
+			<td>{{this}}</td>
 		</tr>
 	{{/each}}
 </table>
@@ -44,7 +42,7 @@
 	
 	{{#each empresasSinDatos}}
 		<tr>
-			<td>{{nombre}}</td>
+			<td>{{this}}</td>
 		</tr>
 	{{/each}}
 </table>

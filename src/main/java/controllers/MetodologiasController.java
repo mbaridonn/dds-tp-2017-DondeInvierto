@@ -1,9 +1,11 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import dominio.empresas.Empresa;
 import dominio.empresas.RepositorioEmpresas;
@@ -14,7 +16,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class MetodologiasController{
+public class MetodologiasController<T>{
 	public static ModelAndView listar (Request req, Response res) {
 		Map<String, List<Metodologia>> model = new HashMap<>();
 		Usuario usuarioActivo = new RepositorioUsuarios().obtenerPorId(Long.parseLong(req.cookie("idUsuario")));
@@ -24,28 +26,22 @@ public class MetodologiasController{
 	}
 	
 	public static ModelAndView mostrar (Request req, Response res) {
-		Map<String, List<Empresa>> model = new HashMap<>();
+		Map<String, Object> model = new HashMap<>();
 		Usuario usuarioActivo = new RepositorioUsuarios().obtenerPorId(Long.parseLong(req.cookie("idUsuario")));
-		String id = req.params("id");
-		Metodologia metodologiaAEvaluar = usuarioActivo.obtenerMetodologiaPorId(Long.parseLong(id));
+		Metodologia metodologiaAEvaluar = usuarioActivo.obtenerMetodologiaPorId(Long.parseLong(req.params("id")));
 		List<Empresa> empresas = new RepositorioEmpresas().obtenerTodos();
-		List<Empresa> metodologia = Arrays.asList(new Empresa(metodologiaAEvaluar.getNombre(),  null));
-		model.put("empresasOrdenadas",metodologiaAEvaluar.evaluarPara(empresas));
-		model.put("empresasQueNoCumplen",metodologiaAEvaluar.empresasQueNoCumplenTaxativas(empresas));
-		model.put("empresasSinDatos",metodologiaAEvaluar.empresasConDatosFaltantes(empresas));
-		model.put("nombreMetodologia", metodologia);
-		explicitarListasVacias(model);
+		model.put("empresasOrdenadas",nombresDeEmpresas(metodologiaAEvaluar.evaluarPara(empresas)));
+		model.put("empresasQueNoCumplen",nombresDeEmpresas(metodologiaAEvaluar.empresasQueNoCumplenTaxativas(empresas)));
+		model.put("empresasSinDatos",nombresDeEmpresas(metodologiaAEvaluar.empresasConDatosFaltantes(empresas)));
+		model.put("nombreMetodologia", metodologiaAEvaluar.getNombre());
 		return new ModelAndView(model, "metodologias/metodologiaEvaluada.hbs");
 	}
 
-	private static void explicitarListasVacias(Map<String, List<Empresa>> model) {
-		for (Map.Entry<String, List<Empresa>> entry : model.entrySet()){
-			List<Empresa> listaEmpresas = entry.getValue();
-			if (listaEmpresas.isEmpty()){
-				listaEmpresas.add(new Empresa("No hay empresas en esta categoria", null));
-				entry.setValue(listaEmpresas);
-			}
+	private static List<String> nombresDeEmpresas(List<Empresa> listaEmpresas) {
+		if(listaEmpresas.isEmpty()){
+			return Arrays.asList(new String[] {"No hay empresas en esta categoria"});
 		}
+		return listaEmpresas.stream().map(empresa -> empresa.getNombre()).collect(Collectors.toList());
 	}
 
 }
