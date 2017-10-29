@@ -3,6 +3,7 @@ package server;
 import controllers.EmpresasController;
 import controllers.HomeController;
 import controllers.IndicadoresController;
+import controllers.InvalidURLController;
 import controllers.LoginController;
 import controllers.MetodologiasController;
 import spark.Spark;
@@ -30,10 +31,7 @@ public class Router {
 		Spark.post("/indicadores/new", new IndicadoresController()::create);
 		Spark.get("/metodologias", MetodologiasController::listar, engine);
 		Spark.get("/metodologias/:id", MetodologiasController::mostrar, engine);
-		Spark.get("/*", (req, res) -> {
-			Spark.halt(400, "Bad Request");
-			return null;
-		});
+		Spark.get("/*", InvalidURLController::mostrar,engine);
 	}
 
 }

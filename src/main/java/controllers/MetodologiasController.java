@@ -1,6 +1,4 @@
 package controllers;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +14,7 @@ import spark.ModelAndView;
 import spark.Request;
 import spark.Response;
 
-public class MetodologiasController<T>{
+public class MetodologiasController{
 	public static ModelAndView listar (Request req, Response res) {
 		Map<String, List<Metodologia>> model = new HashMap<>();
 		Usuario usuarioActivo = new RepositorioUsuarios().obtenerPorId(Long.parseLong(req.cookie("idUsuario")));
