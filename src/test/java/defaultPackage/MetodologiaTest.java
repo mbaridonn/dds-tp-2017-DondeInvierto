@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +21,8 @@ import excepciones.NoExisteCuentaError;
 public class MetodologiaTest extends AbstractPersistenceTest implements WithGlobalEntityManager{
 	
 	private ArrayList<Indicador> indicadores = new ArrayList<Indicador>();
-	private ArrayList<Empresa> empresasParaIndicadores;
-	private ArrayList<Empresa> empresasParaComparacionConMetodologias;
+	private List<Empresa> empresasParaIndicadores;
+	private List<Empresa> empresasParaComparacionConMetodologias;
 	private RepositorioIndicadores repositorioIndicadores = new RepositorioIndicadores();
 	
 	@Before

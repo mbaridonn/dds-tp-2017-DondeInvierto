@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
@@ -52,6 +51,16 @@ public class Empresa {
 		cuentas.add(cuenta);
 	}
 	
+	public void actualizar(Empresa empresaConDatosNuevos) {
+		for(Cuenta cuenta: empresaConDatosNuevos.getCuentas()){
+			if(!cuentas.contains(cuenta)) registrarCuenta(cuenta);
+			else {
+				Cuenta cuentaAActualizar = cuentas.get(cuentas.indexOf(cuenta));
+				cuentaAActualizar.actualizar(cuenta);
+			}
+		}
+	}
+	
 	public Set<Year> aniosDeLosQueTieneCuentas(){
 		Set<Year> anios = new HashSet<Year>();
 		cuentas.forEach(cuenta -> anios.add(cuenta.getAnio()));
@@ -96,10 +105,12 @@ public class Empresa {
 		return cuentaBuscada.getValor();
 	}
 	
+	@Override
 	public boolean equals(Object otroObjeto) {
 	    return (otroObjeto instanceof Empresa) && this.seLlama(((Empresa) otroObjeto).getNombre());
 	}
 	
+	@Override
 	public int hashCode() {
 		return nombre.hashCode();
 	}

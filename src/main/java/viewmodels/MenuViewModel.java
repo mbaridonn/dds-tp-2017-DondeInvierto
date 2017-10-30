@@ -1,13 +1,12 @@
 package viewmodels;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
-import dominio.empresas.ArchivoEmpresas;
 import dominio.empresas.Empresa;
 import dominio.empresas.LectorArchivos;
 import dominio.empresas.RepositorioEmpresas;
@@ -26,10 +25,7 @@ public class MenuViewModel implements WithGlobalEntityManager, TransactionalOps{
 	
 	public void cargarArchivo(){
 		try{
-			ArrayList<Empresa> empresas;
-			ArchivoEmpresas archivo = new LectorArchivos(ruta).obtenerLectorApropiado();
-			archivo.leerEmpresas();
-			empresas = archivo.getEmpresas();
+			List<Empresa> empresas = new LectorArchivos(ruta).getEmpresas();
 			withTransaction(() -> new RepositorioEmpresas().agregarMultiplesEmpresas(empresas));
 			resultadoOperacion = "Archivo cargado";
 		}

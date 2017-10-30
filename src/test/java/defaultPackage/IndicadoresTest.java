@@ -24,7 +24,7 @@ import excepciones.EntidadExistenteError;
 public class IndicadoresTest extends AbstractPersistenceTest implements WithGlobalEntityManager, TransactionalOps{
 
 	List<Indicador> indicadores = new ArrayList<Indicador>();
-	ArrayList<Empresa> empresasParaIndicadores;
+	List<Empresa> empresasParaIndicadores;
 	Usuario usuario = new Usuario("admin","admin");
 	
 	@Before
@@ -115,7 +115,6 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 	/* ------------------------------- METODOS AUXILIARES  ------------------------------- */
 	
 	private int cantidadIndicadoresAplicablesA(Empresa empresa) {
-		System.out.println(usuario.todosLosIndicadoresAplicablesA(empresa));
 		Set<Indicador> indicadAplicables = new HashSet<Indicador>(usuario.todosLosIndicadoresAplicablesA(empresa));
 		return indicadAplicables.size();
 	}
@@ -129,13 +128,9 @@ public class IndicadoresTest extends AbstractPersistenceTest implements WithGlob
 		Empresa miEmpresa = empresasParaIndicadores.get(0);
 		Empresa EmpresaLoca = empresasParaIndicadores.get(1);
 		Empresa EmpresaReLoca = empresasParaIndicadores.get(2);
-		System.out.println(ind);
-		System.out.println(miEmpresa);
-		System.out.println(Year.of(2015));
 		resultados[0] = ind.evaluarEn(miEmpresa, Year.of(2015));
 		resultados[1] = ind.evaluarEn(EmpresaLoca, Year.of(2014));
 		resultados[2] = ind.evaluarEn(EmpresaReLoca, Year.of(2016));
-		
 		return resultados;
 	}
 	

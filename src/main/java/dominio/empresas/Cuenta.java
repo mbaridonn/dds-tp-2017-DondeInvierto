@@ -1,6 +1,7 @@
 package dominio.empresas;
 
 import java.time.Year;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,28 +14,32 @@ import org.uqbar.commons.utils.Observable;
 @Entity
 @Table(name = "cuentas")
 public class Cuenta {
-	
-	@Id 
+
+	@Id
 	@GeneratedValue
 	private Long id;
-	
+
 	private Year anio;
 	private String tipoCuenta;
 	private int valor;
-	
-	private Cuenta(){} //Necesario para persistir la clase
-	
-	public Cuenta(Year anio, String tipoCuenta, int valor){
+
+	private Cuenta() {} // Necesario para persistir la clase
+
+	public Cuenta(Year anio, String tipoCuenta, int valor) {
 		this.anio = anio;
 		this.tipoCuenta = tipoCuenta;
 		this.valor = valor;
 	}
 	
-	public boolean esDeTipo(String tipo){
+	public void actualizar(Cuenta cuentaConDatosNuevos) {
+		valor = cuentaConDatosNuevos.getValor();
+	}
+
+	public boolean esDeTipo(String tipo) {
 		return this.tipoCuenta.equalsIgnoreCase(tipo);
 	}
-	
-	public boolean esDeAnio(Year anio){
+
+	public boolean esDeAnio(Year anio) {
 		return this.anio.equals(anio);
 	}
 
@@ -49,6 +54,16 @@ public class Cuenta {
 	public int getValor() {
 		return valor;
 	}
-	
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		return (obj instanceof Cuenta) && Objects.equals(anio, ((Cuenta) obj).getAnio())
+				&& Objects.equals(tipoCuenta, ((Cuenta) obj).getTipoCuenta());
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(anio, tipoCuenta);
+	}
+
 }

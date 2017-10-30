@@ -2,11 +2,12 @@ package dominio.empresas;
 
 import java.time.Year;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ArchivoEmpresas{
 	
 	String ruta;
-	ArrayList<Empresa> empresas;
+	List<Empresa> empresas;
 	
 	public ArchivoEmpresas(String ruta){
 		this.ruta = ruta;
@@ -33,7 +34,7 @@ public abstract class ArchivoEmpresas{
 		empresas.clear();
 	}
 	
-	public ArrayList<Empresa> getEmpresas() {
+	public List<Empresa> getEmpresas() {
 		return empresas;
 	}
 	
