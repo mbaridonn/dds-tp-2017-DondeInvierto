@@ -77,30 +77,21 @@ public class PersistenciaTest extends AbstractPersistenceTest implements WithGlo
 	}
 
 	@Test
-	public void alAgregarDosEmpresasAlRepositorioEmpresasEstasSePersistenEsaCantidad() {
-		int cantidadAntesDeAgregar = repoEmpresas.obtenerTodos().size();
-		withTransaction(() -> {
-			repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
-		});
-		assertEquals(cantidadAntesDeAgregar + 2, repoEmpresas.obtenerTodos().size());
-	}
-
-	@Test
 	public void alAgregarDosEmpresasAlRepositorioEmpresasEstasSePersistenCorrectamente() {
 		withTransaction(() -> {
 			repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
 		});	
 		assertTrue(repoEmpresas.obtenerTodos().containsAll(listaEmpresas));
 	}
-
 	
-	@Test(expected = EntidadExistenteError.class)
-	public void noSePersistenDosEmpresasConElMismoNombre() {
+	@Test
+	public void alPersistirDosEmpresasConElMismoNombreSeActualizaLaMisma() {
 		Empresa empresaCopia = new Empresa("empresa1", listaCuentas2);
 		withTransaction(() -> {
 			listaEmpresas.add(empresaCopia);
 			repoEmpresas.agregarMultiplesEmpresas(listaEmpresas);
 		});
+		assertEquals(listaEmpresas.size() - 1, repoEmpresas.obtenerTodos().size());
 	}
 
 	@Test
