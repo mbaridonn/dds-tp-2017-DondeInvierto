@@ -1,8 +1,12 @@
 package dominio.indicadores;
 
 import java.time.Year;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.uqbar.commons.utils.Observable;
@@ -20,6 +24,9 @@ public class Indicador extends Cuantificador{
 	
 	private String equivalencia;
 	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<IndicadorPrecalculado> resultados;
+	
 	@Transient
 	private Expresion expresion;
 
@@ -30,10 +37,17 @@ public class Indicador extends Cuantificador{
 	}
 	
 	public int evaluarEn(Empresa empresa, Year anio){
+		return resultados.stream().filter(resultados -> resultados.esDe(empresa, anio)).findFirst().orElse(precalcularIndicador(empresa, anio)).getValor();
+	}
+	
+	private IndicadorPrecalculado precalcularIndicador(Empresa empresa, Year anio){
 		if(expresion == null){
 			this.inicializarExpresion();
 		}
-		return expresion.evaluarEn(empresa,anio);
+		int resultado = expresion.evaluarEn(empresa,anio);
+		IndicadorPrecalculado ind = new IndicadorPrecalculado(empresa, anio, resultado);
+		resultados.add(ind);
+		return ind; 
 	}
 	
 	public boolean esAplicableA(Empresa empresa, Year anio){
