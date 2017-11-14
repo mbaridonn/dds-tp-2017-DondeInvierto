@@ -2,7 +2,6 @@ package dominio.indicadores;
 
 import java.time.Year;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -79,6 +78,10 @@ public class Indicador extends Cuantificador implements WithGlobalEntityManager,
 		withTransaction(() -> {
 			this.setResultados(resultados);
 		});	
+	}
+	
+	public void eliminarResultadosDe(Empresa empresa, Year anio) { //SIN TESTEAR
+		resultados.removeIf(precalc -> precalc.esDe(empresa, anio));
 	}
 	
 	public boolean seLlama(String nombre){
