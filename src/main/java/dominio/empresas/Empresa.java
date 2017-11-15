@@ -56,7 +56,7 @@ public class Empresa {
 			if(!cuentas.contains(cuenta)) registrarCuenta(cuenta);
 			else {
 				Cuenta cuentaAActualizar = cuentas.get(cuentas.indexOf(cuenta));
-				cuentaAActualizar.actualizar(cuenta);
+				cuentaAActualizar.actualizar(cuenta, this);
 			}
 		}
 	}

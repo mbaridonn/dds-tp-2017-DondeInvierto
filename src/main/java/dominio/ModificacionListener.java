@@ -10,16 +10,17 @@ import dominio.empresas.Empresa;
 import dominio.indicadores.Indicador;
 
 public class ModificacionListener {//SINGLETON?
-	Map<String, Set<Indicador>> coleccion = new HashMap<>();
+	Map<String, Set<Indicador>> registro = new HashMap<>();
 	
-	public void registrar(Indicador interesado, String observado){//VER EN QUÉ MOMENTO SE REGISTRA EL INDICADOR
-		Set<Indicador> interesados = coleccion.get(observado);
+	public void registrar(Indicador interesado, String observado){//VER EN QUÉ MOMENTO SE REGISTRA EL INDICADOR (!!!)
+		Set<Indicador> interesados = registro.get(observado);
 		if (interesados == null) interesados = new HashSet<>();
 		interesados.add(interesado);
+		//registro.put(observado, interesados);//NECESARIO???
 	}
 	
-	public void seActualizo(String entidad, Empresa empresa, Year anio){//ES EL MENSAJE QUE TENDRÍA QUE MANDAR LA CUENTA/INDICADOR QUE SE MODIFIQUE
-		Set<Indicador> interesados = coleccion.get(entidad);
+	public void seActualizo(String entidad, Empresa empresa, Year anio){
+		Set<Indicador> interesados = registro.get(entidad);
 		if (interesados != null) interesados.forEach(interesado -> interesado.eliminarResultadosDe(empresa, anio));
 	}
 }

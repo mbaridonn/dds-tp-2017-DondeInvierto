@@ -13,6 +13,7 @@ import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
+import dominio.ModificacionListener;
 import dominio.empresas.Empresa;
 import dominio.metodologias.Cuantificador;
 import dominio.parser.ParserIndicadores;
@@ -80,8 +81,9 @@ public class Indicador extends Cuantificador implements WithGlobalEntityManager,
 		});	
 	}
 	
-	public void eliminarResultadosDe(Empresa empresa, Year anio) { //SIN TESTEAR
+	public void eliminarResultadosDe(Empresa empresa, Year anio) { //SIN TESTEAR (!!!)
 		resultados.removeIf(precalc -> precalc.esDe(empresa, anio));
+		new ModificacionListener().seActualizo(getNombre(), empresa, anio);
 	}
 	
 	public boolean seLlama(String nombre){
