@@ -35,7 +35,7 @@ public class Cuenta {
 	
 	public void actualizar(Cuenta cuentaConDatosNuevos, Empresa empresaQueContieneCuenta) {
 		valor = cuentaConDatosNuevos.getValor();
-		ModificacionListener.getInstance().seActualizo(getTipoCuenta(), empresaQueContieneCuenta, anio);
+		new ModificacionListener().seActualizo(getTipoCuenta(), empresaQueContieneCuenta, anio);
 	}
 
 	public boolean esDeTipo(String tipo) {
