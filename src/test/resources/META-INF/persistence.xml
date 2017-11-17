@@ -10,6 +10,7 @@
      
      <!-- CLASES A PERSISTIR-->
      <class>dominio.empresas.Empresa</class>
+     <class>dominio.EntradaRegistroModificacionesListener</class>
      <class>dominio.empresas.Cuenta</class>
      <class>dominio.indicadores.Indicador</class>
      <class>dominio.indicadores.IndicadorPrecalculado</class>

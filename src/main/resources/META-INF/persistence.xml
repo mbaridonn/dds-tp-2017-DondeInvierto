@@ -11,6 +11,7 @@
      <!-- CLASES A PERSISTIR-->
      <class>dominio.empresas.Empresa</class>
      <class>dominio.empresas.Cuenta</class>
+     <class>dominio.EntradaRegistroModificacionesListener</class>
      <class>dominio.indicadores.Indicador</class>
      <class>dominio.indicadores.IndicadorPrecalculado</class>
      <class>dominio.indicadores.RepositorioIndicadores</class>

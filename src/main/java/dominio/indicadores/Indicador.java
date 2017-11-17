@@ -85,7 +85,11 @@ public class Indicador extends Cuantificador implements WithGlobalEntityManager,
 	}
 	
 	public void eliminarResultadosDe(Empresa empresa, Year anio) {
+		System.out.println("VOY A ELIMINAR TDOO VIEJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 		resultados.removeIf(precalc -> precalc.esDe(empresa, anio));
+		withTransaction(() -> {
+			this.setResultados(resultados);
+		});	
 		new ModificacionListener().seActualizo(getNombre(), empresa, anio);
 	}
 	

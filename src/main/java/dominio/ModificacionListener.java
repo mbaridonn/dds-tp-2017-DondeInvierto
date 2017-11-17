@@ -18,6 +18,8 @@ public class ModificacionListener extends AbstractRepository<EntradaRegistroModi
 
 	public void seActualizo(String entidad, Empresa empresa, Year anio){
 		Set<Indicador> interesados = getInteresadosDe(entidad);
+		System.out.println("aslkdjaslkdjlaksdjlkasdjlasjdklasjdlkasjdlkasjdklasjdlkasdjlkasjdlkasjdlkasd");
+		System.out.println(interesados.size());
 		interesados.forEach(interesado -> interesado.eliminarResultadosDe(empresa, anio));
 	}
 	
@@ -26,9 +28,19 @@ public class ModificacionListener extends AbstractRepository<EntradaRegistroModi
 	}
 
 	private EntradaRegistroModificacionesListener getEntrada(String nombreObservado) {
-		EntradaRegistroModificacionesListener entradaBuscada = obtenerTodos().stream().filter(entrada -> entrada.esDe(nombreObservado)).findFirst()
-				.orElse(crearEntrada(nombreObservado));
+		EntradaRegistroModificacionesListener entradaBuscada;
+		try {
+			entradaBuscada = this.entradasDe(nombreObservado);
+			
+		}catch(RuntimeException e) {
+			entradaBuscada = crearEntrada(nombreObservado);
+		}
 		return entradaBuscada;
+	}
+	
+	private EntradaRegistroModificacionesListener entradasDe(String nombreObservado) {
+		return obtenerTodos().stream().filter(entrada -> entrada.esDe(nombreObservado)).findFirst()
+		.orElseThrow(() -> new RuntimeException());
 	}
 
 	private EntradaRegistroModificacionesListener crearEntrada(String nombreObservado) {
