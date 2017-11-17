@@ -39,4 +39,29 @@ public class IndicadorPrecalculado {
 	public int getValor() {
 		return valor;
 	}
+	
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
+
+	public Year getAnio() {
+		return anio;
+	}
+
+	public void setAnio(Year anio) {
+		this.anio = anio;
+	}
+
+	@Override
+	public boolean equals(Object otroObjeto) {
+	    return (otroObjeto instanceof IndicadorPrecalculado) && this.sonResultadosIguales((IndicadorPrecalculado) otroObjeto);
+	}
+	
+	private boolean sonResultadosIguales(IndicadorPrecalculado otroResultado) {
+		return otroResultado.getEmpresa().equals(empresa) && otroResultado.getAnio().equals(anio) && otroResultado.getValor() == valor;
+	}
 }
