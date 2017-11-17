@@ -1,0 +1,6 @@
+mvn eclipse:clean
+mvn eclipse:eclipse
+mvn package
+
+Ir a la carpeta donde se genero el jar:
+java -jar "nombre".jar
