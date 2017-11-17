@@ -24,6 +24,17 @@ public class MetodologiaTest extends AbstractPersistenceTest implements WithGlob
 	private List<Empresa> empresasParaIndicadores;
 	private List<Empresa> empresasParaComparacionConMetodologias;
 	private RepositorioIndicadores repositorioIndicadores = new RepositorioIndicadores();
+	private Empresa Sony;
+	private Empresa Google;
+	private Empresa Apple;
+	private Empresa Deloitte;
+	private Empresa IBM;
+	private Empresa Falabella;
+	private Indicador ingresoNeto;
+	private Indicador saldoCrudo;
+	private Metodologia metodologiaDeWarren;
+	private Metodologia metodologiaDeMike;
+	private Metodologia metodologiaDeSteve;
 	
 	@Before
 	public void setUp() {
@@ -36,242 +47,206 @@ public class MetodologiaTest extends AbstractPersistenceTest implements WithGlob
 		withTransaction(() -> {
 			repositorioIndicadores.agregarMultiplesIndicadores(Arrays.asList(new String[] { 
 					"INGRESONETO = netooperacionescontinuas + netooperacionesdiscontinuas",
-					"INDICADORDOS = cuentarara + fds",
+					"SALDOCRUDO = cuentarara + fds",
 					"INDICADORTRES = INGRESONETO * 10 + ebitda",
 					"A = 5 / 3", "PRUEBA = ebitda + 5" }));
 		});
 		indicadores.addAll(repositorioIndicadores.obtenerTodos());
+		Sony = empresasParaIndicadores.get(0);
+		Google = empresasParaIndicadores.get(1);
+		Apple = empresasParaIndicadores.get(2);
+		Deloitte = empresasParaComparacionConMetodologias.get(0);
+		IBM = empresasParaComparacionConMetodologias.get(1);
+		Falabella = empresasParaComparacionConMetodologias.get(2);
+		ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+		saldoCrudo = repositorioIndicadores.buscarIndicador("saldoCrudo");
+		metodologiaDeWarren = new Metodologia("Warren");
+		CondicionTaxativa condWarren = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
+		metodologiaDeWarren.agregarCondicionTaxativa(condWarren);
+		metodologiaDeMike = new Metodologia("Mike"); // MetodologiaDeMike
+		CondicionTaxativa condMike = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
+		metodologiaDeMike.agregarCondicionTaxativa(condMike);
+		metodologiaDeSteve = new Metodologia("Steve"); // UnaMetodologiaConCondTaxINGRESONETOConPromedioMayorA10000YConCondPriorSaldoCrudoConSumatoriaAmbosEnUltimosDosAnios
+		CondicionTaxativa condTaxSteve = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
+		CondicionPrioritaria condPriorSteve = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Variacion,saldoCrudo,2), OperacionRelacional.Mayor);
+		metodologiaDeSteve.agregarCondicionTaxativa(condTaxSteve);
+		metodologiaDeSteve.agregarCondicionPrioritaria(condPriorSteve);
 		//Ver formas de testear métodos que usan fecha actual (!!!)
 	}
 	
 	@Test
-	public void miEmpresaEsMasAntiguaQueEmpresaReLoca() {
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		assertTrue(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor).esMejorQue(miEmpresa, empresaReLoca));
+	public void SonyEsMasAntiguaQueApple() {
+		assertTrue(new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor).esMejorQue(Sony, Apple));
 	}
 	
 	@Test
-	public void miEmpresaCumpleCondTaxAntiguedadMenorA10() {
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		assertTrue(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10).laCumple(miEmpresa));
+	public void SonyCumpleCondTaxAntiguedadMenorA10() {
+		assertTrue(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Menor, 10).laCumple(Sony));
 	}
 	
 	@Test
-	public void empresaReLocaNoCumpleCondTaxAntiguedadMayorA3() {
-		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		assertFalse(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor, 3).laCumple(empresaReLoca));
+	public void AppleNoCumpleCondTaxAntiguedadMayorA3() {
+		assertFalse(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Mayor, 3).laCumple(Apple));
 	}
 	
 	@Test
-	public void empresaReLocaCumpleCondTaxAntiguedadIgualA1(){
-		Empresa miEmpresa = empresasParaIndicadores.get(2);
-		assertTrue(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Igual, 1).laCumple(miEmpresa));
+	public void AppleCumpleCondTaxAntiguedadIgualA1(){
+		assertTrue(new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo, new Antiguedad(), 1), OperacionRelacional.Igual, 1).laCumple(Apple));
 	}
 	
 	@Test
-	public void empresaReLocaNOCumpleCondTaxIndicadorINDICADORDOSMayorA360000() {
-		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		Indicador indicadorDos = repositorioIndicadores.buscarIndicador("indicadorDos");
-		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,indicadorDos,1);
+	public void AppleNOCumpleCondTaxIndicadorSaldoCrudoMayorA360000() {
+		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,saldoCrudo,1);
 		CondicionTaxativa cond = new CondicionTaxativa(operando, OperacionRelacional.Mayor, 360000);
-		assertFalse(cond.laCumple(empresaReLoca));
+		assertFalse(cond.laCumple(Apple));
 	}
 	
 	@Test
-	public void empresaReLocaNOCumpleCondTaxIndicadorINDICADORDOSMenorA200000(){
-		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		Indicador indicadorDos = repositorioIndicadores.buscarIndicador("indicadorDos");
-		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,indicadorDos,1);
+	public void AppleNOCumpleCondTaxIndicadorSaldoCrudoMenorA200000(){
+		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,saldoCrudo,1);
 		CondicionTaxativa cond = new CondicionTaxativa(operando, OperacionRelacional.Menor, 200000);
-		assertFalse(cond.laCumple(empresaReLoca));
+		assertFalse(cond.laCumple(Apple));
 	}
 	
 	@Test
-	public void empresaReLocaCumpleCondTaxIndicadorINDICADORDOSIgualA30000(){
-		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		Indicador indicadorDos = repositorioIndicadores.buscarIndicador("indicadorDos");
-		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,indicadorDos,1);
+	public void AppleCumpleCondTaxIndicadorSaldoCrudoIgualA30000(){
+		OperandoCondicion operando = new OperandoCondicion(OperacionAgregacion.Ultimo,saldoCrudo,1);
 		CondicionTaxativa cond = new CondicionTaxativa(operando, OperacionRelacional.Igual, 300000);
-		assertTrue(cond.laCumple(empresaReLoca));
+		assertTrue(cond.laCumple(Apple));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOMayorA20000EnUltimoAnio() {
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOMayorA20000EnUltimoAnio() {
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo,ingresoNeto,1), OperacionRelacional.Mayor, 20000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOMenorA8000EnUltimoAnio(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOMenorA8000EnUltimoAnio(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo,ingresoNeto,1), OperacionRelacional.Menor, 8000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOIgualA17000EnUltimoAnio(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyCumpleCondTaxIndicadorINGRESONETOIgualA17000EnUltimoAnio(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo,ingresoNeto,1), OperacionRelacional.Igual, 17000);
-		assertTrue(cond.laCumple(miEmpresa));
+		assertTrue(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConSumatoriaMayorA30000EnUltimosDosAnios() {
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConSumatoriaMayorA30000EnUltimosDosAnios() {
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,2), OperacionRelacional.Mayor, 30000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConSumatoriaMenorA15000EnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConSumatoriaMenorA15000EnUltimosDosAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,2), OperacionRelacional.Menor, 15000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConSumatoriaIgualA28000EnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyCumpleCondTaxIndicadorINGRESONETOConSumatoriaIgualA28000EnUltimosDosAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,2), OperacionRelacional.Igual, 28000);
-		assertTrue(cond.laCumple(miEmpresa));
+		assertTrue(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConPromedioMayorA15000EnUltimosDosAnios() {
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConPromedioMayorA15000EnUltimosDosAnios() {
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 15000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConPromedioMenorA10000EnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConPromedioMenorA10000EnUltimosDosAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Menor, 10000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConPromedioIgualA14000EnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyCumpleCondTaxIndicadorINGRESONETOConPromedioIgualA14000EnUltimosDosAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Igual, 14000);
-		assertTrue(cond.laCumple(miEmpresa));
+		assertTrue(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConPromedioMayorA10000EnUltimosCuatroAnios() {
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConPromedioMayorA10000EnUltimosCuatroAnios() {
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,4), OperacionRelacional.Mayor, 10000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConPromedioMenorA8000EnUltimosCuatroAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConPromedioMenorA8000EnUltimosCuatroAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,4), OperacionRelacional.Menor, 8000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConPromedioIgualA9500EnUltimosCuatroAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyCumpleCondTaxIndicadorINGRESONETOConPromedioIgualA9500EnUltimosCuatroAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,4), OperacionRelacional.Igual, 9500);
-		assertTrue(cond.laCumple(miEmpresa));
+		assertTrue(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConMedianaMayorA15000EnUltimosTresAnios() { // Mediana con n impar
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConMedianaMayorA15000EnUltimosTresAnios() { // Mediana con n impar
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,3), OperacionRelacional.Mayor, 15000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConMedianaMenorA10000EnUltimosTresAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConMedianaMenorA10000EnUltimosTresAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,3), OperacionRelacional.Menor, 10000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConMedianaIgualA11000EnUltimosTresAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyCumpleCondTaxIndicadorINGRESONETOConMedianaIgualA11000EnUltimosTresAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,3), OperacionRelacional.Igual, 11000);
-		assertTrue(cond.laCumple(miEmpresa));
+		assertTrue(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConMedianaMayorA10000EnUltimosCuatroAnios() { // Mediana con n impar
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConMedianaMayorA10000EnUltimosCuatroAnios() { // Mediana con n impar
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,4), OperacionRelacional.Mayor, 10000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConMedianaMenorA7000EnUltimosCuatroAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConMedianaMenorA7000EnUltimosCuatroAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,4), OperacionRelacional.Menor, 7000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConMedianaIgualA9000EnUltimosCuatroAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyCumpleCondTaxIndicadorINGRESONETOConMedianaIgualA9000EnUltimosCuatroAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Mediana,ingresoNeto,4), OperacionRelacional.Igual, 9000);
-		assertTrue(cond.laCumple(miEmpresa));
+		assertTrue(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConVariacionMayorA15000EnUltimosCuatroAnios() { // Mediana con n impar
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConVariacionMayorA15000EnUltimosCuatroAnios() { // Mediana con n impar
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,4), OperacionRelacional.Mayor, 15000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaNOCumpleCondTaxIndicadorINGRESONETOConVariacionMenorA13000EnUltimosCuatroAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyNOCumpleCondTaxIndicadorINGRESONETOConVariacionMenorA13000EnUltimosCuatroAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,4), OperacionRelacional.Menor, 13000);
-		assertFalse(cond.laCumple(miEmpresa));
+		assertFalse(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void miEmpresaCumpleCondTaxIndicadorINGRESONETOConVariacionIgualA14000EnUltimosCuatroAnios(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyCumpleCondTaxIndicadorINGRESONETOConVariacionIgualA14000EnUltimosCuatroAnios(){
 		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,4), OperacionRelacional.Igual, 14000);
-		assertTrue(cond.laCumple(miEmpresa));
+		assertTrue(cond.laCumple(Sony));
 	}
 	
 	@Test
-	public void empresaReLocaLanzaErrorAlQuererCumplirCondTaxIndicadorINGRESONETOConVariacionIgualA14000EnUltimosTresAniosPorFaltaDeCuentas(){
-		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void AppleLanzaErrorAlQuererCumplirCondTaxIndicadorINGRESONETOConVariacionIgualA14000EnUltimosTresAniosPorFaltaDeCuentas(){
 		boolean huboError = false;
 		try{
 			CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,3), OperacionRelacional.Igual, 14000);
-			cond.laCumple(empresaReLoca);
+			cond.laCumple(Apple);
 		}catch(NoExisteCuentaError e){
 			huboError = true;
 		}
@@ -279,13 +254,11 @@ public class MetodologiaTest extends AbstractPersistenceTest implements WithGlob
 	}
 	
 	@Test
-	public void miEmpresaLanzaErrorAlQuererCumplirCondTaxIndicadorINGRESONETOConSumatoriaIgualA14000EnUltimosCincoAniosPorFaltaDeCuentas(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyLanzaErrorAlQuererCumplirCondTaxIndicadorINGRESONETOConSumatoriaIgualA14000EnUltimosCincoAniosPorFaltaDeCuentas(){
 		boolean huboError = false;
 		try{
 			CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,5), OperacionRelacional.Igual, 50000);
-			cond.laCumple(miEmpresa);
+			cond.laCumple(Sony);
 		}catch(RuntimeException e){
 			huboError = true;
 		}
@@ -293,222 +266,133 @@ public class MetodologiaTest extends AbstractPersistenceTest implements WithGlob
 	}
 	
 	@Test
-	public void miEmpresaEsMejorQueEmpresaReLocaConINGRESONETOEnUltimoAnio(){
-		Empresa miEmpresa = empresasParaIndicadores.get(0);
-		Empresa empresaReLoca = empresasParaIndicadores.get(2);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void SonyEsMejorQueAppleConINGRESONETOEnUltimoAnio(){
 		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo,ingresoNeto,1), OperacionRelacional.Mayor);
-		assertTrue(cond.esMejorQue(miEmpresa, empresaReLoca));
+		assertTrue(cond.esMejorQue(Sony, Apple));
 	}
 	
 	@Test
-	public void empresaReLocaEsMejorQuemiEmpresaConINDICADORDOSConSumatoriaEnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Indicador indicadorDos = repositorioIndicadores.buscarIndicador("indicadorDos");
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,indicadorDos,1), OperacionRelacional.Mayor);
-		assertTrue(cond.esMejorQue(empresaReLoca, miEmpresa));
+	public void FalabellaEsMejorQueDeloitteConSaldoCrudoConSumatoriaEnUltimosDosAnios(){
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,saldoCrudo,1), OperacionRelacional.Mayor);
+		assertTrue(cond.esMejorQue(Falabella, Deloitte));
 	}
 	
 	@Test
-	public void empresaReLocaEsMejorQuemiEmpresaConINDICADORDOSConPromedioEnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Indicador indicadorDos = repositorioIndicadores.buscarIndicador("indicadorDos");
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Promedio,indicadorDos,1), OperacionRelacional.Mayor);
-		assertTrue(cond.esMejorQue(empresaReLoca, miEmpresa));
+	public void FalabellaEsMejorQueDeloitteConSaldoCrudoConPromedioEnUltimosDosAnios(){
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Promedio,saldoCrudo,1), OperacionRelacional.Mayor);
+		assertTrue(cond.esMejorQue(Falabella, Deloitte));
 	}
 	
 	@Test
-	public void empresaReLocaEsMejorQuemiEmpresaYmiEmpresaEsMejorQueEmpresaLocaConINDICADORDOSConPromedioEnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1); 
-		Indicador indicadorDos = repositorioIndicadores.buscarIndicador("indicadorDos");
-		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Promedio,indicadorDos,1), OperacionRelacional.Mayor);
-		assertTrue(cond.esMejorQue(empresaReLoca, miEmpresa) && cond.esMejorQue(miEmpresa, empresaLoca));
+	public void FalabellaEsMejorQueDelloiteYDelloiteEsMejorQueIBMConSaldoCrudoConPromedioEnUltimosDosAnios(){
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Promedio,saldoCrudo,1), OperacionRelacional.Mayor);
+		assertTrue(cond.esMejorQue(Falabella, Deloitte) && cond.esMejorQue(Deloitte, IBM));
 	}
 	
 	@Test
-	public void miEmpresaEsMejorQueEmpresaReLocaYEmpresaReLocaEsMejorQueEmpresaLocaConINGRESONETOConSumatoriaEnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1); 
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void DeloitteEsMejorQueFalabellaYFalabellaEsMejorQueIBMConINGRESONETOConSumatoriaEnUltimosDosAnios(){
 		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,1), OperacionRelacional.Mayor);
-		assertTrue(cond.esMejorQue(miEmpresa, empresaReLoca) && cond.esMejorQue(empresaReLoca, empresaLoca));
+		assertTrue(cond.esMejorQue(Deloitte, Falabella) && cond.esMejorQue(Falabella, IBM));
 	}
 	
 	@Test
-	public void miEmpresaEsMejorQueEmpresaReLocaYEmpresaReLocaEsMejorQueEmpresaLocaConINGRESONETOConVariacionEnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1); 
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void DeloitteEsMejorQueFalabellaYFalabellaEsMejorQueIBMConINGRESONETOConVariacionEnUltimosDosAnios(){
 		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,2), OperacionRelacional.Mayor);
-		assertTrue(cond.esMejorQue(miEmpresa, empresaReLoca) && cond.esMejorQue(empresaReLoca, empresaLoca));
+		assertTrue(cond.esMejorQue(Deloitte, Falabella) && cond.esMejorQue(Falabella, IBM));
 	}
 	
 	@Test
-	public void miEmpresaEsMejorQueEmpresaReLocaYEmpresaReLocaEsMejorQueEmpresaLocaConINGRESONETOConVariacionConsiderandoLaMenorEnUltimosDosAnios(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1); 
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void DeloitteEsMejorQueFalabellaYFalabellaEsMejorQueIBMConINGRESONETOConVariacionConsiderandoLaMenorEnUltimosDosAnios(){
 		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,2), OperacionRelacional.Menor);
-		assertTrue(cond.esMejorQue(empresaLoca, empresaReLoca) && cond.esMejorQue(empresaReLoca, miEmpresa));
+		assertTrue(cond.esMejorQue(IBM, Falabella) && cond.esMejorQue(Falabella, Deloitte));
 	}
 	
 	@Test
-	public void hayErrorAlQuererCompararMiEmpresaConEmpresaLocaPorINGRESONETOConSumatoriaEnUltimosTresAniosPorFaltaDeCuentas(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
+	public void hayErrorAlQuererCompararSonyConGooglePorINGRESONETOConSumatoriaEnUltimosTresAniosPorFaltaDeCuentas(){
 		boolean huboError = false;
 		try{
 			CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor);
-			cond.esMejorQue(miEmpresa, empresaLoca);
+			cond.esMejorQue(Sony, Google);
 		}catch(NoExisteCuentaError e){
 			huboError = true;
 		}
 		assertTrue(huboError);
 	}
 	
+
 	@Test
-	public void soloDosEmpresasCumplenINGRESONETOConPromedioMayorA10000EnUltimos2Anios(){
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertEquals(2,metodologia.evaluarPara(empresasParaComparacionConMetodologias).size());
+	public void soloDosEmpresasCumplenMetodologiaDeWarren(){
+		assertEquals(2,metodologiaDeWarren.evaluarPara(empresasParaComparacionConMetodologias).size());
 	}
 	
 	@Test
-	public void soloMiEmpresaYEmpresaReLocaCumplenINGRESONETOConPromedioMayorA10000EnUltimos2Anios(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == miEmpresa) &&  metodologia.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == empresaReLoca));
+	public void soloDeloitteYFalabellaCumplenMetodologiaDeWarren(){
+		assertTrue(metodologiaDeWarren.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == Deloitte) &&  metodologiaDeWarren.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == Falabella));
 	}
 	
 	@Test
-	public void lasEmpresasQueCumplenINGRESONETOConPromedioMayorA10000EnUltimos2AniosSonOrdenadasCorrectamente(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==miEmpresa && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==empresaReLoca);
+	public void lasEmpresasQueCumplenMetodologiaDeWarrenSonOrdenadasCorrectamente(){
+		assertTrue(metodologiaDeWarren.evaluarPara(empresasParaComparacionConMetodologias).get(0)==Deloitte && metodologiaDeWarren.evaluarPara(empresasParaComparacionConMetodologias).get(1)==Falabella);
 	}
 	
 	@Test
-	public void soloUnaEmpresaNoCumpleINGRESONETOConPromedioMayorA10000EnUltimos2Anios(){
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertEquals(1,metodologia.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).size());
+	public void soloUnaEmpresaNoCumpleMetodologiaDeWarren(){
+		assertEquals(1,metodologiaDeWarren.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).size());
 	}
 	
 	@Test
-	public void soloEmpresaLocaNOCumpleINGRESONETOConPromedioMayorA10000EnUltimos2Anios(){
-		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1);
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertTrue(metodologia.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).get(0)==empresaLoca);
+	public void soloIBMNOCumpleMetodologiaDeWarren(){
+		assertTrue(metodologiaDeWarren.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).get(0)==IBM);
 	}
 	
 	@Test
-	public void soloUnaEmpresaCumpleINGRESONETOConSumatoriaMayorA20000EnUltimos3Anios(){
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertEquals(1,metodologia.evaluarPara(empresasParaComparacionConMetodologias).size());
+	public void soloUnaEmpresaCumpleMetodologiaDeMike(){
+		assertEquals(1,metodologiaDeMike.evaluarPara(empresasParaComparacionConMetodologias).size());
 	}
 	
 	@Test
-	public void soloMiEmpresaCumpleINGRESONETOConSumatoriaMayorA20000EnUltimos3Anios(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,3), OperacionRelacional.Mayor, 10000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == miEmpresa));
+	public void soloDeloitteCumpleMetodologiaDeMike(){
+		assertTrue(metodologiaDeMike.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == Deloitte));
 	}
 	
 	@Test
-	public void ningunaEmpresaNOCumpleINGRESONETOConSumatoriaMayorA20000EnUltimos3Anios(){
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertEquals(0,metodologia.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).size());
+	public void ningunaEmpresaNOCumpleMetodologiaDeMike(){
+		assertEquals(0,metodologiaDeMike.empresasQueNoCumplenTaxativas(empresasParaComparacionConMetodologias).size());
 	}
 	
 	@Test
-	public void soloDosEmpresasNOtienenDatosSuficientesParaINGRESONETOConSumatoriaMayorA20000EnUltimos3Anios(){
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertEquals(2,metodologia.empresasConDatosFaltantes(empresasParaComparacionConMetodologias).size());
+	public void soloDosEmpresasNOtienenDatosSuficientesParaMetodologiaDeMike(){
+		assertEquals(2,metodologiaDeMike.empresasConDatosFaltantes(empresasParaComparacionConMetodologias).size());
 	}
 	
 	@Test
-	public void soloEmpresaLocaYEmpresaReLocaNOtienenDatosSuficientesParaINGRESONETOConSumatoriaMayorA20000EnUltimos3Anios(){
-		Empresa empresaLoca = empresasParaComparacionConMetodologias.get(1);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor, 20000);
-		metodologia.agregarCondicionTaxativa(cond);
-		assertTrue(metodologia.empresasConDatosFaltantes(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == empresaLoca) &&  metodologia.empresasConDatosFaltantes(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == empresaReLoca));
+	public void soloIBMYFalabellaNOtienenDatosSuficientesParaMetodologiaDeMike(){
+		List<Empresa> empresas = new ArrayList<Empresa>();
+		empresas.add(IBM);
+		empresas.add(Falabella);
+		assertTrue(metodologiaDeMike.empresasConDatosFaltantes(empresasParaComparacionConMetodologias).containsAll(empresas));
 	}
 	
 	@Test
-	public void soloDosEmpresasSeAplicaCorrectamenteUnaMetodologiaConCondTaxINGRESONETOConPromedioMayorA10000YConCondPriorINDICADORDOSConSumatoriaAmbosEnUltimosDosAnios(){
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		Indicador indicadorDos = repositorioIndicadores.buscarIndicador("indicadorDos");
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
-		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,indicadorDos,2), OperacionRelacional.Mayor);
-		metodologia.agregarCondicionTaxativa(condTax);
-		metodologia.agregarCondicionPrioritaria(condPrior);
-		assertEquals(2,metodologia.evaluarPara(empresasParaComparacionConMetodologias).size());
+	public void soloDosEmpresasSeAplicaCorrectamenteMetodologiaDeSteve(){
+		assertEquals(2,metodologiaDeSteve.evaluarPara(empresasParaComparacionConMetodologias).size());
 	}
 	
 	@Test
-	public void seAplicaCorrectamenteUnaMetodologiaConCondTaxINGRESONETOConPromedioMayorA10000YConCondPriorINDICADORDOSConSumatoriaAmbosEnUltimosDosAniosDevolviendoEnCorrectoOrdenAmiEmpresaYEmpresaReLoca(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
-		Indicador ingresoNeto = repositorioIndicadores.buscarIndicador("ingresoNeto");
-		Indicador indicadorDos = repositorioIndicadores.buscarIndicador("indicadorDos");
-		Metodologia metodologia = new Metodologia("Una Metodologia");
-		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Promedio,ingresoNeto,2), OperacionRelacional.Mayor, 10000);
-		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Variacion,indicadorDos,2), OperacionRelacional.Mayor);
-		metodologia.agregarCondicionTaxativa(condTax);
-		metodologia.agregarCondicionPrioritaria(condPrior);
-		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==empresaReLoca && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==miEmpresa);
+	public void seAplicaCorrectamenteMetodologiaDeSteveDevolviendoEnCorrectoOrdenADeloitteYFalabella(){
+		assertTrue(metodologiaDeSteve.evaluarPara(empresasParaComparacionConMetodologias).get(0)==Falabella && metodologiaDeSteve.evaluarPara(empresasParaComparacionConMetodologias).get(1)==Deloitte);
 	}
 	
 	@Test
-	public void seAplicaCorrectamenteUnaMetodologiaConCondTaxPRUEBAConUltimoMayorA0YConCondPriorPRUEBAConUltimoAmbosEnUltimoAnioDevolviendoEnCorrectoOrdenAEmpresaReLocaYmiEmpresa(){
-		Empresa miEmpresa = empresasParaComparacionConMetodologias.get(0);
-		Empresa empresaReLoca = empresasParaComparacionConMetodologias.get(2);
+	public void seAplicaCorrectamenteUnaMetodologiaConCondTaxPRUEBAConUltimoMayorA0YConCondPriorPRUEBAConUltimoAmbosEnUltimoAnioDevolviendoEnCorrectoOrdenAFalabellaYDeloitte(){
 		Indicador prueba = repositorioIndicadores.buscarIndicador("prueba");
 		Metodologia metodologia = new Metodologia("Una Metodologia");
 		CondicionTaxativa condTax = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Ultimo,prueba,1), OperacionRelacional.Mayor, 0);
 		CondicionPrioritaria condPrior = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Ultimo,prueba,1), OperacionRelacional.Mayor);
 		metodologia.agregarCondicionTaxativa(condTax);
 		metodologia.agregarCondicionPrioritaria(condPrior);
-		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==empresaReLoca && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==miEmpresa);
+		assertTrue(metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(0)==Falabella && metodologia.evaluarPara(empresasParaComparacionConMetodologias).get(1)==Deloitte);
 	}
 
+	
 }

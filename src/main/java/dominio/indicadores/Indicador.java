@@ -1,6 +1,7 @@
 package dominio.indicadores;
 
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -38,6 +39,7 @@ public class Indicador extends Cuantificador implements WithGlobalEntityManager,
 	
 	public Indicador(String nombre){
 		this.nombre = nombre;
+		resultados = new ArrayList<IndicadorPrecalculado>();
 	}
 	
 	public int evaluarEn(Empresa empresa, Year anio){
