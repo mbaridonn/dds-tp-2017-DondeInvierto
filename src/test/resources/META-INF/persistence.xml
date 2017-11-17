@@ -13,7 +13,6 @@
      <class>dominio.empresas.Cuenta</class>
      <class>dominio.indicadores.Indicador</class>
      <class>dominio.indicadores.IndicadorPrecalculado</class>
-     <class>dominio.indicadores.ExpresionValor</class>
      <class>dominio.indicadores.RepositorioIndicadores</class>
      <class>dominio.metodologias.Metodologia</class>
      <class>dominio.metodologias.CondicionPrioritaria</class>

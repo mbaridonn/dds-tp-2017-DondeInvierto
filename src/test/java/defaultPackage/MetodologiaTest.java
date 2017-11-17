@@ -16,6 +16,7 @@ import dominio.empresas.Empresa;
 import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
 import dominio.metodologias.*;
+import excepciones.EntidadExistenteError;
 import excepciones.NoExisteCuentaError;
 
 public class MetodologiaTest extends AbstractPersistenceTest implements WithGlobalEntityManager{
@@ -241,28 +242,16 @@ public class MetodologiaTest extends AbstractPersistenceTest implements WithGlob
 		assertTrue(cond.laCumple(Sony));
 	}
 	
-	@Test
+	@Test(expected = NoExisteCuentaError.class)
 	public void AppleLanzaErrorAlQuererCumplirCondTaxIndicadorINGRESONETOConVariacionIgualA14000EnUltimosTresAniosPorFaltaDeCuentas(){
-		boolean huboError = false;
-		try{
-			CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,3), OperacionRelacional.Igual, 14000);
-			cond.laCumple(Apple);
-		}catch(NoExisteCuentaError e){
-			huboError = true;
-		}
-		assertTrue(huboError);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,3), OperacionRelacional.Igual, 14000);
+		cond.laCumple(Apple);
 	}
 	
-	@Test
+	@Test(expected = NoExisteCuentaError.class)
 	public void SonyLanzaErrorAlQuererCumplirCondTaxIndicadorINGRESONETOConSumatoriaIgualA14000EnUltimosCincoAniosPorFaltaDeCuentas(){
-		boolean huboError = false;
-		try{
-			CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,5), OperacionRelacional.Igual, 50000);
-			cond.laCumple(Sony);
-		}catch(RuntimeException e){
-			huboError = true;
-		}
-		assertTrue(huboError);
+		CondicionTaxativa cond = new CondicionTaxativa(new OperandoCondicion(OperacionAgregacion.Variacion,ingresoNeto,5), OperacionRelacional.Igual, 50000);
+		cond.laCumple(Sony);
 	}
 	
 	@Test
@@ -307,16 +296,10 @@ public class MetodologiaTest extends AbstractPersistenceTest implements WithGlob
 		assertTrue(cond.esMejorQue(IBM, Falabella) && cond.esMejorQue(Falabella, Deloitte));
 	}
 	
-	@Test
+	@Test(expected = NoExisteCuentaError.class)
 	public void hayErrorAlQuererCompararSonyConGooglePorINGRESONETOConSumatoriaEnUltimosTresAniosPorFaltaDeCuentas(){
-		boolean huboError = false;
-		try{
-			CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor);
-			cond.esMejorQue(Sony, Google);
-		}catch(NoExisteCuentaError e){
-			huboError = true;
-		}
-		assertTrue(huboError);
+		CondicionPrioritaria cond = new CondicionPrioritaria(new OperandoCondicion(OperacionAgregacion.Sumatoria,ingresoNeto,3), OperacionRelacional.Mayor);
+		cond.esMejorQue(Sony, Google);
 	}
 	
 
@@ -327,7 +310,10 @@ public class MetodologiaTest extends AbstractPersistenceTest implements WithGlob
 	
 	@Test
 	public void soloDeloitteYFalabellaCumplenMetodologiaDeWarren(){
-		assertTrue(metodologiaDeWarren.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == Deloitte) &&  metodologiaDeWarren.evaluarPara(empresasParaComparacionConMetodologias).stream().anyMatch(emp -> emp == Falabella));
+		List<Empresa> empresas = new ArrayList<Empresa>();
+		empresas.add(Deloitte);
+		empresas.add(Falabella);
+		assertTrue(metodologiaDeWarren.evaluarPara(empresasParaComparacionConMetodologias).containsAll(empresas));
 	}
 	
 	@Test

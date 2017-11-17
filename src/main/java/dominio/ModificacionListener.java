@@ -9,8 +9,17 @@ import java.util.Set;
 import dominio.empresas.Empresa;
 import dominio.indicadores.Indicador;
 
-public class ModificacionListener {//SINGLETON?
+public class ModificacionListener {
 	Map<String, Set<Indicador>> registro = new HashMap<>();
+	
+	private static ModificacionListener singleton;
+	
+	public static ModificacionListener getInstance() {
+		if(singleton == null) singleton = new ModificacionListener();
+		return singleton;
+	}
+	
+	private ModificacionListener() {}
 	
 	public void registrar(Indicador interesado, String observado){
 		Set<Indicador> interesados = registro.get(observado);
