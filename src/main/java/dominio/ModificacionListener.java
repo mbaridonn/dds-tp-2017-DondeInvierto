@@ -12,7 +12,7 @@ import dominio.indicadores.Indicador;
 public class ModificacionListener {//SINGLETON?
 	Map<String, Set<Indicador>> registro = new HashMap<>();
 	
-	public void registrar(Indicador interesado, String observado){//VER EN QUÉ MOMENTO SE REGISTRA EL INDICADOR (!!!)
+	public void registrar(Indicador interesado, String observado){
 		Set<Indicador> interesados = registro.get(observado);
 		if (interesados == null) interesados = new HashSet<>();
 		interesados.add(interesado);

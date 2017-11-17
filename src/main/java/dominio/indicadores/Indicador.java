@@ -62,6 +62,7 @@ public class Indicador extends Cuantificador implements WithGlobalEntityManager,
 	private IndicadorPrecalculado precalcularIndicador(Empresa empresa, Year anio){
 		if(expresion == null){
 			this.inicializarExpresion();
+			expresion.dependencias().forEach(dependencia -> new ModificacionListener().registrar(this, dependencia));
 		}
 		int resultado = expresion.evaluarEn(empresa,anio);
 		IndicadorPrecalculado ind = new IndicadorPrecalculado(empresa, anio, resultado);
@@ -81,7 +82,7 @@ public class Indicador extends Cuantificador implements WithGlobalEntityManager,
 		});	
 	}
 	
-	public void eliminarResultadosDe(Empresa empresa, Year anio) { //SIN TESTEAR (!!!)
+	public void eliminarResultadosDe(Empresa empresa, Year anio) {
 		resultados.removeIf(precalc -> precalc.esDe(empresa, anio));
 		new ModificacionListener().seActualizo(getNombre(), empresa, anio);
 	}
