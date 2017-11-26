@@ -1,10 +1,6 @@
 package dominio.indicadores;
 
 import java.time.Year;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import dominio.empresas.Empresa;
 
@@ -24,11 +20,6 @@ public class ExpresionOperacion implements Expresion{
 	
 	public int evaluarEn(Empresa empresa, Year anio) {
 		return operadorAritmetico.applyAsInt(operandoIzq.evaluarEn(empresa, anio), operandoDer.evaluarEn(empresa, anio));
-	}
-	
-	@Override
-	public List<String> dependencias() {
-		return Stream.of(operandoDer.dependencias(),operandoDer.dependencias()).flatMap(Collection::stream).collect(Collectors.toList());
 	}
 	
 }

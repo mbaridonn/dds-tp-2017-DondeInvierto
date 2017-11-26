@@ -100,6 +100,10 @@ public class Usuario {
 	public void eliminarIndicadores(){
 		getRepositorioIndicadores().eliminarIndicadores();
 	}
+	
+	public void eliminarIndicadoresPrecalculados(){
+		getRepositorioIndicadores().eliminarResultadosPrecalculados();
+	}
 
 	public void agregarMetodologia(Metodologia metodologia) {
 		getRepositorioMetodologias().agregar(metodologia);

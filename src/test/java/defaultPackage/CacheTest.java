@@ -15,22 +15,10 @@ import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.empresas.ArchivoXLS;
-import dominio.empresas.Cuenta;
 import dominio.empresas.Empresa;
-import dominio.empresas.RepositorioEmpresas;
 import dominio.indicadores.Indicador;
 import dominio.indicadores.IndicadorPrecalculado;
-import dominio.indicadores.RepositorioIndicadores;
-import dominio.metodologias.CondicionPrioritaria;
-import dominio.metodologias.CondicionTaxativa;
-import dominio.metodologias.Metodologia;
-import dominio.metodologias.OperacionAgregacion;
-import dominio.metodologias.OperacionRelacional;
-import dominio.metodologias.OperandoCondicion;
-import dominio.metodologias.RepositorioMetodologias;
-import dominio.parser.ParserIndicadores;
 import dominio.usuarios.Usuario;
-import excepciones.EntidadExistenteError;
 
 public class CacheTest extends AbstractPersistenceTest implements WithGlobalEntityManager,TransactionalOps {
 

@@ -1,6 +1,8 @@
 package defaultPackage;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,10 +15,15 @@ import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Empresa;
-import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
-import dominio.metodologias.*;
-import excepciones.EntidadExistenteError;
+import dominio.indicadores.RepositorioIndicadores;
+import dominio.metodologias.Antiguedad;
+import dominio.metodologias.CondicionPrioritaria;
+import dominio.metodologias.CondicionTaxativa;
+import dominio.metodologias.Metodologia;
+import dominio.metodologias.OperacionAgregacion;
+import dominio.metodologias.OperacionRelacional;
+import dominio.metodologias.OperandoCondicion;
 import excepciones.NoExisteCuentaError;
 
 public class MetodologiaTest extends AbstractPersistenceTest implements WithGlobalEntityManager{

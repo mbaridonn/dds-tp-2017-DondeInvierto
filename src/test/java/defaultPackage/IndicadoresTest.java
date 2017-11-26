@@ -1,6 +1,8 @@
 package defaultPackage;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.time.Year;
 import java.util.ArrayList;
@@ -17,8 +19,8 @@ import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.empresas.ArchivoXLS;
 import dominio.empresas.Empresa;
-import dominio.usuarios.Usuario;
 import dominio.indicadores.Indicador;
+import dominio.usuarios.Usuario;
 import excepciones.EntidadExistenteError;
 
 public class IndicadoresTest extends AbstractPersistenceTest implements WithGlobalEntityManager, TransactionalOps{

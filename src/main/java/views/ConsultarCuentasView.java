@@ -1,16 +1,15 @@
 package views;
-import viewmodels.*;
-import dominio.*;
-import dominio.empresas.Cuenta;
-import dominio.empresas.Empresa;
-
 import org.uqbar.arena.layout.VerticalLayout;
-import org.uqbar.arena.widgets.*;
 import org.uqbar.arena.widgets.Panel;
+import org.uqbar.arena.widgets.Selector;
 import org.uqbar.arena.widgets.tables.Column;
 import org.uqbar.arena.widgets.tables.Table;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
+
+import dominio.empresas.Cuenta;
+import dominio.empresas.Empresa;
+import viewmodels.ConsultarCuentasViewModel;
 
 
 public class ConsultarCuentasView extends Dialog<ConsultarCuentasViewModel>{

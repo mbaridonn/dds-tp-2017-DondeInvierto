@@ -3,16 +3,18 @@ package viewmodels;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
-import dominio.indicadores.RepositorioIndicadores;
 import dominio.indicadores.Indicador;
-import dominio.metodologias.*;
+import dominio.indicadores.RepositorioIndicadores;
+import dominio.metodologias.MetodologiaBuilder;
+import dominio.metodologias.OperacionAgregacion;
+import dominio.metodologias.OperacionRelacional;
+import dominio.metodologias.RepositorioMetodologias;
 import excepciones.EntidadExistenteError;
 import excepciones.MetodologiaInvalidaError;
 

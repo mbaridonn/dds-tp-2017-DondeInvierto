@@ -1,8 +1,5 @@
 package dominio.usuarios;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dominio.AbstractRepository;
 import excepciones.NoExisteUsuarioError;
 
@@ -12,6 +9,10 @@ public class RepositorioUsuarios extends AbstractRepository<Usuario>{
 		Usuario usuarioBuscado = obtenerTodos().stream().filter(usuario -> usuario.validar(email, password)).findFirst()
 				.orElseThrow(() -> new NoExisteUsuarioError("Usuario o contrasena incorrectos."));
 		return usuarioBuscado.getId();
+	}
+	
+	public void eliminarIndicadoresPrecalculados(){
+		obtenerTodos().forEach(usuario -> usuario.eliminarIndicadoresPrecalculados());
 	}
 	
 	@Override

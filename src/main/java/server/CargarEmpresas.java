@@ -9,15 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javax.persistence.EntityManager;
-
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.empresas.Empresa;
 import dominio.empresas.LectorArchivos;
 import dominio.empresas.RepositorioEmpresas;
-import excepciones.NoSePudoLeerEseTipoDeArchivoError;
 
 public class CargarEmpresas implements WithGlobalEntityManager, TransactionalOps {
 

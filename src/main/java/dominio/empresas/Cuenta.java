@@ -10,8 +10,6 @@ import javax.persistence.Table;
 
 import org.uqbar.commons.utils.Observable;
 
-import dominio.ModificacionListener;
-
 @Observable
 @Entity
 @Table(name = "cuentas")
@@ -35,7 +33,6 @@ public class Cuenta {
 	
 	public void actualizar(Cuenta cuentaConDatosNuevos, Empresa empresaQueContieneCuenta) {
 		valor = cuentaConDatosNuevos.getValor();
-		new ModificacionListener().seActualizo(getTipoCuenta(), empresaQueContieneCuenta, anio);
 	}
 
 	public boolean esDeTipo(String tipo) {

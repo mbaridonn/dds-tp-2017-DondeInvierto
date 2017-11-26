@@ -1,6 +1,4 @@
 package views;
-import viewmodels.*;
-
 import org.uqbar.arena.layout.VerticalLayout;
 import org.uqbar.arena.widgets.Button;
 import org.uqbar.arena.widgets.FileSelector;
@@ -8,6 +6,8 @@ import org.uqbar.arena.widgets.Label;
 import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.MainWindow;
+
+import viewmodels.MenuViewModel;
 
 public class MenuView extends MainWindow<MenuViewModel> {
 

@@ -1,8 +1,6 @@
 package dominio.indicadores;
 
 import java.time.Year;
-import java.util.Arrays;
-import java.util.List;
 
 import dominio.empresas.Empresa;
 
@@ -16,11 +14,6 @@ public class ExpresionValor implements Expresion{
 
 	public int evaluarEn(Empresa empresa, Year anio) {
 		return valor;
-	}
-
-	@Override
-	public List<String> dependencias() {
-		return Arrays.asList();
 	}
 	
 }

@@ -14,7 +14,6 @@ import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
-import dominio.ModificacionListener;
 import dominio.empresas.Empresa;
 import dominio.metodologias.Cuantificador;
 import dominio.parser.ParserIndicadores;
@@ -64,7 +63,6 @@ public class Indicador extends Cuantificador implements WithGlobalEntityManager,
 	private IndicadorPrecalculado precalcularIndicador(Empresa empresa, Year anio){
 		if(expresion == null){
 			this.inicializarExpresion();
-			expresion.dependencias().forEach(dependencia -> new ModificacionListener().registrar(this, dependencia));
 		}
 		int resultado = expresion.evaluarEn(empresa,anio);
 		IndicadorPrecalculado ind = new IndicadorPrecalculado(empresa, anio, resultado);
@@ -84,13 +82,11 @@ public class Indicador extends Cuantificador implements WithGlobalEntityManager,
 		});	
 	}
 	
-	public void eliminarResultadosDe(Empresa empresa, Year anio) {
-		System.out.println("VOY A ELIMINAR TDOO VIEJAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
-		resultados.removeIf(precalc -> precalc.esDe(empresa, anio));
+	public void eliminarResultadosPrecalculados(){
+		resultados.clear();
 		withTransaction(() -> {
 			this.setResultados(resultados);
-		});	
-		new ModificacionListener().seActualizo(getNombre(), empresa, anio);
+		});
 	}
 	
 	public boolean seLlama(String nombre){
