@@ -1,24 +1,35 @@
 package dominio.indicadores;
 
 import java.time.Year;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import org.uqbar.commons.utils.Observable;
+import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
+import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
 import dominio.empresas.Empresa;
 import dominio.metodologias.Cuantificador;
 import dominio.parser.ParserIndicadores;
 import excepciones.NoExisteCuentaError;
+import excepciones.NoExisteElResultadoBuscadoError;
 
 @Observable
 @Entity
-public class Indicador extends Cuantificador{
+public class Indicador extends Cuantificador implements WithGlobalEntityManager, TransactionalOps{
 	
 	private String nombre;
 	
 	private String equivalencia;
+	
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<IndicadorPrecalculado> resultados;
 	
 	@Transient
 	private Expresion expresion;
@@ -27,13 +38,17 @@ public class Indicador extends Cuantificador{
 	
 	public Indicador(String nombre){
 		this.nombre = nombre;
+		resultados = new ArrayList<IndicadorPrecalculado>();
 	}
 	
 	public int evaluarEn(Empresa empresa, Year anio){
-		if(expresion == null){
-			this.inicializarExpresion();
+		try {
+			return this.obtenerResultadoPara(empresa,anio);
+		}catch(NoExisteElResultadoBuscadoError e) {
+			IndicadorPrecalculado indPrecalculado = this.precalcularIndicador(empresa, anio);
+			this.guardarResultado(indPrecalculado);
+			return indPrecalculado.getValor();
 		}
-		return expresion.evaluarEn(empresa,anio);
 	}
 	
 	public boolean esAplicableA(Empresa empresa, Year anio){
@@ -43,6 +58,35 @@ public class Indicador extends Cuantificador{
 		} catch (NoExisteCuentaError e){
 			return false;
 		}
+	}
+	
+	private IndicadorPrecalculado precalcularIndicador(Empresa empresa, Year anio){
+		if(expresion == null){
+			this.inicializarExpresion();
+		}
+		int resultado = expresion.evaluarEn(empresa,anio);
+		IndicadorPrecalculado ind = new IndicadorPrecalculado(empresa, anio, resultado);
+		return ind; 
+	}
+	
+	private int obtenerResultadoPara(Empresa empresa, Year anio) {
+		IndicadorPrecalculado indPrecalculado = resultados.stream().filter(indPreCalc -> indPreCalc.esDe(empresa, anio))
+				.findFirst().orElseThrow(() -> new NoExisteElResultadoBuscadoError("No pudo encontrarse el resultado para " + empresa.getNombre() + " en " + anio));
+		return indPrecalculado.getValor();
+	}
+	
+	private void guardarResultado(IndicadorPrecalculado indPrecalculado) {
+		resultados.add(indPrecalculado);
+		withTransaction(() -> {
+			this.setResultados(resultados);
+		});	
+	}
+	
+	public void eliminarResultadosPrecalculados(){
+		resultados.clear();
+		withTransaction(() -> {
+			this.setResultados(resultados);
+		});
 	}
 	
 	public boolean seLlama(String nombre){
@@ -80,6 +124,14 @@ public class Indicador extends Cuantificador{
 	
 	public int hashCode() {
 		return nombre.hashCode();
+	}
+	
+	public List<IndicadorPrecalculado> getResultados() {
+		return resultados;
+	}
+
+	public void setResultados(List<IndicadorPrecalculado> resultados) {
+		this.resultados = resultados;
 	}
 	
 	@Override

@@ -18,7 +18,7 @@ public abstract class Cuantificador {
 
 	@Id 
 	@GeneratedValue
-	private Long id;
+	protected Long id;
 	
 	public abstract int evaluarEn(Empresa empresa, Year anio);
 	

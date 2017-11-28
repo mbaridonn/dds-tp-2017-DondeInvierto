@@ -11,19 +11,16 @@
      <!-- CLASES A PERSISTIR-->
      <class>dominio.empresas.Empresa</class>
      <class>dominio.empresas.Cuenta</class>
+     <class>dominio.EntradaRegistroModificacionesListener</class>
      <class>dominio.indicadores.Indicador</class>
-     <class>dominio.indicadores.Expresion</class>
-     <class>dominio.indicadores.ExpresionCuenta</class>
-     <class>dominio.indicadores.ExpresionIndicador</class>
-     <class>dominio.indicadores.ExpresionOperacion</class>
-     <class>dominio.indicadores.ExpresionValor</class>
+     <class>dominio.indicadores.IndicadorPrecalculado</class>
      <class>dominio.indicadores.RepositorioIndicadores</class>
      <class>dominio.metodologias.Metodologia</class>
      <class>dominio.metodologias.CondicionPrioritaria</class>
      <class>dominio.metodologias.CondicionTaxativa</class>
      <class>dominio.metodologias.Condicion</class>
      <class>dominio.metodologias.OperandoCondicion</class>
-     <class>dominio.metodologias.EvaluableEnCondicion</class>
+     <class>dominio.metodologias.Cuantificador</class>
      <class>dominio.metodologias.Antiguedad</class>
      <class>dominio.metodologias.RepositorioMetodologias</class>
      <class>dominio.usuarios.Usuario</class>

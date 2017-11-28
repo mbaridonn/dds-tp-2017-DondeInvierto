@@ -21,4 +21,5 @@ public class ExpresionOperacion implements Expresion{
 	public int evaluarEn(Empresa empresa, Year anio) {
 		return operadorAritmetico.applyAsInt(operandoIzq.evaluarEn(empresa, anio), operandoDer.evaluarEn(empresa, anio));
 	}
+	
 }

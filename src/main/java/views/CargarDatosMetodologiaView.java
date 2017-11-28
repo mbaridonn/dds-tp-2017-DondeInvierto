@@ -9,6 +9,7 @@ import org.uqbar.arena.widgets.Panel;
 import org.uqbar.arena.widgets.Selector;
 import org.uqbar.arena.windows.Dialog;
 import org.uqbar.arena.windows.WindowOwner;
+
 import dominio.indicadores.Indicador;
 import dominio.metodologias.OperacionAgregacion;
 import dominio.metodologias.OperacionRelacional;

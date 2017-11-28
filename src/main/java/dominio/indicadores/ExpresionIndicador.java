@@ -17,4 +17,5 @@ public class ExpresionIndicador implements Expresion{
 		Indicador indicador = Usuario.activo().buscarIndicador(nombreIndicador);
 		return indicador.evaluarEn(empresa,anio);
 	}
+	
 }

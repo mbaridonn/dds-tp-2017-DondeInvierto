@@ -31,7 +31,7 @@ public class Cuenta {
 		this.valor = valor;
 	}
 	
-	public void actualizar(Cuenta cuentaConDatosNuevos) {
+	public void actualizar(Cuenta cuentaConDatosNuevos, Empresa empresaQueContieneCuenta) {
 		valor = cuentaConDatosNuevos.getValor();
 	}
 

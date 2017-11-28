@@ -15,4 +15,5 @@ public class ExpresionCuenta implements Expresion{
 	public int evaluarEn(Empresa empresa, Year anio) {
 		return empresa.getValorCuenta(cuenta,anio);
 	}
+	
 }

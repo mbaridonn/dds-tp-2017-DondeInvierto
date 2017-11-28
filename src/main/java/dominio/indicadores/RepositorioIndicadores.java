@@ -28,6 +28,10 @@ public class RepositorioIndicadores extends AbstractLocalRepository<Indicador> {
 	public void eliminarIndicadores(){
 		elementos.clear();
 	}
+	
+	public void eliminarResultadosPrecalculados(){
+		obtenerTodos().forEach(ind -> ind.eliminarResultadosPrecalculados());
+	}
 
 	@Override
 	protected String mensajeEntidadExistenteError(Indicador elemento) {

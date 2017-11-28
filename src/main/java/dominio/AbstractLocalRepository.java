@@ -22,7 +22,7 @@ public abstract class AbstractLocalRepository<T>{
 	@GeneratedValue
 	private Long id;
 	
-	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name="usuario_id")
 	protected Set<T> elementos = new HashSet<>();
 	

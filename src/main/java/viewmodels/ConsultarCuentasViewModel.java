@@ -1,16 +1,16 @@
 package viewmodels;
 
-import dominio.empresas.Cuenta;
-import dominio.empresas.Empresa;
-import dominio.empresas.RepositorioEmpresas;
-import dominio.indicadores.RepositorioIndicadores;
-import dominio.indicadores.Indicador;
-
 import java.util.List;
 import java.util.Set;
 
 import org.uqbar.commons.utils.Dependencies;
 import org.uqbar.commons.utils.Observable;
+
+import dominio.empresas.Cuenta;
+import dominio.empresas.Empresa;
+import dominio.empresas.RepositorioEmpresas;
+import dominio.indicadores.Indicador;
+import dominio.indicadores.RepositorioIndicadores;
 
 @Observable
 public class ConsultarCuentasViewModel {
