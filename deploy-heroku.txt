@@ -1,0 +1,16 @@
+Web: https://donde-invierto-.herokuapp.com/
+
+heroku login
+
+heroku git:clone -a donde-invierto-
+cd donde-invierto-
+
+git add .
+git commit -am "esto es un mensaje de commit"
+git push heroku master
+
+heroku ps:scale web=1
+
+heroku open
+
+heroku logs
