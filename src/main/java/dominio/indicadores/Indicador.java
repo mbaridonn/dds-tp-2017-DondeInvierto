@@ -10,7 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.uqbar.commons.utils.Observable;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
 
@@ -20,7 +19,6 @@ import dominio.parser.ParserIndicadores;
 import excepciones.NoExisteCuentaError;
 import excepciones.NoExisteElResultadoBuscadoError;
 
-@Observable
 @Entity
 public class Indicador extends Cuantificador implements WithGlobalEntityManager, TransactionalOps{
 	

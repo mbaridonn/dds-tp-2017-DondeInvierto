@@ -30,9 +30,13 @@
      <property name="hibernate.archive.autodetection" value="class"/>        
          
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" /> 
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/donde_invierto_bd" /> 
-            <property name="hibernate.connection.username" value="root" /> 
-            <property name="hibernate.connection.password" value="cinturon1" /> 
+            <property name="hibernate.connection.url" value="jdbc:mysql://us-cdbr-iron-east-05.cleardb.net/heroku_35f471e2bde836f?reconnect=true"/>
+			<property name="hibernate.connection.username" value="b2db980f74caa3"/>
+			<property name="hibernate.connection.password" value="9e4396dc"/>
+
+			<!-- <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/donde_invierto_bd" />
+ 			<property name="hibernate.connection.username" value="root" />
+  			<property name="hibernate.connection.password" value="cinturon1" /> -->
                             
             <property name="hibernate.show_sql" value="true" /> 
             <property name="hibernate.format_sql" value="true" /> 

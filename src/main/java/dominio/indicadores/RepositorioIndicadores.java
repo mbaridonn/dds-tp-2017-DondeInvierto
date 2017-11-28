@@ -10,13 +10,10 @@ import java.util.stream.Stream;
 
 import javax.persistence.Entity;
 
-import org.uqbar.commons.utils.Observable;
-
 import dominio.AbstractLocalRepository;
 import dominio.empresas.Empresa;
 import dominio.parser.ParserIndicadores;
 
-@Observable
 @Entity
 public class RepositorioIndicadores extends AbstractLocalRepository<Indicador> {
 	
