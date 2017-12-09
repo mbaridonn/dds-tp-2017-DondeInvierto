@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import dominio.usuarios.RepositorioUsuarios;
+import server.CargarEmpresas;
 
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.SimpleScheduleBuilder.repeatSecondlyForever;
@@ -20,14 +21,16 @@ public class SchedulerMain {
 
         scheduler.start();
 
-        JobDetail jobDetail = newJob(EliminarIndicadoresPrecalculados.class).build();
+        JobDetail jobDetailCargarEmpresas = newJob(CargarEmpresas.class).build();
+        JobDetail jobDetailEliminarIndicadoresPrecalculados = newJob(EliminarIndicadoresPrecalculados.class).build();
 
         Trigger trigger = newTrigger()
                 .startNow()
                 .withSchedule(repeatSecondlyForever(2592000))
                 .build();
 
-        scheduler.scheduleJob(jobDetail, trigger);
+        scheduler.scheduleJob(jobDetailCargarEmpresas, trigger);
+        scheduler.scheduleJob(jobDetailEliminarIndicadoresPrecalculados, trigger);
     }
     
     public static class EliminarIndicadoresPrecalculados implements Job {

@@ -1,65 +1,78 @@
 package server;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
+import org.quartz.Job;
+import org.quartz.JobExecutionContext;
+import org.quartz.JobExecutionException;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.transaction.TransactionalOps;
+
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
 
 import dominio.empresas.Empresa;
 import dominio.empresas.LectorArchivos;
 import dominio.empresas.RepositorioEmpresas;
 
-public class CargarEmpresas implements WithGlobalEntityManager, TransactionalOps {
+public class CargarEmpresas implements Job, WithGlobalEntityManager, TransactionalOps {
 
-	public static void main(String[] args) {
+	AmazonS3 s3Client;
+	
+	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 		new CargarEmpresas().cargarArchivos();
 	}
 
 	private void cargarArchivos() {
-		List<String> archivosALeer = this.getNombresDeArchivosALeer();
+		initAmazonClient();
+		List<File> archivosALeer = this.getArchivosALeer();
 		archivosALeer.forEach(archivo -> this.cargarArchivo(archivo));
 	}
+
+	private void initAmazonClient() {
+		s3Client = AmazonS3ClientBuilder.standard()
+				.withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials("FranGonzalezL", "ChinoRico123")))
+				.withRegion("us-east-1")
+				.build();
+	}
 	
-	private void cargarArchivo(String nombreArchivo) {
-		String rutaArchivo = raizRutaALeer() + nombreArchivo;
-		List<Empresa> empresas = new LectorArchivos(rutaArchivo).getEmpresas();
+	private List<File> getArchivosALeer() {
+			return s3Client.listObjects(new ListObjectsRequest().withBucketName(nombreBucketPorLeer()))
+					.getObjectSummaries()
+					.stream()
+					.map(summary -> this.descargarArchivo(summary.getKey()))
+					.collect(Collectors.toList());
+	}
+	
+	public File descargarArchivo(String nombreDelArchivo) {
+		File localFile = new File(nombreDelArchivo);
+		s3Client.getObject(new GetObjectRequest(nombreBucketPorLeer(), nombreDelArchivo), localFile);
+		return localFile;
+	}
+	
+	private void cargarArchivo(File archivo) {
+		List<Empresa> empresas = new LectorArchivos(archivo.getAbsolutePath()).getEmpresas();
 		withTransaction(() -> new RepositorioEmpresas().agregarMultiplesEmpresas(empresas));
-		moverALeidos(nombreArchivo);
+		moverALeidos(archivo);
 	}
 	
-	private void moverALeidos(String nombreArchivo) {
-		try {
-			Files.move(Paths.get(raizRutaALeer() + nombreArchivo), Paths.get(raizRutaLeidos()+nombreArchivo), StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			throw new NoSePudoMoverElArchivoError("Error al cargar el archivo " + nombreArchivo);
-		}
+	private void moverALeidos(File archivo) {
+		s3Client.copyObject(nombreBucketPorLeer(), archivo.getName(), nombreBucketLeidos(), archivo.getName());
+		s3Client.deleteObject(nombreBucketPorLeer(), archivo.getName());
 	}
 	
-	private List<String> getNombresDeArchivosALeer() {
-		try {
-			Stream<Path> paths = Files.walk(Paths.get("src/main/resources/ArchivosEmpresas/A Leer")).filter(Files::isRegularFile);
-			return paths.map(p -> p.getFileName().toString()).collect(Collectors.toList());
-		} catch (IOException e1) {
-			throw new NoSePudoObtenerElNombreDeLosArchivosError(e1.getMessage());
-		}
+	private String nombreBucketPorLeer(){
+		return "por-leer";
 	}
 	
-	private String raizRutaALeer() {
-		return "src/main/resources/ArchivosEmpresas/A Leer/";
-	}
-	
-	private String raizRutaLeidos() {
-		return "src/main/resources/ArchivosEmpresas/Leidos/";
+	private String nombreBucketLeidos(){
+		return "ya-leidos";
 	}
 
 }
-
-class NoSePudoObtenerElNombreDeLosArchivosError extends RuntimeException{public NoSePudoObtenerElNombreDeLosArchivosError(String e){super(e);}}
-class NoSePudoMoverElArchivoError extends RuntimeException {public NoSePudoMoverElArchivoError(String e){super(e);}}
